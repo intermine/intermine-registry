@@ -37,6 +37,16 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  // Need to check if this is ok
+  // Check for Malformed JSON
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    res.json({
+        statusCode: 400,
+        message: "Malformed JSON",
+        executionTime: new Date().toLocaleString()
+    });
+    return;
+  }
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

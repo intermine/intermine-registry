@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
             var query = req.query.q.toLowerCase();
             for (var i in instances){
                 var instance = instances[i];
+                //Use Query for This
                 if (instance['description'].toLowerCase().indexOf(query) !== -1 || instance['organisms'].includes(query) || instance['name'].toLowerCase().indexOf(query) !== -1){
                     filtered_instances.push(instance);
                 }
@@ -60,6 +61,54 @@ router.delete('/:id', function(req, res, next){
         res.json({
             statusCode: 200,
             message: message,
+            executionTime: new Date().toLocaleString()
+        });
+    });
+});
+
+router.post('/', function(req, res, next){
+    // Check if the request is an 'application/json' type.
+    if (req.get('Content-Type') !== 'application/json'){
+        res.json({
+            statusCode: 200,
+            message: "Bad Request",
+            executionTime: new Date().toLocaleString()
+        });
+        return;
+    }
+
+    newInstanceId = "";
+    Instance.find().sort([['id', 'descending']]).exec(function(err, found){
+        if (err){
+            res.send(err);
+        }
+        newInstanceId = found[0].id.toString() + 1;
+    });
+
+    var newInstance = new Instance({
+        id:                 newInstanceId,
+        name:               req.body.name,
+        api_version:        req.body.api_version,
+        web_version:        req.body.web_version,
+        mine_version:       req.body.mine_version,
+        created_at:         new Date(),
+        last_time_updated:  new Date(),
+        neighbours:         req.body.neighbours,
+        organisms:          req.body.organisms,
+        url:                req.body.url,
+        description:        req.body.description,
+        location:           req.body.location,
+        twitter:            req.body.twitter
+    });
+
+    newInstance.save(function(err){
+        if (err){
+            res.send(err);
+        }
+        res.json({
+            instance_id: newInstanceId,
+            statusCode: 201,
+            message: "Instance Successfully Added",
             executionTime: new Date().toLocaleString()
         });
     });
