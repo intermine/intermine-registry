@@ -47,4 +47,22 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
+router.delete('/:id', function(req, res, next){
+    Instance.find({id: req.params.id}).remove(function(err, info){
+        if (err){
+            res.send(err);
+        }
+        n_removed = info['result']['n'];
+        var message = 'Instance Successfully Deleted';
+        if (n_removed === 0){
+            message = 'Instance Not Found';
+        }
+        res.json({
+            statusCode: 200,
+            message: message,
+            executionTime: new Date().toLocaleString()
+        });
+    });
+});
+
 module.exports = router;
