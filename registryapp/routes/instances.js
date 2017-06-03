@@ -6,25 +6,26 @@ var router = express.Router();
 var Instance = require('../models/instance');
 
 router.get('/', function(req, res, next) {
-    Instance.find(function(err, instances){
+
+    var db_query = {};
+    if (req.query.q){
+        var query = req.query.q;
+        db_query = {
+            $or: [
+                {organisms: { $in: [query] }},
+                {$text: {$search: query}},
+                {name: {$regex: query, $options: "i"}}
+            ]
+        }
+    }
+
+    Instance.find(db_query, function(err, instances){
         if (err){
+            console.log("ERROR");
             res.send(err);
         }
         var api_response = {};
-        if (req.query.q){
-            var filtered_instances = [];
-            var query = req.query.q.toLowerCase();
-            for (var i in instances){
-                var instance = instances[i];
-                //Use Query for This
-                if (instance['description'].toLowerCase().indexOf(query) !== -1 || instance['organisms'].includes(query) || instance['name'].toLowerCase().indexOf(query) !== -1){
-                    filtered_instances.push(instance);
-                }
-            }
-            api_response['instances'] = filtered_instances
-        }else{
-            api_response['instances'] = instances;
-        }
+        api_response['instances'] = instances
         api_response['statusCode'] = 200;
         api_response['executionTime'] = new Date().toLocaleString();
         res.json(api_response);
@@ -34,7 +35,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
     Instance.find({
-        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]
+        $or:[ { id: toFind}, {name: toFind} ]
     },
     function(err, instances){
         if (err){
