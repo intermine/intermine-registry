@@ -28,6 +28,20 @@ var schema = new Schema({
         latitude:   String,
         longitude:  String
     },
+    colors: {
+        focus: {
+            fg: String,
+            bg: String,
+        },
+        main: {
+            fg: String,
+            bg: String
+        }
+    },
+    images: {
+        small: String,
+        main:  String
+    },
     twitter:            String
 },
     {

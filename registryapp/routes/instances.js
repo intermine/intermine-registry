@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
     Instance.find({
-        id: toFind
+        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]
     },
     function(err, instances){
         if (err){
@@ -43,6 +43,10 @@ router.get('/:id', function(req, res, next) {
         api_response = {};
         api_response['instance'] = instances[0];
         api_response['statusCode'] = 200;
+        if (typeof instances[0] === 'undefined'){
+            api_response['errorMsg'] = "Not Found"
+            api_response['statusCode'] = 404;
+        }
         api_response['executionTime'] = new Date().toLocaleString();
         res.json(api_response);
     });
@@ -112,6 +116,17 @@ router.post('/', function(req, res, next){
             executionTime: new Date().toLocaleString()
         });
     });
+});
+
+router.put('/', function(req, res, next){
+  if (req.get('Content-Type') !== 'application/json'){
+      res.json({
+          statusCode: 200,
+          message: "Bad Request",
+          executionTime: new Date().toLocaleString()
+      });
+      return;
+  }
 });
 
 module.exports = router;
