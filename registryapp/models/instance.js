@@ -17,7 +17,7 @@ var schema = new Schema({
     name:               String,
     api_version:        String,
     web_version:        String,
-    mine_version:       String,
+    intermine_version:       String,
     created_at:         Date,
     last_time_updated:  Date,
     neighbours:         [String],

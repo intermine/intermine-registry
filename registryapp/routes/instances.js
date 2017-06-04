@@ -4,6 +4,8 @@
 var express = require('express');
 var router = express.Router();
 var Instance = require('../models/instance');
+var validate = require('express-jsonschema').validate;
+var InstanceSchema = require('../models/instance_validate_schema').InstanceSchema;
 
 router.get('/', function(req, res, next) {
 
@@ -21,7 +23,6 @@ router.get('/', function(req, res, next) {
 
     Instance.find(db_query, function(err, instances){
         if (err){
-            console.log("ERROR");
             res.send(err);
         }
         var api_response = {};
@@ -35,7 +36,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
     Instance.find({
-        $or:[ { id: toFind}, {name: toFind} ]
+        $or:[ { id: toFind}, {name: toFind} ]  // Is Case Sensitive
     },
     function(err, instances){
         if (err){
@@ -71,7 +72,8 @@ router.delete('/:id', function(req, res, next){
     });
 });
 
-router.post('/', function(req, res, next){
+router.post('/', validate({body: InstanceSchema}), function(req, res, next){
+
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
         res.json({
@@ -90,21 +92,28 @@ router.post('/', function(req, res, next){
         newInstanceId = found[0].id.toString() + 1;
     });
 
-    var newInstance = new Instance({
+    console.log(req.body);
+
+    var newInstanceObject = {
         id:                 newInstanceId,
         name:               req.body.name,
-        api_version:        req.body.api_version,
-        web_version:        req.body.web_version,
-        mine_version:       req.body.mine_version,
-        created_at:         new Date(),
-        last_time_updated:  new Date(),
         neighbours:         req.body.neighbours,
         organisms:          req.body.organisms,
+        twitter:            req.body.twitter,
+        location:           req.body.location,
         url:                req.body.url,
         description:        req.body.description,
-        location:           req.body.location,
-        twitter:            req.body.twitter
-    });
+        created_at:         new Date(),
+        last_time_updated:  new Date()
+    };
+
+    newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
+    newInstanceObject.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : "";
+    newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
+    newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
+    newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
+
+    var newInstance = new Instance(newInstanceObject);
 
     newInstance.save(function(err){
         if (err){
