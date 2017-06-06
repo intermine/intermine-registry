@@ -6,6 +6,7 @@ var router = express.Router();
 var Instance = require('../models/instance');
 var validate = require('express-jsonschema').validate;
 var InstanceSchema = require('../models/instance_validate_schema').InstanceSchema;
+var InstancePutSchema = require('../models/instance_validate_schema').InstancePutSchema;
 
 router.get('/', function(req, res, next) {
 
@@ -89,13 +90,11 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
         if (err){
             res.send(err);
         }
-        newInstanceId = found[0].id.toString() + 1;
+        newInstanceId = parseInt(found[0].id) + 1;
     });
 
-    console.log(req.body);
-
     var newInstanceObject = {
-        id:                 newInstanceId,
+        id:                 newInstanceId.toString(),
         name:               req.body.name,
         neighbours:         req.body.neighbours,
         organisms:          req.body.organisms,
@@ -128,15 +127,62 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
     });
 });
 
-router.put('/', function(req, res, next){
-  if (req.get('Content-Type') !== 'application/json'){
-      res.json({
-          statusCode: 200,
-          message: "Bad Request",
-          executionTime: new Date().toLocaleString()
-      });
-      return;
-  }
+router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next){
+    // Check if the request is an 'application/json' type.
+    if (req.get('Content-Type') !== 'application/json'){
+        res.json({
+            statusCode: 200,
+            message: "Bad Request",
+            executionTime: new Date().toLocaleString()
+        });
+        return;
+    }
+
+    Instance.findOne({id : req.params.id}, function(err, instance){
+
+        instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
+        instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
+        instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
+        instance.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : instance.twitter;
+        if (typeof(req.body.location) !== 'undefined'){
+            instance.location.latitude = typeof(req.body.location.latitude) !== 'undefined' ? req.body.location.latitude : instance.location.latitude;
+            instance.location.longitude = typeof(req.body.location.longitude) !== 'undefined' ? req.body.location.longitude : instance.location.longitude;
+        }
+        instance.url = typeof(req.body.url) !== 'undefined' ? req.body.url : instance.url;
+        instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
+        instance.last_time_updated = new Date();
+        instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
+        instance.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : instance.web_version;
+        instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
+        if (typeof(req.body.colors) !== 'undefined'){
+            if (typeof(req.body.colors.focus) !== 'undefined'){
+                instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
+                instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;                
+            }                    
+        }     
+        if (typeof(req.body.colors) !== 'undefined'){
+            if (typeof(req.body.colors.main) !== 'undefined'){
+                instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
+                instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;              
+            }                    
+        }     
+        if (typeof(req.body.images) !== 'undefined'){
+            instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
+            instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
+        }
+
+        instance.save(function(err){
+            if (err){
+                res.send(err);
+            }
+            res.json({
+                updated_instance_id: req.params.id,
+                statusCode: 201,
+                message: "Instance Successfully Updated",
+                executionTime: new Date().toLocaleString()
+            });
+        });
+    });
 });
 
 module.exports = router;
