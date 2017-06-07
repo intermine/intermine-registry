@@ -43,7 +43,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
 
   if (err.name === 'JsonSchemaValidation'){
-    res.json({
+    res.status(400).json({
         statusCode: 400,
         message: "Malformed JSON. Invalid or Missing Data.",
         executionTime: new Date().toLocaleString()
@@ -54,7 +54,7 @@ app.use(function(err, req, res, next) {
   // Need to check if this is ok
   // Check for Malformed JSON
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    res.json({
+    res.status(400).json({
         statusCode: 400,
         message: "Malformed JSON",
         executionTime: new Date().toLocaleString()

@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
             api_response['statusCode'] = 404;
         }
         api_response['executionTime'] = new Date().toLocaleString();
-        res.json(api_response);
+        res.status(api_response['statusCode']).json(api_response);
     });
 });
 
@@ -54,7 +54,7 @@ router.get('/:id', function(req, res, next) {
             api_response['statusCode'] = 404;
         }
         api_response['executionTime'] = new Date().toLocaleString();
-        res.json(api_response);
+        res.status(api_response['statusCode']).json(api_response);
     });
 });
 
@@ -70,7 +70,7 @@ router.delete('/:id', function(req, res, next){
             statusCode = 404;
             message = 'Instance Not Found';
         }
-        res.json({
+        res.status(statusCode).json({
             statusCode: statusCode,
             message: message,
             executionTime: new Date().toLocaleString()
@@ -82,7 +82,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
 
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
-        res.json({
+        res.status(406).json({
             statusCode: 406,
             message: "Bad Request",
             executionTime: new Date().toLocaleString()
@@ -122,7 +122,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             if (err){
                 res.send(err);
             }
-            res.json({
+            res.status(201).json({
                 instance_id: newInstanceId,
                 statusCode: 201,
                 message: "Instance Successfully Added to the Registry",
@@ -135,7 +135,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
 router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next){
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
-        res.json({
+        res.status(406).json({
             statusCode: 406,
             message: "Bad Request",
             executionTime: new Date().toLocaleString()
@@ -144,7 +144,14 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
     }
 
     Instance.findOne({id : req.params.id}, function(err, instance){
-
+        if (instance == null){
+            res.status(404).json({
+                statusCode: 404,
+                message: "Instance Not Found",
+                executionTime: new Date().toLocaleString()
+            });
+            return;
+        }
         instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
         instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
         instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
@@ -180,7 +187,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
             if (err){
                 res.send(err);
             }
-            res.json({
+            res.status(201).json({
                 updated_instance_id: req.params.id,
                 statusCode: 201,
                 message: "Instance Successfully Updated",

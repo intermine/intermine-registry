@@ -108,7 +108,7 @@
         "tags": [
           "instances"
         ],
-        "summary": "Finds instances by their ID or Name",
+        "summary": "Finds an instance by its ID or Name",
         "description": "Get all the information (URL, name, brief description, version and neighbours) of a given InterMine instance.",
         "operationId": "findInstanceById",
         "produces": [
@@ -118,7 +118,7 @@
           {
             "name": "instanceIdOrName",
             "in": "path",
-            "description": "ID of instances to return",
+            "description": "ID or Name of instance to return",
             "required": true,
             "type": "string"
           }
@@ -179,11 +179,14 @@
           "201": {
             "description": "Instance Successfully Updated on the Registry"
           },
+          "400": {
+            "description": "Malformed JSON. Invalid or Missing Data"
+          },
+          "404": {
+            "description": "Instance Not Found"
+          },
           "406": {
             "description": "Bad Request"
-          },
-          "400": {
-            "description": "Malformed JSON. Invalid or Missing Data."
           }
         },
         "security": [
@@ -233,9 +236,56 @@
       "type": "object",
       "required": ["description", "location", "name", "neighbours", "organisms", "twitter", "url"],
       "properties": {
+        "name": {
+            "type": "string",
+            "example": "FlyMine"
+        },
         "api_version": {
             "type": "string",
             "example": "19"
+        },
+        "web_version": {
+            "type": "string",
+            "example": "42.1 2016 Jan"
+        },
+        "intermine_version": {
+            "type": "string",
+            "example": "1.7.1"
+        },
+        "neighbours": {
+            "items": {
+                "type": "string"
+            },
+            "example": ["MODs"],
+            "type": "array"
+        },
+        "organisms": {
+            "items": {
+                "type": "string"
+            },
+            "example": ["Drosophila"],
+            "type": "array"
+        },
+        "url": {
+            "type": "string",
+            "example": "http://www.flymine.org/"
+        },
+        "description": {
+            "type": "string",
+            "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+        },
+        "location": {
+            "properties": {
+                "latitude": {
+                    "type": "string",
+                    "example": "52.2003399"
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": "0.120109"
+                }
+            },
+            "type": "object"
         },
         "colors": {
             "properties": {
@@ -268,10 +318,6 @@
             },
             "type": "object"
         },
-        "description": {
-            "type": "string",
-            "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
-        },
         "images": {
             "properties": {
                 "main": {
@@ -285,59 +331,22 @@
             },
             "type": "object"
         },
-        "intermine_version": {
-            "type": "string",
-            "example": "1.7.1"
-        },
-        "location": {
-            "properties": {
-                "latitude": {
-                    "type": "string",
-                    "example": "52.2003399"
-                },
-                "longitude": {
-                    "type": "string",
-                    "example": "0.120109"
-                }
-            },
-            "type": "object"
-        },
-        "name": {
-            "type": "string",
-            "example": "FlyMine"
-        },
-        "neighbours": {
-            "items": {
-                "type": "string"
-            },
-            "example": ["MODs"],
-            "type": "array"
-        },
-        "organisms": {
-            "items": {
-                "type": "string"
-            },
-            "example": ["Drosophila"],
-            "type": "array"
-        },
         "twitter": {
             "type": "string",
             "example": "@intermineorg"
-        },
-        "url": {
-            "type": "string",
-            "example": "http://www.flymine.org/"
-        },
-        "web_version": {
-            "type": "string",
-            "example": "42.1 2016 Jan"
         }
       }
     },
 
-    "ApiResponse": {
+    "apiResponse": {
       "type": "object",
       "properties": {
+        "extraData":{
+          "items": {
+              "type": "object"
+          },
+          "type": "array"
+        },
         "statusCode": {
           "type": "integer",
           "format": "int32",
@@ -351,7 +360,8 @@
           "type": "string",
           "example": "6/6/2017, 1:42:19 PM"
         }
-      }
+      },
+      "required": ["message", "executionTime", "statusCode"]
     }
   },
   "externalDocs": {
