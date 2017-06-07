@@ -20,6 +20,7 @@
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "serve-favicon": "~2.3.0",
-    "swagger-express": "~1.0.5"
+    "swagger-express": "~1.0.5",
+    "swagger-ui-express": "~2.0.0"
   }
 }

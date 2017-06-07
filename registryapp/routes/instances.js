@@ -29,6 +29,9 @@ router.get('/', function(req, res, next) {
         var api_response = {};
         api_response['instances'] = instances
         api_response['statusCode'] = 200;
+        if (instances.length === 0){
+            api_response['statusCode'] = 404;
+        }
         api_response['executionTime'] = new Date().toLocaleString();
         res.json(api_response);
     });
@@ -60,13 +63,15 @@ router.delete('/:id', function(req, res, next){
         if (err){
             res.send(err);
         }
+        var statusCode = 200;
         n_removed = info['result']['n'];
         var message = 'Instance Successfully Deleted';
         if (n_removed === 0){
+            statusCode = 404;
             message = 'Instance Not Found';
         }
         res.json({
-            statusCode: 200,
+            statusCode: statusCode,
             message: message,
             executionTime: new Date().toLocaleString()
         });
@@ -78,7 +83,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
         res.json({
-            statusCode: 200,
+            statusCode: 406,
             message: "Bad Request",
             executionTime: new Date().toLocaleString()
         });
@@ -91,38 +96,38 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             res.send(err);
         }
         newInstanceId = parseInt(found[0].id) + 1;
-    });
 
-    var newInstanceObject = {
-        id:                 newInstanceId.toString(),
-        name:               req.body.name,
-        neighbours:         req.body.neighbours,
-        organisms:          req.body.organisms,
-        twitter:            req.body.twitter,
-        location:           req.body.location,
-        url:                req.body.url,
-        description:        req.body.description,
-        created_at:         new Date(),
-        last_time_updated:  new Date()
-    };
+        var newInstanceObject = {
+            id:                 newInstanceId.toString(),
+            name:               req.body.name,
+            neighbours:         req.body.neighbours,
+            organisms:          req.body.organisms,
+            twitter:            req.body.twitter,
+            location:           req.body.location,
+            url:                req.body.url,
+            description:        req.body.description,
+            created_at:         new Date(),
+            last_time_updated:  new Date()
+        };
 
-    newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
-    newInstanceObject.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : "";
-    newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
-    newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
-    newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
+        newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
+        newInstanceObject.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : "";
+        newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
+        newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
+        newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
 
-    var newInstance = new Instance(newInstanceObject);
+        var newInstance = new Instance(newInstanceObject);
 
-    newInstance.save(function(err){
-        if (err){
-            res.send(err);
-        }
-        res.json({
-            instance_id: newInstanceId,
-            statusCode: 201,
-            message: "Instance Successfully Added",
-            executionTime: new Date().toLocaleString()
+        newInstance.save(function(err){
+            if (err){
+                res.send(err);
+            }
+            res.json({
+                instance_id: newInstanceId,
+                statusCode: 201,
+                message: "Instance Successfully Added to the Registry",
+                executionTime: new Date().toLocaleString()
+            });
         });
     });
 });
@@ -131,7 +136,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
         res.json({
-            statusCode: 200,
+            statusCode: 406,
             message: "Bad Request",
             executionTime: new Date().toLocaleString()
         });
@@ -157,15 +162,15 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
         if (typeof(req.body.colors) !== 'undefined'){
             if (typeof(req.body.colors.focus) !== 'undefined'){
                 instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
-                instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;                
-            }                    
-        }     
+                instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;
+            }
+        }
         if (typeof(req.body.colors) !== 'undefined'){
             if (typeof(req.body.colors.main) !== 'undefined'){
                 instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
-                instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;              
-            }                    
-        }     
+                instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;
+            }
+        }
         if (typeof(req.body.images) !== 'undefined'){
             instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
             instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
