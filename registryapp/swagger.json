@@ -1,0 +1,371 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Documentation for the Intermine Registry RESTful API.",
+    "version": "1.0.0",
+    "title": "Intermine Registry",
+    "license": {
+      "name": "GNU General Public License v3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+    }
+  },
+  "host": "localhost:8888/registry",
+  "basePath": "/service",
+  "tags": [
+    {
+      "name": "instance",
+      "description": "Operations regarding the Intermine Registry",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/instances": {
+      "post": {
+        "tags": [
+          "instances"
+        ],
+        "summary": "Add an instance to the registry",
+        "description": "Add a new instance to the Intermine Registry.",
+        "operationId": "addinstances",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Information needed to create an instance on the Registry",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/instances"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Instance Successfully Added to the Registry"
+          },
+          "406": {
+            "description": "Bad Request"
+          },
+          "400": {
+            "description": "Malformed JSON. Invalid or Missing Data."
+          }
+        },
+        "security": [
+        ]
+      },
+
+      "get": {
+        "tags": [
+          "instances"
+        ],
+        "summary": "Get all Registry Instances",
+        "description": "Get all Registry Instances",
+        "operationId": "getAllInstances",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "A space-delimited list of word to look for in the instance name, organisms or brief description. If not given, all the instances are returned.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "items": {
+                  "$ref": "#/definitions/instances"
+              }
+            }
+          },
+          "404": {
+            "description": "Instances Not Found"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+
+
+    "/instances/{instanceIdOrName}": {
+      "get": {
+        "tags": [
+          "instances"
+        ],
+        "summary": "Finds an instance by its ID or Name",
+        "description": "Get all the information (URL, name, brief description, version and neighbours) of a given InterMine instance.",
+        "operationId": "findInstanceById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "instanceIdOrName",
+            "in": "path",
+            "description": "ID or Name of instance to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/instances"
+              }
+            }
+          },
+          "404": {
+            "description": "Instance Not Found"
+          }
+        },
+        "security": [
+        ]
+      }
+    },
+
+    "/instances/{instancesId}": {
+      "put": {
+        "tags": [
+          "instances"
+        ],
+        "summary": "Update an instance on the registry",
+        "description": "Update the instance entry given in the URL from the registry.",
+        "operationId": "updateInstance",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "instancesId",
+            "in": "path",
+            "description": "ID of the instance that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Information needed to update an instance on the Registry. Not all the fields are needed.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/instances"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Instance Successfully Updated on the Registry"
+          },
+          "400": {
+            "description": "Malformed JSON. Invalid or Missing Data"
+          },
+          "404": {
+            "description": "Instance Not Found"
+          },
+          "406": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+        ]
+      },
+      "delete": {
+        "tags": [
+          "instances"
+        ],
+        "summary": "Deletes an instance",
+        "description": "Delete the instance entry given in the URL from the registry.",
+        "operationId": "deleteinstances",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "instancesId",
+            "in": "path",
+            "description": "Id of the instance to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance Successfully Deleted"
+          },
+          "404": {
+            "description": "Instance Not Found"
+          }
+        },
+        "security": [
+        ]
+      }
+    }
+  },
+
+
+  "securityDefinitions": {
+  },
+
+
+  "definitions": {
+    "instances": {
+      "type": "object",
+      "required": ["description", "location", "name", "neighbours", "organisms", "twitter", "url"],
+      "properties": {
+        "name": {
+            "type": "string",
+            "example": "FlyMine"
+        },
+        "api_version": {
+            "type": "string",
+            "example": "19"
+        },
+        "web_version": {
+            "type": "string",
+            "example": "42.1 2016 Jan"
+        },
+        "intermine_version": {
+            "type": "string",
+            "example": "1.7.1"
+        },
+        "neighbours": {
+            "items": {
+                "type": "string"
+            },
+            "example": ["MODs"],
+            "type": "array"
+        },
+        "organisms": {
+            "items": {
+                "type": "string"
+            },
+            "example": ["Drosophila"],
+            "type": "array"
+        },
+        "url": {
+            "type": "string",
+            "example": "http://www.flymine.org/"
+        },
+        "description": {
+            "type": "string",
+            "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+        },
+        "location": {
+            "properties": {
+                "latitude": {
+                    "type": "string",
+                    "example": "52.2003399"
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": "0.120109"
+                }
+            },
+            "type": "object"
+        },
+        "colors": {
+            "properties": {
+                "focus": {
+                    "properties": {
+                        "bg": {
+                            "type": "string",
+                            "example": "#fff"
+                        },
+                        "fg": {
+                            "type": "string",
+                            "example": "#5c0075"
+                        }
+                    },
+                    "type": "object"
+                },
+                "main": {
+                    "properties": {
+                        "bg": {
+                            "type": "string",
+                            "example": "#535353"
+                        },
+                        "fg": {
+                            "type": "string",
+                            "example": "#fff"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "images": {
+            "properties": {
+                "main": {
+                    "type": "string",
+                    "example": "model/images/logo.png"
+                },
+                "small": {
+                    "type": "string",
+                    "example": "model/images/logo.png"
+                }
+            },
+            "type": "object"
+        },
+        "twitter": {
+            "type": "string",
+            "example": "@intermineorg"
+        }
+      }
+    },
+
+    "apiResponse": {
+      "type": "object",
+      "properties": {
+        "extraData":{
+          "items": {
+              "type": "object"
+          },
+          "type": "array"
+        },
+        "statusCode": {
+          "type": "integer",
+          "format": "int32",
+          "example": "200"
+        },
+        "message": {
+          "type": "string",
+          "example": "Instance Successfully Updated"
+        },
+        "executionTime": {
+          "type": "string",
+          "example": "6/6/2017, 1:42:19 PM"
+        }
+      },
+      "required": ["message", "executionTime", "statusCode"]
+    }
+  },
+  "externalDocs": {
+    "description": "Intermine Registry GitHub",
+    "url": "https://github.com/intermine/intermine-registry/"
+  }
+}
