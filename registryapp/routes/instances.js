@@ -1,6 +1,3 @@
-/**
- * Created by Leonardo on 5/27/2017.
- */
 var express = require('express');
 var router = express.Router();
 var Instance = require('../models/instance');
@@ -40,7 +37,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
     Instance.find({
-        $or:[ { id: toFind}, {name: toFind} ]  // Is Case Sensitive
+        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]  // Case Insensitive
     },
     function(err, instances){
         if (err){
