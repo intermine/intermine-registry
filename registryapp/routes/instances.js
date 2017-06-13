@@ -111,7 +111,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
         };
 
         newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
-        newInstanceObject.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : "";
+        newInstanceObject.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : "";
         newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
         newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
         newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
@@ -164,7 +164,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
         instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
         instance.last_time_updated = new Date();
         instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
-        instance.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : instance.web_version;
+        instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
         instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
         if (typeof(req.body.colors) !== 'undefined'){
             if (typeof(req.body.colors.focus) !== 'undefined'){

@@ -5,8 +5,8 @@
  */
 var mongoose = require('mongoose');
 
-//var mongoDB = 'mongodb://localhost/intermineregistry';
-var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
+var mongoDB = 'mongodb://localhost/intermineregistry';
+//var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
 
 mongoose.connect(mongoDB);
 
@@ -20,7 +20,7 @@ var schema = new Schema({
     id:                 String,
     name:               String,
     api_version:        String,
-    web_version:        String,
+    release_version:        String,
     intermine_version:       String,
     created_at:         Date,
     last_time_updated:  Date,

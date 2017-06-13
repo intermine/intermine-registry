@@ -103,8 +103,8 @@ var InstanceSchema = {
             id: "/properties/url",
             type: "string"
         },
-        web_version: {
-            id: "/properties/web_version",
+        release_version: {
+            id: "/properties/release_version",
             type: "string"
         }
     },
@@ -216,8 +216,8 @@ var InstancePutSchema = {
             id: "/properties/url",
             type: "string"
         },
-        web_version: {
-            id: "/properties/web_version",
+        release_version: {
+            id: "/properties/release_version",
             type: "string"
         }
     }
