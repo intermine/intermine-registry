@@ -12,8 +12,9 @@ var instances = require('./routes/instances');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-//const scheduledVersionTasks = require('./scheduled/versions');
-//const scheduledBrandingTasks = require('./scheduled/branding');
+const scheduledVersionTasks = require('./scheduled/versions');
+const scheduledBrandingTasks = require('./scheduled/branding');
+const test = require('./scheduled/test');
 
 var app = express();
 

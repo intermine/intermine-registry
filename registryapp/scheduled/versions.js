@@ -6,7 +6,7 @@ var Instance = require('../models/instance');
 // Every 24 hours: 0 0 * * *
 // Using every 10 seconds for testing purposes
 
-cron.schedule('*/10 * * * * *', function(){
+cron.schedule('0 0 * * *', function(){
   // Get all instances from DB
   Instance.find({}, function(err, instances){
       if (err){

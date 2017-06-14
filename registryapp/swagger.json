@@ -69,7 +69,7 @@
                 },
                 "url": {
                     "type": "string",
-                    "example": "http://www.flymine.org/"
+                    "example": "http://www.flymine.org/query"
                 },
                 "description": {
                     "type": "string",
@@ -104,7 +104,7 @@
             "description": "Bad Request"
           },
           "400": {
-            "description": "Malformed JSON. Invalid or Missing Data."
+            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           }
         },
         "security": [
@@ -226,7 +226,7 @@
             "description": "Instance Successfully Updated on the Registry"
           },
           "400": {
-            "description": "Malformed JSON. Invalid or Missing Data"
+            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           },
           "404": {
             "description": "Instance Not Found"
@@ -280,7 +280,7 @@
   "definitions": {
     "instances": {
       "type": "object",
-      "required": ["description", "location", "name", "neighbours", "organisms", "twitter", "url"],
+      "required": ["description", "location", "name", "neighbours", "organisms", "url"],
       "properties": {
         "name": {
             "type": "string",
@@ -314,7 +314,7 @@
         },
         "url": {
             "type": "string",
-            "example": "http://www.flymine.org/"
+            "example": "http://www.flymine.org/query"
         },
         "description": {
             "type": "string",
