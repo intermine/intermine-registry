@@ -1,12 +1,10 @@
 var cron = require('node-cron');
 var async = require('async');
+var asyncLoop = require('node-async-loop');
 var request = require('request');
 var Instance = require('../models/instance');
 // Every 24 hours: 0 0 * * *
-
-var toUpdate = ["api_version",
-                "release_version",
-                "intermine_version"]
+// Using every 10 seconds for testing purposes
 
 cron.schedule('*/10 * * * * *', function(){
   // Get all instances from DB
@@ -15,24 +13,21 @@ cron.schedule('*/10 * * * * *', function(){
           res.send(err);
       }
       // Iter every instance
-      for (i=0; i < instances.length; i++){
-          var instance = instances[i]
+      asyncLoop(instances, function(instance, next){
           var instanceUrl = instance.url;
-          var instanceId = instance.id;
-          var instanceName = instance.name;
           var intermine_endpoint = instanceUrl + "/service/version/intermine";
           var release_endpoint = instanceUrl + "/service/version/release";
           var api_endpoint = instanceUrl + "/service/version";
           async.parallel([
               function(callback){
                   request.get(intermine_endpoint, function(err, response, body){
-                      instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       callback(null, true);
                   });
               },
               function(callback){
                   request.get(release_endpoint, function(err, response, body){
-                      instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       callback(null, true);
                   });
               },
@@ -43,15 +38,17 @@ cron.schedule('*/10 * * * * *', function(){
                   });
               }
           ], function (err, results){
+              instance.last_time_updated = new Date();
               // After all updates have been done. Save Instance
               instance.save(function(err){
                   if (err){
-                      res.send(err);
+                      console.log('Error Updating Versions of: ' + instance.name);
                   } else {
-                      console.log("Instance" + instanceName + " Successfully Updated");
+                      console.log("Instance " + instance.name +" Versions Updated");
                   }
-              })
+              });
+              next();
           });
-      }
+      });
   });
 });
