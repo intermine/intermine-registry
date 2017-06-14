@@ -1,5 +1,6 @@
 var express = require('express');
 var request = require('request');
+var async = require('async');
 var router = express.Router();
 var Instance = require('../models/instance');
 var validate = require('express-jsonschema').validate;
@@ -118,23 +119,55 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             };
 
             newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
-            newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
-            newInstanceObject.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : "";
-            newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
-            newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
-            newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
 
-            var newInstance = new Instance(newInstanceObject);
+            var intermine_endpoint = req.body.url + "/service/version/intermine";
+            var release_endpoint = req.body.url + "/service/version/release";
+            var api_endpoint = req.body.url + "/service/version";
+            var branding_endpoint = req.body.url + "/service/branding";
 
-            newInstance.save(function(err){
-                if (err){
-                    res.send(err);
+            async.parallel([
+                function(callback){
+                    request.get(intermine_endpoint, function(err, response, body){
+                        newInstanceObject.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(release_endpoint, function(err, response, body){
+                        newInstanceObject.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(api_endpoint, function(err, response, body){
+                        newInstanceObject.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(branding_endpoint, function(err, response, body){
+                        if (err){
+                            res.send(err);
+                        } else {
+                          var JSONbody = JSON.parse(body);
+                          newInstanceObject.colors = JSONbody.properties.colors;
+                          newInstanceObject.images = JSONbody.properties.images;
+                        }
+                        callback(null, true);
+                    });
                 }
-                res.status(201).json({
-                    instance_id: newInstanceId,
-                    statusCode: 201,
-                    message: "Instance Successfully Added to the Registry",
-                    executionTime: new Date().toLocaleString()
+            ], function (err, results){
+                var newInstance = new Instance(newInstanceObject);
+                newInstance.save(function(err){
+                    if (err){
+                        res.send(err);
+                    }
+                    res.status(201).json({
+                        instance_id: newInstanceId,
+                        statusCode: 201,
+                        message: "Instance Successfully Added to the Registry",
+                        executionTime: new Date().toLocaleString()
+                    });
                 });
             });
         });
