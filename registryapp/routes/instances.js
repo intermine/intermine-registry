@@ -99,7 +99,6 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             name:               req.body.name,
             neighbours:         req.body.neighbours,
             organisms:          req.body.organisms,
-            twitter:            req.body.twitter,
             location:           req.body.location,
             url:                req.body.url,
             description:        req.body.description,
@@ -107,6 +106,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             last_time_updated:  new Date()
         };
 
+        newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
         newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
         newInstanceObject.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : "";
         newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";

@@ -12,6 +12,8 @@ var instances = require('./routes/instances');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
+const scheduledVersionTasks = require('./scheduled/versions');
+
 var app = express();
 
 // view engine setup
