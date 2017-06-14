@@ -170,6 +170,28 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
             instance.location.longitude = typeof(req.body.location.longitude) !== 'undefined' ? req.body.location.longitude : instance.location.longitude;
         }
 
+        instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
+        instance.last_time_updated = new Date();
+        instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
+        instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
+        instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
+        if (typeof(req.body.colors) !== 'undefined'){
+            if (typeof(req.body.colors.focus) !== 'undefined'){
+                instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
+                instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;
+            }
+        }
+        if (typeof(req.body.colors) !== 'undefined'){
+            if (typeof(req.body.colors.main) !== 'undefined'){
+                instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
+                instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;
+            }
+        }
+        if (typeof(req.body.images) !== 'undefined'){
+            instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
+            instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
+        }
+
         // Validate URL
         if (typeof(req.body.url) !== 'undefined'){
             request.get(req.body.url+"/service/version/", function(err, response, body){
@@ -182,30 +204,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
                     });
                     return;
                 }
-
                 instance.url = req.body.url;
-                instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
-                instance.last_time_updated = new Date();
-                instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
-                instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
-                instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
-                if (typeof(req.body.colors) !== 'undefined'){
-                    if (typeof(req.body.colors.focus) !== 'undefined'){
-                        instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
-                        instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;
-                    }
-                }
-                if (typeof(req.body.colors) !== 'undefined'){
-                    if (typeof(req.body.colors.main) !== 'undefined'){
-                        instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
-                        instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;
-                    }
-                }
-                if (typeof(req.body.images) !== 'undefined'){
-                    instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
-                    instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
-                }
-
                 instance.save(function(err){
                     if (err){
                         res.send(err);
@@ -218,6 +217,18 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
                     });
                 });
             });
+        } else {
+          instance.save(function(err){
+              if (err){
+                  res.send(err);
+              }
+              res.status(201).json({
+                  updated_instance_id: req.params.id,
+                  statusCode: 201,
+                  message: "Instance Successfully Updated",
+                  executionTime: new Date().toLocaleString()
+              });
+          });
         }
     });
 });
