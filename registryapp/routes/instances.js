@@ -157,6 +157,8 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                     });
                 }
             ], function (err, results){
+                newInstanceObject.release_version = newInstanceObject.api_version === newInstanceObject.release_version ? "" : newInstanceObject.release_version;
+                newInstanceObject.intermine_version = newInstanceObject.api_version === newInstanceObject.intermine_version ? "" : newInstanceObject.intermine_version;
                 var newInstance = new Instance(newInstanceObject);
                 newInstance.save(function(err){
                     if (err){
@@ -173,6 +175,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
         });
     });
 });
+
 
 router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next){
     // Check if the request is an 'application/json' type.
