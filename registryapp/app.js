@@ -13,8 +13,7 @@ var synchronize = require('./routes/synchronize');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-const scheduledVersionTasks = require('./scheduled/versions');
-const scheduledBrandingTasks = require('./scheduled/branding');
+const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
 
 var app = express();
 

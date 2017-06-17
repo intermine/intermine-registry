@@ -14,7 +14,15 @@
   "tags": [
     {
       "name": "instance",
-      "description": "Operations regarding the Intermine Registry",
+      "description": "Operations regarding the Intermine Registry instances.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    },
+    {
+      "name": "synchronize",
+      "description": "Operations regarding the Intermine Registry instances versions & branding updates.",
       "externalDocs": {
         "description": "Find out more",
         "url": "https://github.com/intermine/intermine-registry/"
@@ -314,9 +322,72 @@
         "security": [
         ]
       }
-    }
+    },
+    "/synchronize": {
+        "put": {
+          "tags": [
+            "synchronize"
+          ],
+          "summary": "Update the branding & version information of every instance on the registry",
+          "description": "Update the branding & version information of every instance on the registry",
+          "operationId": "synchronizeInstances",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Instance Version & Branding Successfully Updated on the Registry"
+            },
+            "406": {
+              "description": "Bad Request"
+            }
+          },
+          "security": [
+          ]
+        }
+      },
+      "/synchronize/{instanceIdOrName}": {
+          "put": {
+            "tags": [
+              "synchronize"
+            ],
+            "summary": "Update the branding & version information of the specified instance on the registry",
+            "description": "Update the branding & version information of the instance given in the URL",
+            "operationId": "synchronizeInstance",
+            "consumes": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "instanceIdOrName",
+                "in": "path",
+                "description": "ID or Name of instance to update",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "201": {
+                "description": "Instances Versions & Branding Successfully Updated on the Registry"
+              },
+              "404": {
+                "description": "Instance Not Found"
+              },
+              "406": {
+                "description": "Bad Request"
+              }
+            },
+            "security": [
+            ]
+          }
+        }
   },
-
 
   "securityDefinitions": {
   },

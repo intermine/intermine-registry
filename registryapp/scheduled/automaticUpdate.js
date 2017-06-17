@@ -18,6 +18,7 @@ cron.schedule('0 0 * * *', function(){
           var intermine_endpoint = instanceUrl + "/service/version/intermine";
           var release_endpoint = instanceUrl + "/service/version/release";
           var api_endpoint = instanceUrl + "/service/version";
+          var branding_endpoint = instanceUrl + "/service/branding";
           async.parallel([
               function(callback){
                   request.get(intermine_endpoint, function(err, response, body){
@@ -36,6 +37,18 @@ cron.schedule('0 0 * * *', function(){
                       instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       callback(null, true);
                   });
+              },
+              function(callback){
+                  request.get(branding_endpoint, function(err, response, body){
+                      if (err){
+                          res.send(err);
+                      } else {
+                        var JSONbody = JSON.parse(body);
+                        instance.colors = JSONbody.properties.colors;
+                        instance.images = JSONbody.properties.images;
+                      }
+                      callback(null, true);
+                  });
               }
           ], function (err, results){
               instance.last_time_updated = new Date();
@@ -45,9 +58,9 @@ cron.schedule('0 0 * * *', function(){
               // After all updates have been done. Save Instance
               instance.save(function(err){
                   if (err){
-                      console.log('Error Updating Versions of: ' + instance.name);
+                      console.log('Error Updating: ' + instance.name);
                   } else {
-                      console.log("Instance " + instance.name +" Versions Updated");
+                      console.log("Instance " + instance.name +" Versions & Branding Updated");
                   }
               });
               next();

@@ -11,6 +11,14 @@ router.put('/:id', function(req, res, next){
     Instance.findOne({
         $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]  // Case Insensitive
     }, function(err, instance){
+      if (instance == null){
+          res.status(404).json({
+              statusCode: 404,
+              message: "Instance Not Found",
+              executionTime: new Date().toLocaleString()
+          });
+          return;
+      }
       var intermine_endpoint = instance.url + "/service/version/intermine";
       var release_endpoint = instance.url + "/service/version/release";
       var api_endpoint = instance.url + "/service/version";
@@ -50,7 +58,7 @@ router.put('/:id', function(req, res, next){
       ], function (err, results){
           instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
           instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
-
+          instance.last_time_updated = new Date();
           instance.save(function(err){
               if (err){
                   res.send(err);
@@ -110,7 +118,7 @@ router.put('/', function(req, res, next){
         ], function (err, results){
             instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
             instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
-
+            instance.last_time_updated = new Date();
             instance.save(function(err){
                 if (err){
                     res.send(err);
