@@ -48,7 +48,7 @@ var InstanceSchema = {
             type: "string"
         }
     },
-    required: ['description', 'location', 'name', 'neighbours', 'organisms', 'url']
+    required: ['name', 'url']
 };
 
 var InstancePutSchema = {

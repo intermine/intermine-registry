@@ -39,6 +39,9 @@ cron.schedule('0 0 * * *', function(){
               }
           ], function (err, results){
               instance.last_time_updated = new Date();
+              instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
+              instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
+
               // After all updates have been done. Save Instance
               instance.save(function(err){
                   if (err){

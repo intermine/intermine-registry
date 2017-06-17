@@ -47,7 +47,7 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["description", "location", "name", "neighbours", "organisms", "url"],
+              "required": ["name", "url"],
               "properties": {
                 "name": {
                     "type": "string",
@@ -217,7 +217,52 @@
             "description": "Information needed to update an instance on the Registry. Not all the fields are needed.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/instances"
+              "type": "object",
+              "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "FlyMine"
+                },
+                "neighbours": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["MODs"],
+                    "type": "array"
+                },
+                "organisms": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["Drosophila"],
+                    "type": "array"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "http://www.flymine.org/query"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+                },
+                "location": {
+                    "properties": {
+                        "latitude": {
+                            "type": "string",
+                            "example": "52.2003399"
+                        },
+                        "longitude": {
+                            "type": "string",
+                            "example": "0.120109"
+                        }
+                    },
+                    "type": "object"
+                },
+                "twitter": {
+                    "type": "string",
+                    "example": "@intermineorg"
+                }
+              }
             }
           }
         ],
@@ -280,7 +325,7 @@
   "definitions": {
     "instances": {
       "type": "object",
-      "required": ["description", "location", "name", "neighbours", "organisms", "url"],
+      "required": ["name", "url"],
       "properties": {
         "name": {
             "type": "string",

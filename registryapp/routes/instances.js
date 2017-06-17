@@ -8,7 +8,6 @@ var InstanceSchema = require('../models/instance_validate_schema').InstanceSchem
 var InstancePutSchema = require('../models/instance_validate_schema').InstancePutSchema;
 
 router.get('/', function(req, res, next) {
-
     var db_query = {};
     if (req.query.q){
         var query = req.query.q;
@@ -111,14 +110,14 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                 name:               req.body.name,
                 neighbours:         req.body.neighbours,
                 organisms:          req.body.organisms,
-                location:           req.body.location,
                 url:                req.body.url,
-                description:        req.body.description,
                 created_at:         new Date(),
                 last_time_updated:  new Date()
             };
 
             newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
+            newInstanceObject.description = typeof(req.body.description) !== 'undefined' ? req.body.description : "";
+            newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};
 
             var intermine_endpoint = req.body.url + "/service/version/intermine";
             var release_endpoint = req.body.url + "/service/version/release";
