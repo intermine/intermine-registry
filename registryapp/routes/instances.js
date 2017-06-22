@@ -99,11 +99,11 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             return;
         }
         newInstanceId = "";
-        Instance.find().sort([['id', 'descending']]).exec(function(err, found){
+        Instance.find().exec(function(err, found){
             if (err){
                 res.send(err);
             }
-            newInstanceId = parseInt(found[0].id) + 1;
+            newInstanceId = found.length + 1;
 
             var newInstanceObject = {
                 id:                 newInstanceId.toString(),
@@ -148,9 +148,17 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                         if (err){
                             res.send(err);
                         } else {
-                          var JSONbody = JSON.parse(body);
-                          newInstanceObject.colors = JSONbody.properties.colors;
-                          newInstanceObject.images = JSONbody.properties.images;
+                          try{
+                              var JSONbody = JSON.parse(body);
+                              newInstanceObject.colors = JSONbody.properties.colors;
+                              newInstanceObject.images = JSONbody.properties.images;
+                          }
+                          catch (err){
+                              console.log("Instance Branding Endpoint Not Found")
+                              newInstanceObject.colors = {};
+                              newInstanceObject.images = {};
+                          }
+
                         }
                         callback(null, true);
                     });
