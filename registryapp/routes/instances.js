@@ -105,6 +105,18 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             }
             newInstanceId = found.length + 1;
 
+            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+
+
+            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Instance is already in the Registry",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+
             var newInstanceObject = {
                 id:                 newInstanceId.toString(),
                 name:               req.body.name,
