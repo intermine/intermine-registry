@@ -48,9 +48,16 @@ router.put('/:id', function(req, res, next){
                   if (err){
                       res.send(err);
                   } else {
-                    var JSONbody = JSON.parse(body);
-                    instance.colors = JSONbody.properties.colors;
-                    instance.images = JSONbody.properties.images;
+                    try{
+                        var JSONbody = JSON.parse(body);
+                        instance.colors = JSONbody.properties.colors;
+                        instance.images = JSONbody.properties.images;
+                    }
+                    catch (err){
+                        console.log("Instance Branding Endpoint Not Found")
+                        instance.colors = {};
+                        instance.images = {};
+                    }
                   }
                   callback(null, true);
               });
@@ -108,9 +115,16 @@ router.put('/', function(req, res, next){
                     if (err){
                         res.send(err);
                     } else {
-                      var JSONbody = JSON.parse(body);
-                      instance.colors = JSONbody.properties.colors;
-                      instance.images = JSONbody.properties.images;
+                      try{
+                          var JSONbody = JSON.parse(body);
+                          instance.colors = JSONbody.properties.colors;
+                          instance.images = JSONbody.properties.images;
+                      }
+                      catch (err){
+                          console.log("Instance Branding Endpoint Not Found")
+                          instance.colors = {};
+                          instance.images = {};
+                      }
                     }
                     callback(null, true);
                 });
@@ -120,6 +134,7 @@ router.put('/', function(req, res, next){
             instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
             instance.last_time_updated = new Date();
             instance.save(function(err){
+                console.log("Instance " + instance.name +" Versions Updated")
                 if (err){
                     res.send(err);
                 }

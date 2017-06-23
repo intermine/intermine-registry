@@ -4,7 +4,6 @@ var asyncLoop = require('node-async-loop');
 var request = require('request');
 var Instance = require('../models/instance');
 // Every 24 hours: 0 0 * * *
-// Using every 10 seconds for testing purposes
 
 cron.schedule('0 0 * * *', function(){
   // Get all instances from DB
@@ -43,9 +42,16 @@ cron.schedule('0 0 * * *', function(){
                       if (err){
                           res.send(err);
                       } else {
-                        var JSONbody = JSON.parse(body);
-                        instance.colors = JSONbody.properties.colors;
-                        instance.images = JSONbody.properties.images;
+                        try{
+                            var JSONbody = JSON.parse(body);
+                            instance.colors = JSONbody.properties.colors;
+                            instance.images = JSONbody.properties.images;
+                        }
+                        catch (err){
+                            console.log("Instance Branding Endpoint Not Found")
+                            instance.colors = {};
+                            instance.images = {};
+                        }
                       }
                       callback(null, true);
                   });
