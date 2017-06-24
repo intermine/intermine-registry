@@ -1,4 +1,5 @@
-import requests
+var request = require('request');
+var asyncLoop = require('node-async-loop');
 
 mines = [
     ["FlyMine", 'http://www.flymine.org/query'],
@@ -34,18 +35,20 @@ mines = [
     ["CHOmine", "https://chomine.boku.ac.at/chomine"]
 ]
 
-def add_instance(name, instance_url, registry_url):
-    request = {
-        "name": name,
-        "instance_url": instance_url
-    }
-    r = requests.post(registry_url + "/registry/service/instances", request)
-    print r
+var host = 'http://localhost:8888';
 
-def main():
-    registry_url = raw_input("Enter the URL where your APP is located: ")
-    registry_url = registry_url.strip()
-    map(lambda x: add_instance(x[0], x[1], registry_url), mines)
-
-if __name__ == '__main__':
-    main()
+asyncLoop(mines, function(mine, next){
+    var mineName = mine[0];
+    var mineURL = mine[1];
+    var req = {
+        "name": mineName,
+        "url": mineURL
+    };
+    request.post({
+        json: true,
+        url: host + "/registry/service/instances",
+        body: req
+    }, function(err, res, body){
+        next();
+    });
+})

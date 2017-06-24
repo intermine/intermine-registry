@@ -1,7 +1,6 @@
 /**
  * Intermine Registry Instance Model.
  *
- * Created by Leonardo on 5/27/2017.
  */
 var mongoose = require('mongoose');
 
