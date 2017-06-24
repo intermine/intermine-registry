@@ -17,14 +17,14 @@ var Schema = mongoose.Schema;
 
 var schema = new Schema({
     id:                 String,
-    name:               String,
+    name:               {type: String, index:  true},
     api_version:        String,
     release_version:        String,
     intermine_version:       String,
     created_at:         Date,
     last_time_updated:  Date,
     neighbours:         [String],
-    organisms:          [String],
+    organisms:          {type: [String], index: true},
     url:                String,
     description:        String,
     location:           {
@@ -51,6 +51,8 @@ var schema = new Schema({
         collection: 'instances'
     }
 );
+
+schema.index({description: "text"});
 
 var Instance = mongoose.model("instance", schema);
 
