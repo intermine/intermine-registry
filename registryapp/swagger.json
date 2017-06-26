@@ -329,7 +329,7 @@
             "synchronize"
           ],
           "summary": "Update the branding & version information of every instance on the registry",
-          "description": "Update the branding & version information of every instance on the registry",
+          "description": "Update the branding & version information of every instance on the registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
           "operationId": "synchronizeInstances",
           "consumes": [
             "application/json"

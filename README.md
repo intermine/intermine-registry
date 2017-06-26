@@ -21,17 +21,19 @@ You can check the [detailed API documentation](http://intermine.org/registry/api
 
 2. Install [MongoDB](https://docs.mongodb.com/getting-started/shell/installation/) on your host.
 
-###### *...Instructions to configure mongo...* ######
-
 3. Clone this repository on your host:
 ```
 git clone https://github.com/intermine/intermine-registry.git
 ```
-4. From your terminal or CMD access to the *registryapp* directory an excecute the following command:
+4. From your terminal or CMD access to the *registryapp* directory an execute the following command:
 ```
 npm install
 ```
+5. To run the application, being on the same directory:
+```
+npm start
+```
 
-###### *...Instructions to configure swagger.json...* ######
+In addition of running the application, this will also configure the MongoDB environment (database, collection & indexes). If you wish to populate the registry you may do (on another CMD or terminal) `node initRegistry.js`, which will initialize all the registry instances with basic information.
 
-5. InterMine Registry should be up and running.
+### Configure the API Docs ###

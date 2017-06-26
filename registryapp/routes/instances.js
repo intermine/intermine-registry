@@ -139,19 +139,32 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             async.parallel([
                 function(callback){
                     request.get(intermine_endpoint, function(err, response, body){
-                        newInstanceObject.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        if (response.statusCode == 200){
+                            newInstanceObject.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.intermine_version = "";
+                        }
                         callback(null, true);
                     });
                 },
                 function(callback){
                     request.get(release_endpoint, function(err, response, body){
-                        newInstanceObject.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        if (response.statusCode == 200){
+                            newInstanceObject.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.release_version = "";
+                        }
+
                         callback(null, true);
                     });
                 },
                 function(callback){
                     request.get(api_endpoint, function(err, response, body){
-                        newInstanceObject.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        if (response.statusCode == 200){
+                            newInstanceObject.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.api_version = "";
+                        }
                         callback(null, true);
                     });
                 },
@@ -160,16 +173,22 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                         if (err){
                             res.send(err);
                         } else {
-                          try{
-                              var JSONbody = JSON.parse(body);
-                              newInstanceObject.colors = JSONbody.properties.colors;
-                              newInstanceObject.images = JSONbody.properties.images;
-                          }
-                          catch (err){
-                              console.log("Instance Branding Endpoint Not Found")
+                          if (response.statusCode == 200 ){
+                              try{
+                                  var JSONbody = JSON.parse(body);
+                                  newInstanceObject.colors = JSONbody.properties.colors;
+                                  newInstanceObject.images = JSONbody.properties.images;
+                              }
+                              catch (err){
+                                  console.log("Instance Branding Endpoint Not Found")
+                                  newInstanceObject.colors = {};
+                                  newInstanceObject.images = {};
+                              }
+                          } else {
                               newInstanceObject.colors = {};
                               newInstanceObject.images = {};
                           }
+
 
                         }
                         callback(null, true);

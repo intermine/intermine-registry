@@ -21,19 +21,28 @@ cron.schedule('0 0 * * *', function(){
           async.parallel([
               function(callback){
                   request.get(intermine_endpoint, function(err, response, body){
-                      instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      if (response.statusCode == 200){
+                          instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      }
+
                       callback(null, true);
                   });
               },
               function(callback){
                   request.get(release_endpoint, function(err, response, body){
-                      instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      if (response.statusCode == 200){
+                          instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      }
+
                       callback(null, true);
                   });
               },
               function(callback){
                   request.get(api_endpoint, function(err, response, body){
-                      instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      if (response.statusCode == 200){
+                          instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      }
+
                       callback(null, true);
                   });
               },
@@ -42,16 +51,19 @@ cron.schedule('0 0 * * *', function(){
                       if (err){
                           res.send(err);
                       } else {
-                        try{
-                            var JSONbody = JSON.parse(body);
-                            instance.colors = JSONbody.properties.colors;
-                            instance.images = JSONbody.properties.images;
+                        if (response.statusCode == 200){
+                            try{
+                                var JSONbody = JSON.parse(body);
+                                instance.colors = JSONbody.properties.colors;
+                                instance.images = JSONbody.properties.images;
+                            }
+                            catch (err){
+                                console.log("Instance Branding Endpoint Not Found")
+                                instance.colors = {};
+                                instance.images = {};
+                            }                          
                         }
-                        catch (err){
-                            console.log("Instance Branding Endpoint Not Found")
-                            instance.colors = {};
-                            instance.images = {};
-                        }
+
                       }
                       callback(null, true);
                   });

@@ -9,7 +9,7 @@ router.put('/:id', function(req, res, next){
 
     var toFind = req.params.id;
     Instance.findOne({
-        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]  // Case Insensitive
+        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]
     }, function(err, instance){
       if (instance == null){
           res.status(404).json({
@@ -27,19 +27,26 @@ router.put('/:id', function(req, res, next){
       async.parallel([
           function(callback){
               request.get(intermine_endpoint, function(err, response, body){
-                  instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  if (response.statusCode == 200){
+                      instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
+
                   callback(null, true);
               });
           },
           function(callback){
               request.get(release_endpoint, function(err, response, body){
-                  instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  if (response.statusCode == 200){
+                      instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
                   callback(null, true);
               });
           },
           function(callback){
               request.get(api_endpoint, function(err, response, body){
-                  instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  if (response.statusCode == 200){
+                      instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
                   callback(null, true);
               });
           },
@@ -48,16 +55,18 @@ router.put('/:id', function(req, res, next){
                   if (err){
                       res.send(err);
                   } else {
-                    try{
-                        var JSONbody = JSON.parse(body);
-                        instance.colors = JSONbody.properties.colors;
-                        instance.images = JSONbody.properties.images;
-                    }
-                    catch (err){
-                        console.log("Instance Branding Endpoint Not Found")
-                        instance.colors = {};
-                        instance.images = {};
-                    }
+                      if (response.statusCode == 200){
+                          try{
+                              var JSONbody = JSON.parse(body);
+                              instance.colors = JSONbody.properties.colors;
+                              instance.images = JSONbody.properties.images;
+                          }
+                          catch (err){
+                              console.log("Instance Branding Endpoint Not Found")
+                              instance.colors = {};
+                              instance.images = {};
+                          }
+                      }
                   }
                   callback(null, true);
               });
@@ -92,42 +101,51 @@ router.put('/', function(req, res, next){
         var branding_endpoint = instance.url + "/service/branding";
 
         async.parallel([
-            function(callback){
-                request.get(intermine_endpoint, function(err, response, body){
-                    instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
-                    callback(null, true);
-                });
-            },
-            function(callback){
-                request.get(release_endpoint, function(err, response, body){
-                    instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
-                    callback(null, true);
-                });
-            },
-            function(callback){
-                request.get(api_endpoint, function(err, response, body){
-                    instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
-                    callback(null, true);
-                });
-            },
-            function(callback){
-                request.get(branding_endpoint, function(err, response, body){
-                    if (err){
-                        res.send(err);
-                    } else {
-                      try{
-                          var JSONbody = JSON.parse(body);
-                          instance.colors = JSONbody.properties.colors;
-                          instance.images = JSONbody.properties.images;
+          function(callback){
+              request.get(intermine_endpoint, function(err, response, body){
+                  if (response.statusCode == 200){
+                      instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
+
+                  callback(null, true);
+              });
+          },
+          function(callback){
+              request.get(release_endpoint, function(err, response, body){
+                  if (response.statusCode == 200){
+                      instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
+                  callback(null, true);
+              });
+          },
+          function(callback){
+              request.get(api_endpoint, function(err, response, body){
+                  if (response.statusCode == 200){
+                      instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                  }
+                  callback(null, true);
+              });
+          },
+          function(callback){
+              request.get(branding_endpoint, function(err, response, body){
+                  if (err){
+                      res.send(err);
+                  } else {
+                      if (response.statusCode == 200){
+                          try{
+                              var JSONbody = JSON.parse(body);
+                              instance.colors = JSONbody.properties.colors;
+                              instance.images = JSONbody.properties.images;
+                          }
+                          catch (err){
+                              console.log("Instance Branding Endpoint Not Found")
+                              instance.colors = {};
+                              instance.images = {};
+                          }
                       }
-                      catch (err){
-                          console.log("Instance Branding Endpoint Not Found")
-                          instance.colors = {};
-                          instance.images = {};
-                      }
-                    }
-                    callback(null, true);
-                });
+                  }
+                  callback(null, true);
+              });
             }
         ], function (err, results){
             instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
@@ -141,12 +159,14 @@ router.put('/', function(req, res, next){
             });
             next();
         });
+      }, function(err){
+          res.status(201).json({
+              statusCode: 201,
+              message: "All Instances Successfully Updated",
+              executionTime: new Date().toLocaleString()
+          });
       });
-      res.status(201).json({
-          statusCode: 201,
-          message: "All Instances Successfully Updated",
-          executionTime: new Date().toLocaleString()
-      });
+
   });
 });
 
