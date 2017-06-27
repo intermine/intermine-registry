@@ -8,9 +8,12 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var instances = require('./routes/instances');
+var synchronize = require('./routes/synchronize');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+
+const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
 
 var app = express();
 
@@ -31,6 +34,7 @@ app.use('/registry/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/', index);
 app.use('/users', users);
 app.use('/registry/service/instances', instances);
+app.use('/registry/service/synchronize', synchronize);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

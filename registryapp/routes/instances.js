@@ -1,7 +1,6 @@
-/**
- * Created by Leonardo on 5/27/2017.
- */
 var express = require('express');
+var request = require('request');
+var async = require('async');
 var router = express.Router();
 var Instance = require('../models/instance');
 var validate = require('express-jsonschema').validate;
@@ -9,7 +8,6 @@ var InstanceSchema = require('../models/instance_validate_schema').InstanceSchem
 var InstancePutSchema = require('../models/instance_validate_schema').InstancePutSchema;
 
 router.get('/', function(req, res, next) {
-
     var db_query = {};
     if (req.query.q){
         var query = req.query.q;
@@ -40,7 +38,7 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
     Instance.find({
-        $or:[ { id: toFind}, {name: toFind} ]  // Is Case Sensitive
+        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]  // Case Insensitive
     },
     function(err, instances){
         if (err){
@@ -90,47 +88,132 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
         return;
     }
 
-    newInstanceId = "";
-    Instance.find().sort([['id', 'descending']]).exec(function(err, found){
-        if (err){
-            res.send(err);
+    //Validate URL
+    request.get(req.body.url+"/service/version/", function(err, response, body){
+        if (typeof(response) === 'undefined' || response.statusCode != "200"){
+            res.status(400).json({
+                statusCode: 400,
+                message: "Bad Request. Instance URL is not working.",
+                executionTime: new Date().toLocaleString()
+            });
+            return;
         }
-        newInstanceId = parseInt(found[0].id) + 1;
-
-        var newInstanceObject = {
-            id:                 newInstanceId.toString(),
-            name:               req.body.name,
-            neighbours:         req.body.neighbours,
-            organisms:          req.body.organisms,
-            twitter:            req.body.twitter,
-            location:           req.body.location,
-            url:                req.body.url,
-            description:        req.body.description,
-            created_at:         new Date(),
-            last_time_updated:  new Date()
-        };
-
-        newInstanceObject.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : "";
-        newInstanceObject.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : "";
-        newInstanceObject.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : "";
-        newInstanceObject.colors =  typeof(req.body.colors) !== 'undefined' ? req.body.colors : "";
-        newInstanceObject.images =  typeof(req.body.images) !== 'undefined' ? req.body.images : "";
-
-        var newInstance = new Instance(newInstanceObject);
-
-        newInstance.save(function(err){
+        newInstanceId = "";
+        Instance.find().exec(function(err, found){
             if (err){
                 res.send(err);
             }
-            res.status(201).json({
-                instance_id: newInstanceId,
-                statusCode: 201,
-                message: "Instance Successfully Added to the Registry",
-                executionTime: new Date().toLocaleString()
+            newInstanceId = found.length + 1;
+
+            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+
+
+            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Instance is already in the Registry",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+
+            var newInstanceObject = {
+                id:                 newInstanceId.toString(),
+                name:               req.body.name,
+                neighbours:         req.body.neighbours,
+                organisms:          req.body.organisms,
+                url:                req.body.url,
+                created_at:         new Date(),
+                last_time_updated:  new Date()
+            };
+
+            newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
+            newInstanceObject.description = typeof(req.body.description) !== 'undefined' ? req.body.description : "";
+            newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};
+
+            var intermine_endpoint = req.body.url + "/service/version/intermine";
+            var release_endpoint = req.body.url + "/service/version/release";
+            var api_endpoint = req.body.url + "/service/version";
+            var branding_endpoint = req.body.url + "/service/branding";
+
+            async.parallel([
+                function(callback){
+                    request.get(intermine_endpoint, function(err, response, body){
+                        if (response.statusCode == 200){
+                            newInstanceObject.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.intermine_version = "";
+                        }
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(release_endpoint, function(err, response, body){
+                        if (response.statusCode == 200){
+                            newInstanceObject.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.release_version = "";
+                        }
+
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(api_endpoint, function(err, response, body){
+                        if (response.statusCode == 200){
+                            newInstanceObject.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                        } else {
+                            newInstanceObject.api_version = "";
+                        }
+                        callback(null, true);
+                    });
+                },
+                function(callback){
+                    request.get(branding_endpoint, function(err, response, body){
+                        if (err){
+                            res.send(err);
+                        } else {
+                          if (response.statusCode == 200 ){
+                              try{
+                                  var JSONbody = JSON.parse(body);
+                                  newInstanceObject.colors = JSONbody.properties.colors;
+                                  newInstanceObject.images = JSONbody.properties.images;
+                              }
+                              catch (err){
+                                  console.log("Instance Branding Endpoint Not Found")
+                                  newInstanceObject.colors = {};
+                                  newInstanceObject.images = {};
+                              }
+                          } else {
+                              newInstanceObject.colors = {};
+                              newInstanceObject.images = {};
+                          }
+
+
+                        }
+                        callback(null, true);
+                    });
+                }
+            ], function (err, results){
+                newInstanceObject.release_version = newInstanceObject.api_version === newInstanceObject.release_version ? "" : newInstanceObject.release_version;
+                newInstanceObject.intermine_version = newInstanceObject.api_version === newInstanceObject.intermine_version ? "" : newInstanceObject.intermine_version;
+                var newInstance = new Instance(newInstanceObject);
+                newInstance.save(function(err){
+                    if (err){
+                        res.send(err);
+                    }
+                    res.status(201).json({
+                        instance_id: newInstanceId,
+                        statusCode: 201,
+                        message: "Instance Successfully Added to the Registry",
+                        executionTime: new Date().toLocaleString()
+                    });
+                });
             });
         });
     });
 });
+
 
 router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next){
     // Check if the request is an 'application/json' type.
@@ -160,11 +243,11 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
             instance.location.latitude = typeof(req.body.location.latitude) !== 'undefined' ? req.body.location.latitude : instance.location.latitude;
             instance.location.longitude = typeof(req.body.location.longitude) !== 'undefined' ? req.body.location.longitude : instance.location.longitude;
         }
-        instance.url = typeof(req.body.url) !== 'undefined' ? req.body.url : instance.url;
+
         instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
         instance.last_time_updated = new Date();
         instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
-        instance.web_version =  typeof(req.body.web_version) !== 'undefined' ? req.body.web_version : instance.web_version;
+        instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
         instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
         if (typeof(req.body.colors) !== 'undefined'){
             if (typeof(req.body.colors.focus) !== 'undefined'){
@@ -183,17 +266,44 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
             instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
         }
 
-        instance.save(function(err){
-            if (err){
-                res.send(err);
-            }
-            res.status(201).json({
-                updated_instance_id: req.params.id,
-                statusCode: 201,
-                message: "Instance Successfully Updated",
-                executionTime: new Date().toLocaleString()
+        // Validate URL
+        if (typeof(req.body.url) !== 'undefined'){
+            request.get(req.body.url+"/service/version/", function(err, response, body){
+                if (typeof(response) === 'undefined' || response.statusCode != "200"){
+                    console.log('hola');
+                    res.status(400).json({
+                        statusCode: 400,
+                        message: "Bad Request. Instance URL is not working.",
+                        executionTime: new Date().toLocaleString()
+                    });
+                    return;
+                }
+                instance.url = req.body.url;
+                instance.save(function(err){
+                    if (err){
+                        res.send(err);
+                    }
+                    res.status(201).json({
+                        updated_instance_id: req.params.id,
+                        statusCode: 201,
+                        message: "Instance Successfully Updated",
+                        executionTime: new Date().toLocaleString()
+                    });
+                });
             });
-        });
+        } else {
+          instance.save(function(err){
+              if (err){
+                  res.send(err);
+              }
+              res.status(201).json({
+                  updated_instance_id: req.params.id,
+                  statusCode: 201,
+                  message: "Instance Successfully Updated",
+                  executionTime: new Date().toLocaleString()
+              });
+          });
+        }
     });
 });
 

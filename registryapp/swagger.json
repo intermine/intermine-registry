@@ -14,7 +14,15 @@
   "tags": [
     {
       "name": "instance",
-      "description": "Operations regarding the Intermine Registry",
+      "description": "Operations regarding the Intermine Registry instances.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    },
+    {
+      "name": "synchronize",
+      "description": "Operations regarding the Intermine Registry instances versions & branding updates.",
       "externalDocs": {
         "description": "Find out more",
         "url": "https://github.com/intermine/intermine-registry/"
@@ -46,7 +54,53 @@
             "description": "Information needed to create an instance on the Registry",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/instances"
+              "type": "object",
+              "required": ["name", "url"],
+              "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "FlyMine"
+                },
+                "neighbours": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["MODs"],
+                    "type": "array"
+                },
+                "organisms": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["Drosophila"],
+                    "type": "array"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "http://www.flymine.org/query"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+                },
+                "location": {
+                    "properties": {
+                        "latitude": {
+                            "type": "string",
+                            "example": "52.2003399"
+                        },
+                        "longitude": {
+                            "type": "string",
+                            "example": "0.120109"
+                        }
+                    },
+                    "type": "object"
+                },
+                "twitter": {
+                    "type": "string",
+                    "example": "@intermineorg"
+                }
+              }
             }
           }
         ],
@@ -58,7 +112,7 @@
             "description": "Bad Request"
           },
           "400": {
-            "description": "Malformed JSON. Invalid or Missing Data."
+            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           }
         },
         "security": [
@@ -171,7 +225,52 @@
             "description": "Information needed to update an instance on the Registry. Not all the fields are needed.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/instances"
+              "type": "object",
+              "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "FlyMine"
+                },
+                "neighbours": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["MODs"],
+                    "type": "array"
+                },
+                "organisms": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": ["Drosophila"],
+                    "type": "array"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "http://www.flymine.org/query"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+                },
+                "location": {
+                    "properties": {
+                        "latitude": {
+                            "type": "string",
+                            "example": "52.2003399"
+                        },
+                        "longitude": {
+                            "type": "string",
+                            "example": "0.120109"
+                        }
+                    },
+                    "type": "object"
+                },
+                "twitter": {
+                    "type": "string",
+                    "example": "@intermineorg"
+                }
+              }
             }
           }
         ],
@@ -180,7 +279,7 @@
             "description": "Instance Successfully Updated on the Registry"
           },
           "400": {
-            "description": "Malformed JSON. Invalid or Missing Data"
+            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           },
           "404": {
             "description": "Instance Not Found"
@@ -223,9 +322,72 @@
         "security": [
         ]
       }
-    }
+    },
+    "/synchronize": {
+        "put": {
+          "tags": [
+            "synchronize"
+          ],
+          "summary": "Update the branding & version information of every instance on the registry",
+          "description": "Update the branding & version information of every instance on the registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
+          "operationId": "synchronizeInstances",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Instance Version & Branding Successfully Updated on the Registry"
+            },
+            "406": {
+              "description": "Bad Request"
+            }
+          },
+          "security": [
+          ]
+        }
+      },
+      "/synchronize/{instanceIdOrName}": {
+          "put": {
+            "tags": [
+              "synchronize"
+            ],
+            "summary": "Update the branding & version information of the specified instance on the registry",
+            "description": "Update the branding & version information of the instance given in the URL",
+            "operationId": "synchronizeInstance",
+            "consumes": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "instanceIdOrName",
+                "in": "path",
+                "description": "ID or Name of instance to update",
+                "required": true,
+                "type": "string"
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "201": {
+                "description": "Instances Versions & Branding Successfully Updated on the Registry"
+              },
+              "404": {
+                "description": "Instance Not Found"
+              },
+              "406": {
+                "description": "Bad Request"
+              }
+            },
+            "security": [
+            ]
+          }
+        }
   },
-
 
   "securityDefinitions": {
   },
@@ -234,7 +396,7 @@
   "definitions": {
     "instances": {
       "type": "object",
-      "required": ["description", "location", "name", "neighbours", "organisms", "twitter", "url"],
+      "required": ["name", "url"],
       "properties": {
         "name": {
             "type": "string",
@@ -244,7 +406,7 @@
             "type": "string",
             "example": "19"
         },
-        "web_version": {
+        "release_version": {
             "type": "string",
             "example": "42.1 2016 Jan"
         },
@@ -268,7 +430,7 @@
         },
         "url": {
             "type": "string",
-            "example": "http://www.flymine.org/"
+            "example": "http://www.flymine.org/query"
         },
         "description": {
             "type": "string",

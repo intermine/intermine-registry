@@ -1,65 +1,9 @@
 var InstanceSchema = {
     type: "object",
     properties: {
-        api_version: {
-            id: "/properties/api_version",
-            type: "string"
-        },
-        colors: {
-            id: "/properties/colors",
-            properties: {
-                focus: {
-                    id: "/properties/colors/properties/focus",
-                    properties: {
-                        bg: {
-                            id: "/properties/colors/properties/focus/properties/bg",
-                            type: "string"
-                        },
-                        fg: {
-                            id: "/properties/colors/properties/focus/properties/fg",
-                            type: "string"
-                        }
-                    },
-                    type: "object"
-                },
-                main: {
-                    id: "/properties/colors/properties/main",
-                    properties: {
-                        bg: {
-                            id: "/properties/colors/properties/main/properties/bg",
-                            type: "string"
-                        },
-                        fg: {
-                            id: "/properties/colors/properties/main/properties/fg",
-                            type: "string"
-                        }
-                    },
-                    type: "object"
-                }
-            },
-            type: "object"
-        },
         description: {
             id: "/properties/description",
             type: "string"
-        },
-        images: {
-            id: "/properties/images",
-            properties: {
-                main: {
-                    id: "/properties/images/properties/main",
-                    type: "string"
-                },
-                small: {
-                    id: "/properties/images/properties/small",
-                    type: "string"
-                }
-            },
-            type: "object"
-        },
-        intermine_version: {
-            "id": "/properties/intermine_version",
-            "type": "string"
         },
         location: {
             id: "/properties/location",
@@ -102,13 +46,9 @@ var InstanceSchema = {
         url: {
             id: "/properties/url",
             type: "string"
-        },
-        web_version: {
-            id: "/properties/web_version",
-            type: "string"
         }
     },
-    required: ['description', 'location', 'name', 'neighbours', 'organisms', 'twitter', 'url']
+    required: ['name', 'url']
 };
 
 var InstancePutSchema = {
@@ -216,8 +156,8 @@ var InstancePutSchema = {
             id: "/properties/url",
             type: "string"
         },
-        web_version: {
-            id: "/properties/web_version",
+        release_version: {
+            id: "/properties/release_version",
             type: "string"
         }
     }

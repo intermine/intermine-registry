@@ -1,27 +1,30 @@
 /**
  * Intermine Registry Instance Model.
  *
- * Created by Leonardo on 5/27/2017.
  */
 var mongoose = require('mongoose');
 
 var mongoDB = 'mongodb://localhost/intermineregistry';
+//var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
+
 mongoose.connect(mongoDB);
 
 var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
     id:                 String,
-    name:               String,
+    name:               {type: String, index:  true},
     api_version:        String,
-    web_version:        String,
+    release_version:        String,
     intermine_version:       String,
     created_at:         Date,
     last_time_updated:  Date,
     neighbours:         [String],
-    organisms:          [String],
+    organisms:          {type: [String], index: true},
     url:                String,
     description:        String,
     location:           {
@@ -48,6 +51,8 @@ var schema = new Schema({
         collection: 'instances'
     }
 );
+
+schema.index({description: "text"});
 
 var Instance = mongoose.model("instance", schema);
 
