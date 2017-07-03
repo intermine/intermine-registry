@@ -1,8 +1,100 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+html {
+  overflow-y: scroll;
 }
 
-a {
-  color: #00B7FF;
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Muli';
+    font-size:16px;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.align-center {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    display: block;
+
+}
+
+/**
+ * ========================================
+ * CURSO
+ * ========================================
+ */
+
+/* ===HEADER=== */
+
+/* ===BODY=== */
+ #curso-body{
+ 	font-size: 16px;
+ 	text-align: justify;
+ }
+/* ===SYLLABUS=== */
+#syllabus .btn, #policies .btn{
+	font-size: 16px;
+}
+
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+ /* ===POLITICAS=== */
+#policies .btn{
+	font-size: 16px;
+}
+/* Estilos para cambiar el color de los tabs - BEGIN */
+
+.truncate {
+  max-width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover{
+	background-color: rgb(86, 149, 0);
+	color: #FFF;
+	transition: all 0.25s;
+}
+.nav-pills>li>a{
+	color: rgb(105,105,105);
+	transition: all 0.25s;
+}
+.nav-pills>li>a:hover{
+	border-color: #e6e6e6 #e6e6e6 #ddd;
+}
+
+
+/* END */
+.btn.focus, .btn:focus, .btn:hover{
+	color: #01A4A4;
+	font-weight: bold;
+}
+
+.navbar-default, .navbar-default .navbar-toggle .nav-tabs{
+    border: none !important;
 }

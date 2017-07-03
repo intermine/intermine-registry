@@ -1,11 +1,103 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+    <meta charset="utf-8">
+    <title>Intermine Registry</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+     <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/custom-bootstrap-margin-padding.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+	</head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+
+    <section id="registry-body" class = 'pt-70'>
+    	<h1 class='align-center'>Intermine Registry</h1>
+    	<div class="container pt-20">
+    		<div class="row">
+      		<div class="col-md-offset-1 col-md-10 curso-desc">
+            Intermine Registry is a web application that allow users to view and search basic information about existing InterMine instances. This information includes instances names, URLs, versions, neighbours and descriptions.
+      		</div>
+    		</div>
+    		<div class="row mt-xs-20 pt-20 mt-md-20 mt-lg-20 pb-50">
+    			<div class="col-lg-10 col-lg-offset-1">
+            <div class="row">
+              <div class="col-md-2">
+                <button class="btn"> Add Instance </button>
+              </div>
+              <div class="col-md-7">
+                <div class="inner-addon left-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <input type="text" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <ul class="nav nav-pills navbar-right" role="tablist" id = 'curso-tabs'>
+                  <li role="presentation" class="active"><a href="#obj" class="glyphicon glyphicon-list" aria-controls="obj" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation"><a href="#syllabus" class="glyphicon glyphicon-th" aria-controls="syllabus" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation"><a href="#policies" class="glyphicon glyphicon-globe" aria-controls="policies" role="tab" data-toggle="tab"></a></li>
+                </ul>
+              </div>
+            </div>
+    				<!-- Tabs -->
+
+            <div class='pt-20'> </div>
+    				<!-- Paneles -->
+    				<div class="tab-content mt-lg-20">
+    					<div role="tabpanel" class="tab-pane fade in active" id="obj">
+                <table style="width:100%" class="table table-hover table-responsive">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1"></th>
+                      <th class="col-md-2">Name</th>
+                      <th class="col-md-7">Description</th>
+                      <th class="col-md-2">Version</th>
+                    </tr>
+                  </thead>
+                  <tbody id="list-table-body">
+
+                  </tbody>
+                </table>
+
+                <div id="mine-modals" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                	<div class="modal-content">
+                		<div class="modal-header">
+                		<button type="button" class="close closeb" data-dismiss="modal">×</button>
+                			<h3 id="modal-mine-title">Modal header</h3>
+                	</div>
+                	<div class="modal-body">
+                      <p id="pinside">You've Selected: </p>
+                	</div>
+                	<div class="modal-footer">
+                		<button class="btn closeb" data-dismiss="modal">Close</button>
+                	</div>
+                	</div>
+                </div>
+                </div>
+    					</div>
+    						<div role="tabpanel" class="tab-pane fade" id="syllabus">
+                  <h1> GRID VIEW </h1>
+    						</div>
+    						<div role="tabpanel" class="tab-pane fade" id="policies">
+                  <h1> WORLD VIEW </h1>
+    						</div>
+    				</div>
+    			</div>
+    		</div>
+      </div>
+    </section>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script language="javascript" src="/js/bootstrap.min.js"></script>
+    <script language="javascript" src="/javascripts/index.js"></script>
   </body>
 </html>

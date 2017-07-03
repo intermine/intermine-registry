@@ -27,11 +27,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+
 app.use('/registry/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
-app.use('/', index);
+app.use('/registry', index);
 app.use('/users', users);
 app.use('/registry/service/instances', instances);
 app.use('/registry/service/synchronize', synchronize);
