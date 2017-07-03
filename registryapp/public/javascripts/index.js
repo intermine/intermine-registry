@@ -1,10 +1,5 @@
 $(document).ready(function () {
 
-  /*
-  * ========== List View ==========
-  */
-
-
   var globalInstances = [];
 
   $.get("service/instances", function(response){
@@ -22,13 +17,18 @@ $(document).ready(function () {
       } else {
         imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
       }
+
+      /*
+      * ========== List View ==========
+      */
       $("#list-table-body").append(
-                          "<tr class='registry-item' id='item-"+ instance.id +"'>" +
-                            "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
-                            "<td class='bold mine-name'>" + instance.name + "</td>" +
-                            "<td class='truncate'>" + instance.description + "</td>" +
-                            "<td>" + instance.api_version + "</td>" +
-                          "</tr>");
+        "<tr class='registry-item' id='item-"+ instance.id +"'>" +
+          "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
+          "<td class='bold mine-name'>" + instance.name + "</td>" +
+          "<td class='truncate'>" + instance.description + "</td>" +
+          "<td>" + instance.api_version + "</td>" +
+        "</tr>");
+
 
       $("#item-" + instance.id).hover(function(){
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
@@ -42,7 +42,6 @@ $(document).ready(function () {
           }
         }
         var mineColor = mineColor.replace(";", "");
-        console.log(mineColor);
         if (mineColor !== ""){
           $(this).css({"background-color": mineColor, "color": "white"});
         } else {
@@ -53,6 +52,10 @@ $(document).ready(function () {
         $(this).css({"background-color": "", "color": "black"});
       });
 
+      /*
+      * ========== Grid View ==========
+      */
+
     }
 
     $(".registry-item").click(function(){
@@ -60,8 +63,39 @@ $(document).ready(function () {
 
       $.get("service/instances/" + selectedMine, function(response){
         var instance = response.instance;
+        $("#mine-modal-body").empty();
         $("#modal-mine-title").text(instance.name);
-        $("#pinside").text(instance.description);
+        $("#list-api-version").text(instance.api_version);
+        $("#list-url").text(instance.url);
+        $("#list-url").attr("href", instance.url);
+
+        $("#mine-modal-body").append('<div class="bold"> Description </div><p id="list-description">'+ instance.description+' </p>');
+        $("#mine-modal-body").append('<span class="bold"> URL: </span><a target="_blank" id="list-url" href="'+instance.url+'">'+instance.url+'</a><br>');
+
+        $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
+
+
+        if (instance.release_version !== ""){
+          $("#mine-modal-body").append(
+            '<br><span class="bold"> Release Version: </span>' +
+            '<span id="list-release-version"> '+ instance.release_version + '</span>'
+          );
+        }
+
+        if (instance.intermine_version !== ""){
+          $("#mine-modal-body").append(
+            '<br><span class="bold"> Intermine Version: </span>' +
+            '<span id="list-intermine-version"> '+ instance.intermine_version + '</span>'
+          );
+        }
+
+        if (instance.twitter !== ""){
+          $("#mine-modal-body").append(
+            '<br><br>' +
+            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>'
+          );
+        }
 
       });
 
@@ -83,24 +117,3 @@ $(document).ready(function () {
   });
 
 });
-
-function shadeColor(color, percent) {
-
-    var R = parseInt(color.substring(1,3),16);
-    var G = parseInt(color.substring(3,5),16);
-    var B = parseInt(color.substring(5,7),16);
-
-    R = parseInt(R * (100 + percent) / 100);
-    G = parseInt(G * (100 + percent) / 100);
-    B = parseInt(B * (100 + percent) / 100);
-
-    R = (R<255)?R:255;
-    G = (G<255)?G:255;
-    B = (B<255)?B:255;
-
-    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
-
-    return "#"+RR+GG+BB;
-}

@@ -88,10 +88,12 @@ html, body {
 	border-color: #e6e6e6 #e6e6e6 #ddd;
 }
 
+body.modal-open {
+    overflow: visible;
+}
 
 /* END */
 .btn.focus, .btn:focus, .btn:hover{
-	color: #01A4A4;
 	font-weight: bold;
 }
 
