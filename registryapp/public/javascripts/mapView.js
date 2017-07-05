@@ -1,5 +1,6 @@
 var mines = {};
 
+
 function loadMines(){
   $.get("service/instances", function(response){
     var response = response.instances;
@@ -37,8 +38,18 @@ var mineMiner = function() {
       accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
     }).addTo(map);
     addMines();
-    window.resizeBy(screen.width-100, screen.height-100);
   }
+
+  $("#map").on( "click", function() {
+
+  });
+
+  $("#map").mouseover(function() {
+      map.invalidateSize(false);
+      console.log(map.invalidateSize());
+  });
+
+
   /**
   * Adds all mines in the JSON to the map and make nice popups for them
   **/
@@ -70,5 +81,5 @@ var mineMiner = function() {
 };
 
 document.addEventListener("DOMContentLoaded", function() {
-  loadMines();
+    loadMines();
 });

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+
   var globalInstances = [];
 
   $.get("service/instances", function(response){
