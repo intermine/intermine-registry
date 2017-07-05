@@ -374,7 +374,6 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
-					console.log(name);
 					$("#grid-instance-title").text(name);
 					$("#data-description").text(instance.description);
 					$("#grid-instance-url").attr("href", instance.url);
@@ -413,7 +412,6 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
-					console.log(name);
 					myPanorama.$title.html( instance.name );
 					myPanorama.$description.html( instance.description);
 					myPanorama.$href.attr( 'href', instance.url );

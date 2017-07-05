@@ -16,6 +16,11 @@
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+
+    <style>
+      #map { height: 500px; }
+    </style>
 	</head>
   <body>
     <nav>
@@ -128,7 +133,7 @@
 
 
   						<div role="tabpanel" class="tab-pane fade" id="instances-world">
-                <h1> WORLD VIEW </h1>
+                <div id="map" class="align-center"></div>
   						</div>
 
     				</div>
@@ -144,6 +149,8 @@
 
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/mapView.js"></script>
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <script language="javascript" src="/javascripts/index.js"></script>
 

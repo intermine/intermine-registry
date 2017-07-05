@@ -65,14 +65,11 @@ $(document).ready(function () {
       }, function(){
         $(this).css({"background-color": "", "color": "black"});
       });
-      console.log("load");
-      console.log($("#og-grid li"));
     }
 
     $.getScript("/javascripts/modernizr.custom.js", function(data, txtStatus, jqxhr){
       $.getScript("/javascripts/grid.js", function(data, txtStatus, jqxhr){
         jQuery_1_9_1(function() {
-          console.log("init grid");
           Grid.init();
         });
       });
