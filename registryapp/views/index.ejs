@@ -14,14 +14,38 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+		<link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
 	</head>
   <body>
+    <nav>
+      <div class="row">
+        <div class="topnav" id="myTopnav">
+          <a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a>
+          <a target="_github" href="https://github.com/intermine/intermine">GitHub</a>
+          <a href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a>
+          <a href="http://chat.intermine.org">Support chat</a>
+          <a href="http://bluegenes.apps.intermine.org/">BlueGenes</a>
+        </div>
+      </div>
+    </nav>
 
-
-    <section id="registry-body" class = 'pt-70'>
-      <img class='align-center' src="http://intermine.org/assets/img/logo.png">
-    	<h1 class='align-center pt-20'>Registry</h1>
+    <section id="registry-body" class = 'pt-50'>
     	<div class="container pt-20">
+        <header>
+          <div class='align-center'>
+            <div class='col-md-offset-1 row'>
+              <div class='col-md-5'>
+                <img src="http://intermine.org/assets/img/logo.png">
+              </div>
+              <div class='col-md-7 pt-5'>
+                <a class="github-button" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="Intermine-Registry on GitHub">Source</a>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class='pt-50'>
+        </div>
     		<div class="row">
       		<div class="col-md-offset-1 col-md-10 curso-desc">
             Intermine Registry is a web application that allow users to view and search basic information about existing InterMine instances. This information includes instances names, URLs, versions, neighbours and descriptions.
@@ -40,26 +64,26 @@
                 </div>
               </div>
               <div class="col-md-3">
-                <ul class="nav nav-pills navbar-right" role="tablist" id = 'curso-tabs'>
-                  <li role="presentation" class="active"><a href="#obj" class="glyphicon glyphicon-list" aria-controls="obj" role="tab" data-toggle="tab"></a></li>
-                  <li role="presentation"><a href="#syllabus" class="glyphicon glyphicon-th" aria-controls="syllabus" role="tab" data-toggle="tab"></a></li>
-                  <li role="presentation"><a href="#policies" class="glyphicon glyphicon-globe" aria-controls="policies" role="tab" data-toggle="tab"></a></li>
+                <!-- Pills -->
+                <ul class="nav nav-pills navbar-right" role="tablist" id = 'intances-tabs'>
+                  <li role="presentation" class="active"><a href="#instances-list" class="glyphicon glyphicon-list" aria-controls="list" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation"><a href="#instances-grid" class="glyphicon glyphicon-th" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation"><a href="#instances-world" class="glyphicon glyphicon-globe" aria-controls="world" role="tab" data-toggle="tab"></a></li>
                 </ul>
               </div>
             </div>
-    				<!-- Tabs -->
 
+    				<!-- List View -->
             <div class='pt-20'> </div>
-    				<!-- Paneles -->
     				<div class="tab-content mt-lg-20">
-    					<div role="tabpanel" class="tab-pane fade in active" id="obj">
+    					<div role="tabpanel" class="tab-pane fade in active" id="instances-list">
                 <table style="width:100%" class="table table-hover table-responsive">
                   <thead>
                     <tr>
                       <th class="col-md-1"></th>
                       <th class="col-md-2">Name</th>
-                      <th class="col-md-7">Description</th>
-                      <th class="col-md-2">Version</th>
+                      <th class="col-md-8">Description</th>
+                      <th class="col-md-1">Version</th>
                     </tr>
                   </thead>
                   <tbody id="list-table-body">
@@ -88,22 +112,50 @@
                 </div>
     					</div>
 
-  						<div role="tabpanel" class="tab-pane fade" id="syllabus">
-                <h1> GRID VIEW </h1>
+    				  <!-- Grid View -->
+  						<div role="tabpanel" class="tab-pane fade" id="instances-grid">
+                <div class="container">
+            			<!-- Codrops top bar -->
+
+            			<div class="main">
+            				<ul id="og-grid" class="og-grid">
+
+            				</ul>
+
+            			</div>
+            		</div><!-- /container -->
   						</div>
 
-  						<div role="tabpanel" class="tab-pane fade" id="policies">
+
+  						<div role="tabpanel" class="tab-pane fade" id="instances-world">
                 <h1> WORLD VIEW </h1>
   						</div>
+
     				</div>
     			</div>
     		</div>
       </div>
     </section>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      var jQuery_1_9_1 = $.noConflict(true);
+    </script>
 
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <script language="javascript" src="/javascripts/index.js"></script>
+
+    <script>
+
+    </script>
+    <script type="text/javascript">
+      $("#cambiame").click(function(){
+        console.log($("#acambiar").text());
+      });
+    </script>
+
+
   </body>
 </html>

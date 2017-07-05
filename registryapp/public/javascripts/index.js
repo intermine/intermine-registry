@@ -29,6 +29,20 @@ $(document).ready(function () {
           "<td>" + instance.api_version + "</td>" +
         "</tr>");
 
+      panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
+      imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
+
+      $("#og-grid").append(
+        '<li style="transition: height 350ms ease; height: 250px;">' +
+          '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
+            '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
+              '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>' +
+              '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
+              '<p class="ml-15 align-left grid-panel-description">' + "" + '</p>' +
+            '</div>' +
+          '</a>' +
+        '</li>'
+      );
 
       $("#item-" + instance.id).hover(function(){
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
@@ -51,12 +65,20 @@ $(document).ready(function () {
       }, function(){
         $(this).css({"background-color": "", "color": "black"});
       });
-
-      /*
-      * ========== Grid View ==========
-      */
-
+      console.log("load");
+      console.log($("#og-grid li"));
     }
+
+    $.getScript("/javascripts/modernizr.custom.js", function(data, txtStatus, jqxhr){
+      $.getScript("/javascripts/grid.js", function(data, txtStatus, jqxhr){
+        jQuery_1_9_1(function() {
+          console.log("init grid");
+          Grid.init();
+        });
+      });
+    });
+
+
 
     $(".registry-item").click(function(){
       var selectedMine = $(this).children("td[class='bold mine-name']").text();
@@ -74,7 +96,6 @@ $(document).ready(function () {
 
         $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
 
-
         if (instance.release_version !== ""){
           $("#mine-modal-body").append(
             '<br><span class="bold"> Release Version: </span>' +
@@ -89,31 +110,52 @@ $(document).ready(function () {
           );
         }
 
-        if (instance.twitter !== ""){
+        if (instance.organisms.length != 0){
+          var list = "";
+          for (var j = 0; j < instance.organisms.length; j++){
+              list += "<li>" + instance.organisms[j] + "</li>";
+          }
           $("#mine-modal-body").append(
-            '<br><br>' +
-            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
-            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>'
+            '<br><br>'+
+            '<div style="display: inline-block;">' +
+            '<div class="col-lg-12">' +
+            '<span class="bold"> Organisms: </span>' +
+            '<ul>'+
+              list +
+            '</ul>' +
+            '</div>' +
+            '</div>'
           );
         }
 
+        if (instance.neighbours.length != 0){
+          var list = "";
+          for (var j = 0; j < instance.neighbours.length; j++){
+              list += "<li>" + instance.neighbours[j] + "</li>";
+          }
+          $("#mine-modal-body").append(
+            '<div style="display: inline-block; vertical-align:top;">' +
+            '<div class="col-lg-12">' +
+            '<span class="bold"> Neighbours: </span>' +
+            '<ul>'+
+              list +
+            '</ul>' +
+            '</div>' +
+            '</div>'
+          );
+        }
+
+        if (instance.twitter !== ""){
+          $("#mine-modal-body").append(
+            '<br>' +
+            '<div class="align-right">' +
+            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
+            '</div>'
+          );
+        }
       });
-
-
     	$('#mine-modals').modal({show:true})
-
     });
-
   });
-
-
-
-
-
-  $(".closeb").click(function () {
-
-    $("#pinside").text("You've Selected: ");
-
-  });
-
 });
