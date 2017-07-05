@@ -40,7 +40,8 @@ $(document).ready(function () {
             '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
               '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>' +
               '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
-              '<p class="ml-15 align-left grid-panel-description">' + "" + '</p>' +
+              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 150) + '...' + '</p>' +
+              '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
             '</div>' +
           '</a>' +
         '</li>'

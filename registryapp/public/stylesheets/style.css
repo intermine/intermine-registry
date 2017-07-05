@@ -103,6 +103,15 @@ html, body {
     display: block;
 }
 
+.panel-icons{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    color: rgb(107, 107, 71);
+    transform: translate(-45%, -45%);
+    display: block;
+}
+
 .align-left {
     margin: 0 auto;
     text-align: left;

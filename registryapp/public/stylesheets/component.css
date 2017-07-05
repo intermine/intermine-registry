@@ -33,6 +33,7 @@
 	border-width: 15px;
 	left: 50%;
 	margin: -20px 0 0 -15px;
+	display: none;
 }
 
 .og-expander {
@@ -191,5 +192,5 @@
 
 	.og-fullimg { display: none; }
 	.og-details { float: none; width: 100%; }
-	
+
 }
