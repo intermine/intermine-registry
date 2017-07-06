@@ -83,7 +83,40 @@ h1{
     display: block;
 }
 
-.topnav {
+.navbar, .navbar-default, .navbar-nav, .navbar-collapse, #myTopnav{
+    margin: 0 0 0 0;
+    border-bottom: 0px;
+    color: white !important;
+}
+
+.navbar-toggle
+{
+    float:none;
+
+}
+.navbar-header
+{
+    text-align:center;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white !important;
+}
+
+.navbar-default > div > ul > a{
+  color: white !important;
+}
+
+.navbar-nav > li >a:hover {
+   background-color: transparent;
+   text-shadow: 2px 2px 8px black;
+}
+
+.navbar-nav > li >a {
+   color: white;
+}
+
+.topnav, .navbar-collapse, .navbar-header {
     background-color: #333;
     background: url(http://intermine.readthedocs.io/en/latest/_static/img/pattern-1.jpg) repeat 0 0;
     overflow: hidden;
