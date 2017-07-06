@@ -1,6 +1,16 @@
 $(document).ready(function () {
 
+  $("#list-tab").click(function(){
+    $("#view-type").text("List View");
+  });
 
+  $("#grid-tab").click(function(){
+    $("#view-type").text("Grid View");
+  });
+
+  $("#world-tab").click(function(){
+    $("#view-type").text("World View");
+  });
 
   var globalInstances = [];
 

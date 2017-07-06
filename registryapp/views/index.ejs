@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 		<link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-
+    <link href="https://fonts.googleapis.com/css?family=Coda:800" rel="stylesheet">
     <style>
       #map { height: 500px; }
     </style>
@@ -31,32 +31,45 @@
           <a href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a>
           <a href="http://chat.intermine.org">Support chat</a>
           <a href="http://bluegenes.apps.intermine.org/">BlueGenes</a>
+          <a href="http://intermine.org/" class="navbar-right" target="_blank">
+            <img class="mr-40" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+          </a>
         </div>
       </div>
     </nav>
-
-    <section id="registry-body" class = 'pt-50'>
-    	<div class="container pt-20">
-        <header>
-          <div class='align-center'>
-            <div class='col-md-offset-1 row'>
-              <div class='col-md-5'>
-                <img src="http://intermine.org/assets/img/logo.png">
+    <section id = 'intro' class = 'pt-70 pl-50'>
+      <div class="container-fluid">
+        <div class="row">
+          <div class = 'container'>
+            <div class = 'row pt-sm-30'>
+              <div class="col-lg-12 col-xs-12">
+                <h1 class="header-title ttl-rsp">
+                  <span id="typo"></span><span id="cursor">|</span>
+                </h1>
               </div>
-              <div class='col-md-7 pt-5'>
-                <a class="github-button" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="Intermine-Registry on GitHub">Source</a>
+            </div>
+            <div class="row pt-lg-20">
+              <div class="col-lg-8">
+                <div class="header-text header-dsc">
+                  <p class = 'pb-0 mb-0 pt-0 mt-0'><span class="bold">Intermine Registry</span> is a web application that allow users to view information about existing InterMine instances.</p>
+                  <p class = 'pb-0 mb-0 pt-0 mt-0'> This information includes: Instances names, URLs, versions, neighbours, descriptions, location, organisms and branding information. </p>
+                  <p class = 'pb-0 mb-0 pt-0 mt-0'></p>
+                <div class="pt-50">
+                  <a class="github-button" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="Intermine-Registry on GitHub">Source</a>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
               </div>
             </div>
           </div>
-        </header>
-        <div class='pt-50'>
         </div>
-    		<div class="row">
-      		<div class="col-md-offset-1 col-md-10 curso-desc">
-            Intermine Registry is a web application that allow users to view and search basic information about existing InterMine instances. This information includes instances names, URLs, versions, neighbours and descriptions.
-      		</div>
-    		</div>
-    		<div class="row mt-xs-20 pt-20 mt-md-20 mt-lg-20 pb-50">
+      </div>
+    </section>
+    <section id="registry-body" class = 'pt-50'>
+    	<div class="container pt-20">
+        <h2 class='align-center mb-50' id="view-type"> List View </h2>
+    		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
             <div class="row">
               <div class="col-md-2">
@@ -65,14 +78,14 @@
               <div class="col-md-7">
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" placeholder="Search for an instance..." />
                 </div>
               </div>
               <div class="col-md-3">
                 <!-- Pills -->
                 <ul class="nav nav-pills navbar-right" role="tablist" id = 'intances-tabs'>
-                  <li role="presentation" class="active"><a href="#instances-list" class="glyphicon glyphicon-list" aria-controls="list" role="tab" data-toggle="tab"></a></li>
-                  <li role="presentation"><a href="#instances-grid" class="glyphicon glyphicon-th" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation" class="active"><a href="#instances-list" id="list-tab" class="glyphicon glyphicon-list" aria-controls="list" role="tab" data-toggle="tab"></a></li>
+                  <li role="presentation"><a href="#instances-grid" id="grid-tab" class="glyphicon glyphicon-th" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
                   <li role="presentation"><a href="#instances-world" id="world-tab" class="glyphicon glyphicon-globe" aria-controls="world" role="tab" data-toggle="tab"></a></li>
                 </ul>
               </div>
@@ -147,6 +160,11 @@
       var jQuery_1_9_1 = $.noConflict(true);
     </script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+      var jQuery_2_1_3 = $.noConflict(true);
+    </script>
+    <script language="javascript" src="/javascripts/header.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -154,9 +172,6 @@
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <script language="javascript" src="/javascripts/index.js"></script>
 
-    <script>
-
-    </script>
     <script type="text/javascript">
 
     </script>

@@ -18,6 +18,38 @@ html, body {
     float: right !important;
 }
 
+#intro{
+
+	padding-bottom: 150px;
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/indexbackg.jpg) no-repeat center;
+	width: 100%;
+	height: 60vh;
+	background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1{
+  font-size: 75px;
+}
+
+#view-type {
+  font-size: 40px;
+}
+
+.header-title{
+  /*font-family: 'Coda', cursive;*/
+	font-family: 'Muli', sans-serif;
+	color: white;
+	word-wrap: break-word;
+}
+.header-text{
+	color: #cccccc;
+	opacity: 0;
+	word-wrap: break-word;
+}
+
 .nav {
     display: block;
 }
