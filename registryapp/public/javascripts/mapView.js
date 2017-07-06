@@ -46,7 +46,6 @@ var mineMiner = function() {
 
   $("#map").mouseover(function() {
       map.invalidateSize(false);
-      console.log(map.invalidateSize());
   });
 
 
