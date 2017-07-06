@@ -51,9 +51,9 @@
             <div class="row pt-lg-20">
               <div class="col-lg-8">
                 <div class="header-text header-dsc">
-                  <p class = 'pb-0 mb-0 pt-0 mt-0'><span class="bold">Intermine Registry</span> is a web application that allow users to view information about existing InterMine instances.</p>
-                  <p class = 'pb-0 mb-0 pt-0 mt-0'> This information includes: Instances names, URLs, versions, neighbours, descriptions, location, organisms and branding information. </p>
-                  <p class = 'pb-0 mb-0 pt-0 mt-0'></p>
+                  <p class = 'header-desc pb-0 mb-0 pt-0 mt-0'><span class="bold">Intermine Registry</span> is a web application that allow users to view information about existing InterMine instances.</p>
+                  <p class = 'header-desc pb-0 mb-0 pt-0 mt-0'> This information includes: Instances names, URLs, versions, neighbours, descriptions, location, organisms and branding information. </p>
+                  <p class = 'header-desc pb-0 mb-0 pt-0 mt-0'></p>
                 <div class="pt-50">
                   <a class="github-button" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="Intermine-Registry on GitHub">Source</a>
                 </div>
@@ -73,17 +73,17 @@
     			<div class="col-lg-10 col-lg-offset-1">
             <div class="row">
               <div class="col-md-2">
-                <button class="btn"> Add Instance </button>
+                <button class="btn" id="add-instance"> Add Instance </button>
               </div>
               <div class="col-md-7">
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
-                    <input type="text" class="form-control" placeholder="Search for an instance..." />
+                    <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3" id="pills-container">
                 <!-- Pills -->
-                <ul class="nav nav-pills navbar-right" role="tablist" id = 'intances-tabs'>
+                <ul class="nav nav-pills navbar-right" role="tablist" id='intances-tabs'>
                   <li role="presentation" class="active"><a href="#instances-list" id="list-tab" class="glyphicon glyphicon-list" aria-controls="list" role="tab" data-toggle="tab"></a></li>
                   <li role="presentation"><a href="#instances-grid" id="grid-tab" class="glyphicon glyphicon-th" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
                   <li role="presentation"><a href="#instances-world" id="world-tab" class="glyphicon glyphicon-globe" aria-controls="world" role="tab" data-toggle="tab"></a></li>
