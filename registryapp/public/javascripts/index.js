@@ -33,12 +33,23 @@ $(document).ready(function () {
       /*
       * ========== List View ==========
       */
+
+      var organisms = "";
+      for (var j = 0; j < instance.organisms.length; j++){
+        if (j === instance.organisms.length - 1){
+          organisms += instance.organisms[j] + ".";
+        } else {
+          organisms += instance.organisms[j] + ", ";
+        }
+
+      }
+
       $("#list-table-body").append(
         "<tr class='registry-item' id='item-"+ instance.id +"'>" +
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
           "<td class='truncate'>" + instance.description + "</td>" +
-          "<td>" + instance.api_version + "</td>" +
+          "<td>" + organisms + "</td>" +
         "</tr>");
 
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
