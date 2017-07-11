@@ -1,6 +1,5 @@
 var mines = {};
 
-
 function loadMines(){
   $.get("service/instances", function(response){
     var response = response.instances;
@@ -55,22 +54,35 @@ var mineMiner = function() {
   function addMines(){
     var mineKeys = Object.keys(mines), mine;
     for (var i = 0; i < mineKeys.length; i++) {
+      var minesToAdd = [];
       mine = mines[mineKeys[i]];
+      for (var j = 0; j < mineKeys.length; j++){
+        var mineToCheck = mines[mineKeys[j]];
+        if (mineToCheck.location.lat == mine.location.lat && mineToCheck.location.lon == mine.location.lon){
+          minesToAdd.push(mineToCheck);
+        }
+      }
       //make marker
       L.marker([mine.location.lat, mine.location.lon])
       //push to map
       .addTo(map)
       //add a popup for it so users can click and learn things
-      .bindPopup(makeMinePopup(mine))
+      .bindPopup(makeMinePopup(minesToAdd));
     }
   }
   /**
   * Format HTML for the map mine popup
   **/
-  function makeMinePopup(mine){
-    var mineHtml = "<b>" + mine.name + "</b>";
-    mineHtml += "<br />" + mine.location.string;
-    mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + mine.url + "</a>";
+  function makeMinePopup(minesToAdd){
+    var mineHtml = "";
+    for (var j = 0; j < minesToAdd.length; j++){
+      mine = minesToAdd[j];
+      mineHtml += "<b>" + mine.name + "</b>";
+      mineHtml += "<br />" + mine.location.string;
+      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + mine.url + "</a>";
+      mineHtml += "<br />";
+      mineHtml += "<br />";
+    }
     return mineHtml;
   }
 
