@@ -1,0 +1,322 @@
+/**
+ * ========================================
+ * GENERAL
+ * ========================================
+ */
+html {
+  overflow-y: scroll;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Muli';
+    font-size:16px;
+}
+
+.right {
+    float: right !important;
+}
+
+#intro{
+
+	padding-bottom: 150px;
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/indexbackg.jpg) no-repeat center;
+	width: 100%;
+	height: 65vh;
+	background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  box-shadow: 0 5px 7px -2px #888888;
+}
+
+h1{
+  font-size: 75px;
+}
+
+@media (max-width: 1300px){
+  .header-desc{
+    font-size: 14px;
+  }
+  h1 {
+    font-size: 45px;
+  }
+
+}
+
+@media (max-width: 768px){
+  #intro {
+  	padding-bottom: 400px;
+  }
+}
+
+@media (max-width: 978px){
+  #add-instance, #search-instance, #pills-container {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    text-align: center;
+    align-items: center;
+    display: block;
+  }
+}
+
+#view-type {
+  font-size: 40px;
+}
+
+.header-title{
+  /*font-family: 'Coda', cursive;*/
+	font-family: 'Muli', sans-serif;
+	color: white;
+	word-wrap: break-word;
+}
+
+.header-text{
+	color: #cccccc;
+	opacity: 0;
+	word-wrap: break-word;
+  font-size: 18px;
+}
+
+.nav {
+    display: block;
+}
+
+.navbar, .navbar-default, .navbar-nav, .navbar-collapse, #myTopnav{
+    margin: 0 0 0 0;
+    border-bottom: 0px;
+    color: white !important;
+}
+
+.navbar-toggle
+{
+    float:none;
+
+}
+.navbar-header
+{
+    text-align:center;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white !important;
+}
+
+.navbar-default > div > ul > a{
+  color: white !important;
+}
+
+.navbar-nav > li >a:hover {
+   background-color: transparent;
+   text-shadow: 2px 2px 8px black;
+}
+
+.navbar-nav > li >a {
+   color: white;
+}
+
+.topnav, .navbar-collapse, .navbar-header {
+    background-color: #333;
+    background: url(http://intermine.readthedocs.io/en/latest/_static/img/pattern-1.jpg) repeat 0 0;
+    overflow: hidden;
+    color: #fff;
+    padding: 5px 0px;
+    border-bottom: 1px solid #596a02;
+    font-size: 1em;
+}
+
+.container {
+	width: 100%;
+	position: relative;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.grid-panel {
+    position: relative;
+    background-clip: padding-box;
+}
+
+.grid-panel-title{
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 0px;
+    color: black;
+}
+
+.grid-panel-description{
+    position: absolute;
+    width: 100%;
+    top: 65px;
+    left: 0px;
+    right: 100%;
+    padding-right: 20px;
+    color: black;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-wrap: normal;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    text-shadow: 2px 2px 8px black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.align-center {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    display: block;
+}
+
+.align-right {
+    margin: 0 auto;
+    text-align: right;
+    align-items: right;
+    display: block;
+}
+
+.panel-icons{
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    color: rgb(107, 107, 71);
+    transform: translate(-45%, -45%);
+    display: block;
+}
+
+.align-left {
+    margin: 0 auto;
+    text-align: left;
+    align-items: left;
+    display: block;
+}
+
+/**
+ * ========================================
+ * LIST VIEW
+ * ========================================
+ */
+
+
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.truncate {
+  max-width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover{
+	background-color: rgb(86, 149, 0);
+	color: #FFF;
+	transition: all 0.25s;
+}
+.nav-pills>li>a{
+	color: rgb(105,105,105);
+	transition: all 0.25s;
+}
+.nav-pills>li>a:hover{
+	border-color: #e6e6e6 #e6e6e6 #ddd;
+}
+
+body.modal-open {
+    overflow: visible;
+}
+
+/* END */
+.btn.focus, .btn:focus, .btn:hover{
+	font-weight: bold;
+}
+
+.navbar-default, .navbar-default .navbar-toggle .nav-tabs{
+    border: none !important;
+}
+
+
+
+
+
+.hvr-float-shadow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
+.hvr-float-shadow:before {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  content: '';
+  top: 100%;
+  left: 5%;
+  height: 10px;
+  width: 90%;
+  opacity: 0;
+  background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, transparent 80%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, transparent 80%);
+  /* W3C */
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform, opacity;
+  transition-property: transform, opacity;
+}
+.hvr-float-shadow:hover, .hvr-float-shadow:focus, .hvr-float-shadow:active {
+  -webkit-transform: translateY(-5px);
+  transform: translateY(-5px);
+  /* move the element up by 5px */
+}
+.hvr-float-shadow:hover:before, .hvr-float-shadow:focus:before, .hvr-float-shadow:active:before {
+  opacity: 1;
+  -webkit-transform: translateY(5px);
+  transform: translateY(5px);
+  /* move the element down by 5px (it will stay in place because it's attached to the element that also moves up 5px) */
+}
