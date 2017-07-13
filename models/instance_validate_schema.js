@@ -88,6 +88,20 @@ var InstancePutSchema = {
                         }
                     },
                     type: "object"
+                },
+                header: {
+                    id: "/properties/colors/properties/header",
+                    properties: {
+                        text: {
+                            id: "/properties/colors/properties/header/properties/text",
+                            type: "string"
+                        },
+                        main: {
+                            id: "/properties/colors/properties/header/properties/main",
+                            type: "string"
+                        }
+                    },
+                    type: "object"
                 }
             },
             type: "object"
@@ -106,6 +120,10 @@ var InstancePutSchema = {
                 small: {
                     id: "/properties/images/properties/small",
                     type: "string"
+                },
+                logo: {
+                  id: "/properties/images/properties/logo",
+                  type: "string"
                 }
             },
             type: "object"

@@ -9,7 +9,7 @@
       "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
     }
   },
-  "host": "localhost:8888/registry",
+  "host": "intermine-registry.herokuapp.com/registry",
   "basePath": "/service",
   "tags": [
     {
@@ -30,7 +30,7 @@
     }
   ],
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/instances": {
@@ -476,6 +476,19 @@
                         }
                     },
                     "type": "object"
+                },
+                "header": {
+                    "properties": {
+                        "text": {
+                            "type": "string",
+                            "example": "#535353"
+                        },
+                        "main": {
+                            "type": "string",
+                            "example": "#fff"
+                        }
+                    },
+                    "type": "object"
                 }
             },
             "type": "object"
@@ -487,6 +500,10 @@
                     "example": "model/images/logo.png"
                 },
                 "small": {
+                    "type": "string",
+                    "example": "model/images/logo.png"
+                },
+                "logo": {
                     "type": "string",
                     "example": "model/images/logo.png"
                 }

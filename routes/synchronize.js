@@ -53,7 +53,7 @@ router.put('/:id', function(req, res, next){
           function(callback){
               request.get(branding_endpoint, function(err, response, body){
                   if (err){
-                      res.send(err);
+                      return res.send(err);
                   } else {
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           try{
@@ -77,14 +77,16 @@ router.put('/:id', function(req, res, next){
           instance.last_time_updated = new Date();
           instance.save(function(err){
               if (err){
-                  res.send(err);
+                  return res.send(err);
+              } else {
+                  res.status(201).json({
+                      instance_id: instance.id,
+                      statusCode: 201,
+                      message: "Instance " + instance.name +" Versions Updated",
+                      executionTime: new Date().toLocaleString()
+                  });
               }
-              res.status(201).json({
-                  instance_id: instance.id,
-                  statusCode: 201,
-                  message: "Instance " + instance.name +" Versions Updated",
-                  executionTime: new Date().toLocaleString()
-              });
+
           });
       });
     });
@@ -129,7 +131,7 @@ router.put('/', function(req, res, next){
           function(callback){
               request.get(branding_endpoint, function(err, response, body){
                   if (err){
-                      res.send(err);
+                      return res.send(err);
                   } else {
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           try{
@@ -154,7 +156,7 @@ router.put('/', function(req, res, next){
             instance.save(function(err){
                 console.log("Instance " + instance.name +" Versions Updated")
                 if (err){
-                    res.send(err);
+                    return res.send(err);
                 }
             });
             next();

@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 
     Instance.find(db_query, function(err, instances){
         if (err){
-            res.send(err);
+            return res.send(err);
         }
         var api_response = {};
         api_response['instances'] = instances
@@ -42,7 +42,7 @@ router.get('/:id', function(req, res, next) {
     },
     function(err, instances){
         if (err){
-            res.send(err);
+            return res.send(err);
         }
         api_response = {};
         api_response['instance'] = instances[0];
@@ -59,7 +59,7 @@ router.get('/:id', function(req, res, next) {
 router.delete('/:id', function(req, res, next){
     Instance.find({id: req.params.id}).remove(function(err, info){
         if (err){
-            res.send(err);
+            return res.send(err);
         }
         var statusCode = 200;
         n_removed = info['result']['n'];
@@ -101,7 +101,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
         newInstanceId = "";
         Instance.find().exec(function(err, found){
             if (err){
-                res.send(err);
+                return res.send(err);
             }
             newInstanceId = found.length + 1;
 
@@ -171,7 +171,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                 function(callback){
                     request.get(branding_endpoint, function(err, response, body){
                         if (err){
-                            res.send(err);
+                            return res.send(err);
                         } else {
                           if (response.statusCode == 200 ){
                               try{
@@ -200,7 +200,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                 var newInstance = new Instance(newInstanceObject);
                 newInstance.save(function(err){
                     if (err){
-                        res.send(err);
+                        return res.send(err);
                     }
                     res.status(201).json({
                         instance_id: newInstanceId,
@@ -281,7 +281,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
                 instance.url = req.body.url;
                 instance.save(function(err){
                     if (err){
-                        res.send(err);
+                        return res.send(err);
                     }
                     res.status(201).json({
                         updated_instance_id: req.params.id,
@@ -294,7 +294,7 @@ router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next)
         } else {
           instance.save(function(err){
               if (err){
-                  res.send(err);
+                  return res.send(err);
               }
               res.status(201).json({
                   updated_instance_id: req.params.id,

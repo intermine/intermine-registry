@@ -4,8 +4,8 @@
  */
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://localhost/intermineregistry';
-//var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
+//var mongoDB = 'mongodb://localhost/intermineregistry';
+var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
 
 mongoose.connect(mongoDB);
 
@@ -39,11 +39,16 @@ var schema = new Schema({
         main: {
             fg: String,
             bg: String
+        },
+        header: {
+            text: String,
+            main: String
         }
     },
     images: {
         small: String,
-        main:  String
+        main:  String,
+        logo: String
     },
     twitter:            String
 },
