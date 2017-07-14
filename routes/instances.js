@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         }
     }
 
-    Instance.find(db_query, function(err, instances){
+    Instance.find(db_query).sort({name: 1}).exec(function(err, instances){
         if (err){
             return res.send(err);
         }

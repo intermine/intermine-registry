@@ -20,11 +20,11 @@ $(document).ready(function () {
     for (var i = 0; i < response.length; i++){
       var instance = response[i];
       var imageURL = "";
-      if (typeof instance.images !== "undefined"){
-        if (instance.images.small.startsWith("http")){
-          imageURL = instance.images.small;
+      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+        if (instance.images.logo.startsWith("http")){
+          imageURL = instance.images.logo;
         } else {
-          imageURL = instance.url + "/" + instance.images.small;
+          imageURL = instance.url + "/" + instance.images.logo;
         }
       } else {
         imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
@@ -37,7 +37,7 @@ $(document).ready(function () {
       var organisms = "";
       for (var j = 0; j < instance.organisms.length; j++){
         if (j === instance.organisms.length - 1){
-          organisms += instance.organisms[j] + ".";
+          organisms += instance.organisms[j];
         } else {
           organisms += instance.organisms[j] + ", ";
         }
@@ -74,7 +74,12 @@ $(document).ready(function () {
         for (var i = 0; i < globalInstances.length; i++){
           if(hoveredMineName == globalInstances[i].name){
             if (typeof globalInstances[i].colors !== "undefined"){
-              mineColor = globalInstances[i].colors.focus.bg;
+              if (typeof globalInstances[i].colors.header !== "undefined"){
+                  mineColor = globalInstances[i].colors.header.main;
+              } else {
+                  mineColor = globalInstances[i].colors.focus.bg;
+              }
+
               break;
             }
           }
@@ -99,6 +104,9 @@ $(document).ready(function () {
       });
     });
 
+    $(".deletemineb").click(function(){
+        $('#delete-modal').modal({show:true});
+    });
 
 
     $(".registry-item").click(function(){
@@ -106,6 +114,20 @@ $(document).ready(function () {
 
       $.get("service/instances/" + selectedMine, function(response){
         var instance = response.instance;
+        
+        $("#modal-delete-mine-title").text("Delete "+ instance.name);
+        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
+        $(".confirmdeleteb").click(function(){
+          $('#mine-modals').modal('hide');
+          $.ajax({
+            url: 'service/instances/' + instance.id,
+            type: 'DELETE',
+            success: function(result){
+              location.reload();
+            }
+          });
+        });
+
         $("#mine-modal-body").empty();
         $("#modal-mine-title").text(instance.name);
         $("#list-api-version").text(instance.api_version);
@@ -176,7 +198,8 @@ $(document).ready(function () {
           );
         }
       });
-    	$('#mine-modals').modal({show:true})
+    	$('#mine-modals').modal({show:true});
+
     });
   });
 });
