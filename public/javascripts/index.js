@@ -4,6 +4,7 @@ $(document).ready(function () {
     $("#view-type").text("List View");
   });
 
+
   $("#grid-tab").click(function(){
     $("#view-type").text("Grid View");
   });
@@ -12,12 +13,26 @@ $(document).ready(function () {
     $("#view-type").text("World View");
   });
 
+  $("#search-instance").on('keyup', function(){
+      $("#list-table-body").empty();
+      getInstances($(this).val());
+  });
+
   var globalInstances = [];
 
-  $.get("service/instances", function(response){
+  getInstances("");
+
+});
+
+function getInstances(search){
+
+  $.get("service/instances/?q=" + search, function(response){
+    $("#list-table-body").empty();
+    $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
     for (var i = 0; i < response.length; i++){
+      console.log("se repite");
       var instance = response[i];
       var imageURL = "";
       if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
@@ -54,6 +69,7 @@ $(document).ready(function () {
 
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
+
 
       $("#og-grid").append(
         '<li style="transition: height 350ms ease; height: 250px;">' +
@@ -114,7 +130,7 @@ $(document).ready(function () {
 
       $.get("service/instances/" + selectedMine, function(response){
         var instance = response.instance;
-        
+
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
         $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
         $(".confirmdeleteb").click(function(){
@@ -198,8 +214,8 @@ $(document).ready(function () {
           );
         }
       });
-    	$('#mine-modals').modal({show:true});
+      $('#mine-modals').modal({show:true});
 
     });
   });
-});
+}

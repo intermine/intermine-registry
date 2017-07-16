@@ -49,6 +49,7 @@ asyncLoop(mines, function(mine, next){
         url: host + "/registry/service/instances",
         body: req
     }, function(err, res, body){
+        console.log(mineName + " Added")
         next();
     });
 })
