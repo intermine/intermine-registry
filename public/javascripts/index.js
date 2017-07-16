@@ -7,6 +7,7 @@ $(document).ready(function () {
 
   $("#grid-tab").click(function(){
     $("#view-type").text("Grid View");
+    getInstances($("#search-instance").val());
   });
 
   $("#world-tab").click(function(){
@@ -14,8 +15,8 @@ $(document).ready(function () {
   });
 
   $("#search-instance").on('keyup', function(){
-      $("#list-table-body").empty();
-      getInstances($(this).val());
+    $("#list-table-body").empty();
+    getInstances($(this).val());
   });
 
   var globalInstances = [];
