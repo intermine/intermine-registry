@@ -71,14 +71,15 @@ function getInstances(search){
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
 
+      gridTextFill = instance.description.length > 150 ? "..." : "";
 
       $("#og-grid").append(
-        '<li style="transition: height 350ms ease; height: 250px;">' +
+        '<li class="grid-box" style="transition: height 350ms ease; height: 250px;">' +
           '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
             '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
               '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>' +
               '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
-              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 150) + '...' + '</p>' +
+              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 150) + gridTextFill + '</p>' +
               '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
             '</div>' +
           '</a>' +

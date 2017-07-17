@@ -147,12 +147,16 @@ h1{
     background-clip: padding-box;
 }
 
+
+
 .grid-panel-title{
     position: absolute;
     width: 100%;
     top: 10px;
     left: 0px;
     color: black;
+    font-size: 22px !important;
+    font-weight: bold;
 }
 
 .grid-panel-description{
