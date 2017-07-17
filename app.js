@@ -28,6 +28,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(function(req, res, next) {
+   if(req.url.substr(-1) != '/' && req.url.substr(-8) == "registry" && req.url.length > 1){
+       res.redirect(301, req.url + "/");
+   } else{
+       next();
+   }
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
@@ -35,7 +42,7 @@ app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 app.use('/registry/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
-app.use('/registry', index);
+app.use('/registry/', index);
 app.use('/users', users);
 app.use('/registry/service/instances', instances);
 app.use('/registry/service/synchronize', synchronize);
@@ -46,6 +53,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -76,10 +84,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-var listener = app.listen(8888, function(){
-    console.log('Listening on port ' + listener.address().port); //Listening on port 8888
 });
 
 module.exports = app;
