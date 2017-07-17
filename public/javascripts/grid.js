@@ -357,10 +357,10 @@ var Grid = (function($) {
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
 															'<a id=grid-instance-url href="#" target="_blank">Visit website</a>' +
-															'<button class="grid-preview-buttons confirmdeleteb ml-10" id="grid-delete"> Delete </button>' +
+															'<button class="grid-preview-buttons deletemineb ml-10" id="grid-delete"> Delete </button>' +
 															'<button id="grid-update" class="grid-preview-buttons ml-10"> Update </button></div>'
 														);
-			myPanorama.$details = $( '<div class="row" id="grid-right-preview"> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
+			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
 			myPanorama.$fullimage = $( '<div class="og-fullimg mt-20"> </div>' );
 			myPanorama.$closePreview = $( '<span class="og-close"></span>' );
@@ -378,6 +378,10 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
+
+					$(".deletemineb").click(function(){
+			       $('#delete-modal').modal({show:true});
+			    });
 
 					if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
 		        if (instance.images.logo.startsWith("http")){
@@ -495,10 +499,95 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
+
+					$(".og-fullimg").empty();
+					$("#grid-details-versions").empty();
+					$("#grid-right-preview").empty();
+
 					myPanorama.$title.html( instance.name );
 					myPanorama.$description.html( instance.description);
 					myPanorama.$href.attr( 'href', instance.url );
+					$("#grid-instance-url").attr('href', instance.url);
 					var self = myPanorama;
+
+					if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+		        if (instance.images.logo.startsWith("http")){
+		          imageURL = instance.images.logo;
+		        } else {
+		          imageURL = instance.url + "/" + instance.images.logo;
+		        }
+		      } else {
+		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+		      }
+					$(".og-fullimg").append("<img src='" + imageURL + "' alt='Icon'>")
+					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
+
+					if (instance.release_version !== ""){
+	          $("#grid-details-versions").append(
+	            '<br><br><span class="bold"> Release Version: </span>' +
+	            '<span id="grid-release-version"> '+ instance.release_version + '</span>'
+	          );
+	        }
+
+	        if (instance.intermine_version !== ""){
+	          $("#grid-details-versions").append(
+	            '<br><br><span class="bold"> Intermine Version: </span>' +
+	            '<span id="grid-intermine-version"> '+ instance.intermine_version + '</span>'
+	          );
+	        }
+
+					if (instance.organisms.length != 0){
+	          var list = "";
+	          for (var j = 0; j < instance.organisms.length; j++){
+								if (j == instance.organisms.length - 1){
+										list += "<li style='height: 10px;'>" + instance.organisms[j] + "</li>";
+								} else {
+									  list += "<li style='height: 10px;'>" + instance.organisms[j] + ",</li>";
+								}
+
+	          }
+	          $(".og-fullimg").append(
+	            '<br>'+
+	            '<div class="align-left">' +
+	            '<span class="bold"> Organisms: </span>' +
+	            '<ul>'+
+	              list +
+	            '</ul>' +
+	            '</div>'
+	          );
+	        }
+
+					if (instance.neighbours.length != 0){
+	          var list = "";
+	          for (var j = 0; j < instance.neighbours.length; j++){
+								if (j == instance.neighbours.length - 1){
+										list += "<li style='height: 10px;'>" + instance.neighbours[j] + "</li>";
+								} else {
+									  list += "<li style='height: 10px;'>" + instance.neighbours[j] + ",</li>";
+								}
+
+	          }
+	          $(".og-fullimg").append(
+	            '<br>'+
+	            '<div class="align-left">' +
+	            '<span class="bold"> Neighbours: </span>' +
+	            '<ul>'+
+	              list +
+	            '</ul>' +
+	            '</div>'
+	          );
+	        }
+
+					if (instance.twitter !== ""){
+	          $("#grid-right-preview").append(
+	            '<br>' +
+	            '<div class="align-right mb-30 mr-50" style="position:absolute; bottom:0; right:0">' +
+	            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
+	            '</div>'
+	          );
+	        }
+
 
 					// remove the current image in the preview
 					if( typeof self.$largeImg != 'undefined' ) {
