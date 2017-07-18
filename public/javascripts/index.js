@@ -123,6 +123,7 @@ function getInstances(search){
     });
 
     $(".deletemineb").click(function(){
+      $('#delete-modal').modal({show:true});
     });
 
 

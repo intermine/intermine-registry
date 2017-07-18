@@ -85,6 +85,12 @@
         <h2 class='align-center mb-50' id="view-type"> List View </h2>
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
+            <% if (typeof message !== 'undefined') { %>
+              <div class="successalert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> <%= message %>
+              </div>
+            <% } %>
             <div class="row">
               <div class="col-md-2">
                 <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
