@@ -392,7 +392,8 @@ var Grid = (function($) {
 		      } else {
 		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
 		      }
-					$(".og-fullimg").append("<img src='" + imageURL + "' alt='Icon'>")
+
+					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>");
 					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 
 					if (instance.release_version !== ""){
@@ -519,7 +520,7 @@ var Grid = (function($) {
 		      } else {
 		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
 		      }
-					$(".og-fullimg").append("<img src='" + imageURL + "' alt='Icon'>")
+					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
 					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 
 					if (instance.release_version !== ""){
