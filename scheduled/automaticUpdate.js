@@ -9,7 +9,8 @@ cron.schedule('0 0 * * *', function(){
   // Get all instances from DB
   Instance.find({}, function(err, instances){
       if (err){
-          res.send(err);
+          console.log("Error on the Automatic Update");
+          return;
       }
       // Iter every instance
       asyncLoop(instances, function(instance, next){
@@ -49,7 +50,7 @@ cron.schedule('0 0 * * *', function(){
               function(callback){
                   request.get(branding_endpoint, function(err, response, body){
                       if (err){
-                          res.send(err);
+                          console.log("Error Updating Instance Branding");
                       } else {
                         if (typeof(response) != "undefined" && response.statusCode == 200){
                             try{
