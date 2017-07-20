@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Intermine Registry</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+     <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/custom-bootstrap-margin-padding.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/addInstance.css" />
+
+    <style>
+      #map { height: 500px; }
+    </style>
+	</head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="row">
+        <div class="navbar-header">
+    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTopnav" aria-expanded="false">
+    				<span class="sr-only">Toggle navigation</span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			</button>
+    		</div>
+        <div class="collapse navbar-collapse" id="myTopnav">
+          <ul class="nav navbar-nav">
+            <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
+            <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine">GitHub</a></li>
+            <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a></li>
+            <li><a class='ml-20' href="http://chat.intermine.org">Support chat</a></li>
+            <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+            <a href="http://intermine.org/" target="_blank">
+              <img class="mr-40 ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+            </a> </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section id="addinstance-body" class = 'pt-50'>
+    	<div class="container pt-20">
+    		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
+    			<div class="col-lg-10 col-lg-offset-1">
+            <div class="row">
+              <div class="container">
+                <div>
+                  <a type="button" href="/registry" class="btn btn-default">
+                    <span class="glyphicon glyphicon-home"></span> Home
+                  </a>
+                </div>
+                <h2 class='align-center mb-50' id="action-title"> Add Instance </h2>
+                <% if (typeof message !== 'undefined') { %>
+                  <div class="warningalert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>Error!</strong> <%= message %>
+                  </div>
+                <% } %>
+          				<div class="main-login main-center">
+          				<h5>Please, enter the instance information. Name and URL are required. </h5>
+
+
+          					<form class="" method="post" action="">
+
+
+          						<div class="form-group">
+                        <div class="row">
+          							  <label for="name" class="col-md-5 control-label">Name</label>
+                          <label for="email" class="col-md-7 control-label">URL</label>
+                        </div>
+                        <div class="row">
+            							<div class="col-md-5">
+            								<div class="input-group">
+            									<span class="input-group-addon"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
+            									<input required type="text" class="form-control" name="newName" id="newName" placeholder="Instance Name"/>
+            								</div>
+            							</div>
+                          <div class="col-md-7">
+            								<div class="input-group">
+            									<span class="input-group-addon"><i class="glyphicon glyphicon-cloud" aria-hidden="true"></i></span>
+            									<input type="url" class="form-control" name="newUrl" id="newUrl"  placeholder="Instance URL"/>
+            								</div>
+            							</div>
+                        </div>
+          						</div>
+                      <div class="form-group">
+            						<div class="row">
+            							<label for="username" class="col-md-12 control-label">Description</label>
+            							<div class="col-md-12">
+            								<div class="input-group">
+            									<span class="input-group-addon"><i class="glyphicon glyphicon-align-justify" aria-hidden="true"></i></span>
+            									<textarea rows="6" type="text" class="form-control" name="newDesc" id="newDesc"  placeholder="Enter your Username"> </textarea>
+            								</div>
+            							</div>
+            						</div>
+                      </div>
+
+          						<div class="form-group">
+                        <div class="row">
+            							<label for="newTwitter" class="col-md-5 control-label">Twitter</label>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+            								<div class="input-group">
+            									<span class="input-group-addon"><i class="glyphicon glyphicon-heart" aria-hidden="true"></i></span>
+            									<input type="text" class="form-control" name="newTwitter" id="newTwitter"  placeholder="Instance Twitter Account"/>
+            								</div>
+            							</div>
+                        </div>
+          						</div>
+
+          						<div class="form-group">
+
+          							<div class="row">
+                          <label for="location" class="col-md-12 control-label">Location</label>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                              <input type="number" step="0.00000001" class="form-control" name="newLatitude" id="newLatitude"  placeholder="Instance Location Latitude"/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mt-10">
+                          <div class="col-md-5">
+                            <div class="input-group">
+                              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
+                              <input type="number" step="0.00000001" class="form-control" name="newLongitude" id="newLongitude"  placeholder="Instance Location Longitude"/>
+                            </div>
+                          </div>
+                        </div>
+
+          							</div>
+
+                        <div class="form-group">
+                          <div class="row">
+              							<label for="newTwitter" class="col-md-12 control-label">Organisms</label>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+              								<div class="input-group">
+              									<span class="input-group-addon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></span>
+              									<input type="text" class="form-control" name="newOrganisms" id="newOrganisms"  placeholder="Comma separated list of Organisms"/>
+              								</div>
+              							</div>
+                          </div>
+            						</div>
+
+                        <div class="form-group">
+                          <div class="row">
+              							<label for="newTwitter" class="col-md-12 control-label">Neighbours</label>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12">
+              								<div class="input-group">
+              									<span class="input-group-addon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></span>
+              									<input type="text" class="form-control" name="newNeighbours" id="newNeighbours"  placeholder="Comma separated list of Neighbours"/>
+              								</div>
+              							</div>
+                          </div>
+            						</div>
+
+          						<div class="form-group" id="submit-form">
+                        <input id="form-action-type" type="hidden" name="_method" value="post" />
+                        <input id="form-instance-id" type="hidden" name="updateId" value="" />
+          							<input type="submit" id="submit-button" class="btn btn-primary btn-lg btn-block login-button" />
+          						</div>
+
+          					</form>
+                    </div>
+          				</div>
+          			</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+      var jQuery_2_1_3 = $.noConflict(true);
+    </script>
+    <script language="javascript" src="/javascripts/header.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script language="javascript" src="/js/bootstrap.min.js"></script>
+
+    <% if (typeof message !== 'undefined') { %>
+      <script type="text/javascript">
+        $("#newName").val("<%= name %>");
+        $("#newUrl").val("<%= url %>");
+        $("#newDesc").val("<%= desc %>");
+        $("#newTwitter").val("<%= twitter %>");
+        $("#newLatitude").val(<%= lat %> );
+        $("#newLongitude").val(<%= lon %> );
+        $("#newOrganisms").val("<%= organisms %>");
+        $("#newNeighbours").val("<%= neighbours %>");
+      </script>
+    <% } %>
+
+    <script type="text/javascript">
+      $.urlParam = function(name){
+      	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      	return results[1] || 0;
+      }
+      var instanceToEdit = $.urlParam('update');
+      $.get("../service/instances/" + instanceToEdit, function(response){
+
+        var instance = response.instance;
+
+        $("#form-action-type").attr('value', 'put');
+        $("#form-instance-id").attr('value', instance.id)
+
+        $("#action-title").text("Update " + instance.name);
+        $("#newName").val(instance.name);
+        $("#newUrl").val(instance.url);
+        $("#newDesc").val(instance.description);
+        $("#newTwitter").val(instance.twitter);
+        $("#newLatitude").val("");
+        $("#newLongitude").val("");
+        $("#newOrganisms").val(instance.organisms.join());
+        $("#newNeighbours").val(instance.neighbours.join());
+      });
+    </script>
+
+
+
+  </body>
+</html>

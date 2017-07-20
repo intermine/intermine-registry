@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         }
     }
 
-    Instance.find(db_query, function(err, instances){
+    Instance.find(db_query).sort({name: 1}).exec(function(err, instances){
         if (err){
             return res.send(err);
         }
@@ -106,9 +106,9 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
             newInstanceId = found.length + 1;
 
             var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() })
 
-
-            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0) {
+            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0 || allUrls.indexOf(req.body.url.toLowerCase()) >=0) {
                 res.status(409).json({
                     statusCode: 409,
                     message: "Instance is already in the Registry",

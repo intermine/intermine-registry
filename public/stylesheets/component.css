@@ -10,7 +10,7 @@
 	display: inline-block;
 	margin: 10px 5px 0 5px;
 	vertical-align: top;
-	height: 250px;
+	height: 200px;
 }
 
 .og-grid li > a,
@@ -32,8 +32,8 @@
 	border-bottom-color: #ddd;
 	border-width: 15px;
 	left: 50%;
+	padding-top: 90%;
 	margin: -20px 0 0 -15px;
-	display: none;
 }
 
 .og-expander {
@@ -88,8 +88,9 @@
 
 .og-fullimg,
 .og-details {
-	width: 50%;
-	float: left;
+	margin-left: 30px;
+	width: 30%;
+	float: right;
 	height: 100%;
 	overflow: hidden;
 	position: relative;
@@ -123,7 +124,38 @@
 	color: #999;
 }
 
-.og-details a {
+#grid-delete{
+	color: #560000;
+	-moz-transition: all .2s ease-in;
+	-o-transition: all .2s ease-in;
+	-webkit-transition: all .2s ease-in;
+	transition: all .2s ease-in;
+}
+
+
+#grid-delete:hover{
+	color: white;
+	border-color: #560000;
+	background: #560000;
+}
+
+#grid-update{
+	color: #040056;
+	-moz-transition: all .2s ease-in;
+	-o-transition: all .2s ease-in;
+	-webkit-transition: all .2s ease-in;
+	transition: all .2s ease-in;
+}
+
+
+#grid-update:hover{
+	color: white;
+	border-color: #040056;
+	background: #040056;
+}
+
+
+#grid-instance-url, .grid-preview-buttons {
 	font-weight: 700;
 	font-size: 16px;
 	color: #333;
@@ -134,6 +166,12 @@
 	display: inline-block;
 	margin: 30px 0 0;
 	outline: none;
+	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+#grid-instance-url:hover{
+	text-decoration: none;
+  text-shadow: 1px 1px 2px #427388;
 }
 
 .og-details a::before {

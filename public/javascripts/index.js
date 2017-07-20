@@ -4,27 +4,43 @@ $(document).ready(function () {
     $("#view-type").text("List View");
   });
 
+
   $("#grid-tab").click(function(){
     $("#view-type").text("Grid View");
+    getInstances($("#search-instance").val());
   });
 
   $("#world-tab").click(function(){
     $("#view-type").text("World View");
   });
 
+  $("#search-instance").on('keyup', function(){
+    $("#list-table-body").empty();
+    getInstances($(this).val());
+  });
+
   var globalInstances = [];
 
-  $.get("service/instances", function(response){
+  getInstances("");
+
+});
+
+function getInstances(search){
+
+  $.get("service/instances/?q=" + search, function(response){
+    $("#list-table-body").empty();
+    $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
     for (var i = 0; i < response.length; i++){
+      console.log("se repite");
       var instance = response[i];
       var imageURL = "";
-      if (typeof instance.images !== "undefined"){
-        if (instance.images.small.startsWith("http")){
-          imageURL = instance.images.small;
+      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+        if (instance.images.logo.startsWith("http")){
+          imageURL = instance.images.logo;
         } else {
-          imageURL = instance.url + "/" + instance.images.small;
+          imageURL = instance.url + "/" + instance.images.logo;
         }
       } else {
         imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
@@ -37,7 +53,7 @@ $(document).ready(function () {
       var organisms = "";
       for (var j = 0; j < instance.organisms.length; j++){
         if (j === instance.organisms.length - 1){
-          organisms += instance.organisms[j] + ".";
+          organisms += instance.organisms[j];
         } else {
           organisms += instance.organisms[j] + ", ";
         }
@@ -55,13 +71,15 @@ $(document).ready(function () {
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
 
+      gridTextFill = instance.description.length > 120 ? "..." : "";
+
       $("#og-grid").append(
-        '<li style="transition: height 350ms ease; height: 250px;">' +
+        '<li class="grid-box" style="transition: height 350ms ease; height: 200px;">' +
           '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
             '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
               '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>' +
               '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
-              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 150) + '...' + '</p>' +
+              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
               '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
             '</div>' +
           '</a>' +
@@ -74,7 +92,12 @@ $(document).ready(function () {
         for (var i = 0; i < globalInstances.length; i++){
           if(hoveredMineName == globalInstances[i].name){
             if (typeof globalInstances[i].colors !== "undefined"){
-              mineColor = globalInstances[i].colors.focus.bg;
+              if (typeof globalInstances[i].colors.header !== "undefined"){
+                  mineColor = globalInstances[i].colors.header.main;
+              } else {
+                  mineColor = globalInstances[i].colors.focus.bg;
+              }
+
               break;
             }
           }
@@ -99,6 +122,9 @@ $(document).ready(function () {
       });
     });
 
+    $(".deletemineb").click(function(){
+      $('#delete-modal').modal({show:true});
+    });
 
 
     $(".registry-item").click(function(){
@@ -106,6 +132,22 @@ $(document).ready(function () {
 
       $.get("service/instances/" + selectedMine, function(response){
         var instance = response.instance;
+
+        $("#update-mine-list").attr('href', 'instance/?update=' + instance.id);
+
+        $("#modal-delete-mine-title").text("Delete "+ instance.name);
+        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
+        $(".confirmdeleteb").click(function(){
+          $('#mine-modals').modal('hide');
+          $.ajax({
+            url: 'service/instances/' + instance.id,
+            type: 'DELETE',
+            success: function(result){
+              location.reload();
+            }
+          });
+        });
+
         $("#mine-modal-body").empty();
         $("#modal-mine-title").text(instance.name);
         $("#list-api-version").text(instance.api_version);
@@ -176,7 +218,8 @@ $(document).ready(function () {
           );
         }
       });
-    	$('#mine-modals').modal({show:true})
+      $('#mine-modals').modal({show:true});
+
     });
   });
-});
+}

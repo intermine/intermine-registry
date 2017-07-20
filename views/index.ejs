@@ -85,9 +85,15 @@
         <h2 class='align-center mb-50' id="view-type"> List View </h2>
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
+            <% if (typeof message !== 'undefined') { %>
+              <div class="successalert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong>Success!</strong> <%= message %>
+              </div>
+            <% } %>
             <div class="row">
               <div class="col-md-2">
-                <button class="btn" id="add-instance"> Add Instance </button>
+                <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
               </div>
               <div class="col-md-7">
                 <div class="inner-addon left-addon">
@@ -135,13 +141,31 @@
 
                     	</div>
                     	<div class="modal-footer">
-                        <button class="btn btn-primary">Update</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
+                        <button class="btn btn-danger deletemineb">Delete</button>
                     		<button class="btn closeb" data-dismiss="modal">Close</button>
                     	</div>
                   	</div>
                   </div>
                 </div>
+
+                <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog">
+                  <div class="modal-dialog">
+                  	<div class="modal-content">
+                  		<div class="modal-header">
+                  		<button type="button" class="close closeb" data-dismiss="modal">×</button>
+                  			<h3 id="modal-delete-mine-title">Modal header</h3>
+                  	  </div>
+                    	<div class="modal-body" id="mine-delete-modal-body">
+                    	</div>
+                    	<div class="modal-footer">
+                        <button class="btn btn-danger confirmdeleteb" data-dismiss="modal">Confirm</button>
+                    		<button class="btn closeb" data-dismiss="modal">Close</button>
+                    	</div>
+                  	</div>
+                  </div>
+                </div>
+
     					</div>
 
     				  <!-- Grid View -->
