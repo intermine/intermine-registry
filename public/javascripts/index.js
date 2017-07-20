@@ -133,6 +133,8 @@ function getInstances(search){
       $.get("service/instances/" + selectedMine, function(response){
         var instance = response.instance;
 
+        $("#update-mine-list").attr('href', 'instance/?update=' + instance.id);
+
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
         $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
         $(".confirmdeleteb").click(function(){

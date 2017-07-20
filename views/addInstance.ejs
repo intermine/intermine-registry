@@ -59,7 +59,7 @@
                     <span class="glyphicon glyphicon-home"></span> Home
                   </a>
                 </div>
-                <h2 class='align-center mb-50'> Add Instance </h2>
+                <h2 class='align-center mb-50' id="action-title"> Add Instance </h2>
                 <% if (typeof message !== 'undefined') { %>
                   <div class="warningalert">
                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -171,8 +171,10 @@
                           </div>
             						</div>
 
-          						<div class="form-group ">
-          							<input type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button" />
+          						<div class="form-group" id="submit-form">
+                        <input id="form-action-type" type="hidden" name="_method" value="post" />
+                        <input id="form-instance-id" type="hidden" name="updateId" value="" />
+          							<input type="submit" id="submit-button" class="btn btn-primary btn-lg btn-block login-button" />
           						</div>
 
           					</form>
@@ -199,7 +201,7 @@
     <% if (typeof message !== 'undefined') { %>
       <script type="text/javascript">
         $("#newName").val("<%= name %>");
-        $("#newURL").val("<%= url %>");
+        $("#newUrl").val("<%= url %>");
         $("#newDesc").val("<%= desc %>");
         $("#newTwitter").val("<%= twitter %>");
         $("#newLatitude").val(<%= lat %> );
@@ -208,6 +210,31 @@
         $("#newNeighbours").val("<%= neighbours %>");
       </script>
     <% } %>
+
+    <script type="text/javascript">
+      $.urlParam = function(name){
+      	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      	return results[1] || 0;
+      }
+      var instanceToEdit = $.urlParam('update');
+      $.get("../service/instances/" + instanceToEdit, function(response){
+
+        var instance = response.instance;
+
+        $("#form-action-type").attr('value', 'put');
+        $("#form-instance-id").attr('value', instance.id)
+
+        $("#action-title").text("Update " + instance.name);
+        $("#newName").val(instance.name);
+        $("#newUrl").val(instance.url);
+        $("#newDesc").val(instance.description);
+        $("#newTwitter").val(instance.twitter);
+        $("#newLatitude").val("");
+        $("#newLongitude").val("");
+        $("#newOrganisms").val(instance.organisms.join());
+        $("#newNeighbours").val(instance.neighbours.join());
+      });
+    </script>
 
 
 
