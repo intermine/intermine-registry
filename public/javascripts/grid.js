@@ -358,7 +358,7 @@ var Grid = (function($) {
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
 															'<a id=grid-instance-url href="#" target="_blank">Visit website</a>' +
 															'<button class="grid-preview-buttons deletemineb ml-10" id="grid-delete"> Delete </button>' +
-															'<button id="grid-update" class="grid-preview-buttons ml-10"> Update </button></div>'
+															'<a id="grid-update" href="#" class="grid-preview-buttons ml-10"> Update </a></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
@@ -378,6 +378,8 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
+
+					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
 					$(".deletemineb").click(function(){
 			       $('#delete-modal').modal({show:true});
@@ -500,6 +502,8 @@ var Grid = (function($) {
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
+
+					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
 					$(".og-fullimg").empty();
 					$("#grid-details-versions").empty();
