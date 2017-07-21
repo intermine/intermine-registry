@@ -39,13 +39,13 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 
-app.use('/registry/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
-app.use('/registry/', index);
+app.use('/', index);
 app.use('/users', users);
-app.use('/registry/service/instances', instances);
-app.use('/registry/service/synchronize', synchronize);
+app.use('/service/instances', instances);
+app.use('/service/synchronize', synchronize);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

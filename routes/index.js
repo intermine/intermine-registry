@@ -20,7 +20,7 @@ function updateInstance(req, res, next){
     var neighbours = req.body.newNeighbours.split(",");
   }
 
-  var reqUrl = req.protocol + '://' + req.get('host') + "/registry/service/instances/" + req.body.updateId;
+  var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
   request.put({
     body: {
       "name": req.body.newName,
@@ -55,7 +55,7 @@ function updateInstance(req, res, next){
           message: body.message
       });
     } else {
-      res.redirect('/registry');
+      res.redirect('/');
     }
   });
 
@@ -76,7 +76,7 @@ router.post('/instance', function(req, res, next) {
       var neighbours = req.body.newNeighbours.split(",");
     }
 
-    var reqUrl = req.protocol + '://' + req.get('host') + "/registry/service/instances";
+    var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances";
     request.post({
       body: {
         "name": req.body.newName,
@@ -111,7 +111,7 @@ router.post('/instance', function(req, res, next) {
             message: body.message
         });
       } else {
-        res.redirect('/registry');
+        res.redirect('/');
       }
     });
 
