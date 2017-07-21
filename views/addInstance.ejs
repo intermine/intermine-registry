@@ -218,7 +218,7 @@
       	return results[1] || 0;
       }
       var instanceToEdit = $.urlParam('update');
-      $.get("./service/instances/" + instanceToEdit, function(response){
+      $.get("../service/instances/" + instanceToEdit, function(response){
 
         var instance = response.instance;
 
