@@ -1,6 +1,6 @@
 jQuery_2_1_3(window).load(function(){
 	if (jQuery_2_1_3("#typo").length){
-		jQuery_2_1_3("#typo").type("Intermine Registry", 500);
+		jQuery_2_1_3("#typo").type("InterMine Registry", 500);
 		animText();
 
 	}

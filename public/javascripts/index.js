@@ -1,17 +1,17 @@
 $(document).ready(function () {
 
   $("#list-tab").click(function(){
-    $("#view-type").text("List View");
+    $("#view-type").text("Instances List View");
   });
 
 
   $("#grid-tab").click(function(){
-    $("#view-type").text("Grid View");
+    $("#view-type").text("Instances Grid View");
     getInstances($("#search-instance").val());
   });
 
   $("#world-tab").click(function(){
-    $("#view-type").text("World View");
+    $("#view-type").text("Instances World View");
   });
 
   $("#search-instance").on('keyup', function(){
