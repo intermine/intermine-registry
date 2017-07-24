@@ -9,7 +9,7 @@
       "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
     }
   },
-  "host": "intermine-registry.herokuapp.com/registry",
+  "host": "intermine-registry.herokuapp.com",
   "basePath": "/service",
   "tags": [
     {

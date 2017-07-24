@@ -20,6 +20,8 @@ router.get('/', function(req, res, next) {
         }
     }
 
+    db_query.status = "Running";
+
     Instance.find(db_query).sort({name: 1}).exec(function(err, instances){
         if (err){
             return res.send(err);

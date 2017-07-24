@@ -29,6 +29,9 @@ router.put('/:id', function(req, res, next){
               request.get(intermine_endpoint, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      instance.status = "Running";
+                  } else {
+                      instance.status = "Not Running";
                   }
 
                   callback(null, true);
@@ -107,6 +110,9 @@ router.put('/', function(req, res, next){
               request.get(intermine_endpoint, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
+                      instance.status = "Running";
+                  } else {
+                      instance.status = "Not Running";
                   }
 
                   callback(null, true);
