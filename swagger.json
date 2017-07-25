@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "API Documentation for the Intermine Registry RESTful API.",
+    "description": "API Documentation for the InterMine Registry RESTful API.",
     "version": "1.0.0",
     "title": "Intermine Registry",
     "license": {
@@ -14,7 +14,7 @@
   "tags": [
     {
       "name": "instance",
-      "description": "Operations regarding the Intermine Registry instances.",
+      "description": "Operations regarding the InterMine Registry instances.",
       "externalDocs": {
         "description": "Find out more",
         "url": "https://github.com/intermine/intermine-registry/"
@@ -22,7 +22,7 @@
     },
     {
       "name": "synchronize",
-      "description": "Operations regarding the Intermine Registry instances versions & branding updates.",
+      "description": "Operations regarding the InterMine Registry instances versions & branding updates.",
       "externalDocs": {
         "description": "Find out more",
         "url": "https://github.com/intermine/intermine-registry/"
