@@ -3,7 +3,7 @@ Web application that will allow users to view, search and administer basic infor
 
 ## Registry API ##
 
-The core of the Intermine Registry App is the restFUL API. It contains endpoints to search and administer instances. These endpoints can be reached through the following base path: `http://intermine.org/registry/service/`
+The core of the Intermine Registry App is the restFUL API. It contains endpoints to search and administer instances. These endpoints can be reached through the following base path: `http://registry.intermine.org/service/`
 
 - `POST`    /instances     Add an instance to the registry.
 - `GET`     /instances     Get all the instances from the registry.
@@ -13,7 +13,7 @@ The core of the Intermine Registry App is the restFUL API. It contains endpoints
 - `PUT`     /syncrhonize   Update the branding & version information of every instance.
 - `PUT`     /syncrhonize/{instanceIdOrName}    Update the branding & version information of the specified instance.
 
-You can check the [detailed API documentation](http://intermine.org/registry/api-docs/) for more information and testing.
+You can check the [detailed API documentation](http://registry.intermine.org/api-docs/) for more information and testing.
 
 ## Installation ##
 
