@@ -12,12 +12,14 @@ router.get('/instance', function(req, res, next) {
 });
 
 function updateInstance(req, res, next){
+  var organisms = [];
+  var neighbours = [];
   if (req.body.newOrganisms !== "") {
-    var organisms = req.body.newOrganisms.split(",") ;
+    organisms = req.body.newOrganisms.split(",") ;
   }
 
   if (req.body.newNeighbours !== "") {
-    var neighbours = req.body.newNeighbours.split(",");
+    neighbours = req.body.newNeighbours.split(",");
   }
 
   var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
