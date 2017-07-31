@@ -1,57 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>InterMine Registry</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/custom-bootstrap-margin-padding.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
-		<link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
-    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
-    <link rel="stylesheet" href="/stylesheets/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css?family=Coda:800" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/addInstance.css" />
-    <style>
-      #map { height: 500px; }
-    </style>
-	</head>
-  <body>
-    <nav class="navbar navbar-default">
-      <div class="row">
-        <div class="navbar-header">
-    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTopnav" aria-expanded="false">
-    				<span class="sr-only">Toggle navigation</span>
-    				<span class="icon-bar"></span>
-    				<span class="icon-bar"></span>
-    				<span class="icon-bar"></span>
-    			</button>
-    		</div>
-        <div class="collapse navbar-collapse" id="myTopnav">
-          <ul class="nav navbar-nav">
-            <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
-            <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine">GitHub</a></li>
-            <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a></li>
-            <li><a class='ml-20' href="http://chat.intermine.org">Support chat</a></li>
-            <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-            <a href="http://intermine.org/" target="_blank">
-              <img class="mr-40 ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
-            </a> </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
+  
     <section id = 'intro' class = 'pt-70 pl-50'>
       <div id="dimmer"></div>
       <div id="loader"></div>
