@@ -383,6 +383,16 @@ var Grid = (function($) {
 
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
+					$("#grid-sync").click(function(){
+						$.ajax({
+	            url: 'service/synchronize/' + instance.id,
+	            type: 'PUT',
+	            success: function(result){
+	              location.reload();
+	            }
+	          });
+					});
+
 					$(".deletemineb").click(function(){
 			       $('#delete-modal').modal({show:true});
 			    });

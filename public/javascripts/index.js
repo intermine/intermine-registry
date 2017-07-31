@@ -11,10 +11,6 @@ $(document).ready(function () {
         location.reload();
       }
     });
-    // put loader on html
-    // loader visible before http request to synchronize
-    // do synchronize
-    // when finished reload page
   });
 
   $("#list-tab").click(function(){
@@ -159,6 +155,16 @@ function getInstances(search){
           $.ajax({
             url: 'service/instances/' + instance.id,
             type: 'DELETE',
+            success: function(result){
+              location.reload();
+            }
+          });
+        });
+
+        $("#sync-mine-list").click(function(){
+          $.ajax({
+            url: 'service/synchronize/' + instance.id,
+            type: 'PUT',
             success: function(result){
               location.reload();
             }
