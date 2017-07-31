@@ -96,7 +96,20 @@ app.use('/service/synchronize', synchronize);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+
+  if (req.accepts('html')) {
+    res.render('404', { url: req.url });
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
 });
 
 
