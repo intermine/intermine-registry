@@ -2,6 +2,22 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 
+router.get('/login', function(req, res, next){
+    res.render('login', { user: req.user });
+  });
+
+router.post('/login', passport.authenticate(
+	'local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+
+router.get('/logout', function(req, res, next){
+    req.logout();
+    res.redirect('/');
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
