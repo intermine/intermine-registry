@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var passport = require('passport');
 
 router.get('/login', function(req, res, next){
     res.render('login', { user: req.user });
