@@ -53,6 +53,9 @@
       </div>
     </nav>
     <section id = 'intro' class = 'pt-70 pl-50'>
+      <div id="dimmer"></div>
+      <div id="loader"></div>
+      <div id="loader-text" class="align-center"> Synchronizing Instances </div>
       <div class="container-fluid">
         <div class="row">
           <div class = 'container'>
@@ -96,7 +99,10 @@
               <div class="col-md-2">
                 <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-2">
+                <button class="btn" id="sync-instances"> Synchronize All </button>
+              </div>
+              <div class="col-md-5">
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
                     <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />

@@ -76,7 +76,7 @@ h1{
 }
 
 @media (max-width: 978px){
-  #add-instance, #search-instance, #pills-container {
+  #add-instance, #search-instance, #pills-container, #sync-instances {
     margin: 0 auto;
     margin-bottom: 10px;
     text-align: center;

@@ -1,5 +1,22 @@
 $(document).ready(function () {
 
+  $("#sync-instances").click(function(){
+    $("#dimmer").css("display", "inline");
+    $("#loader").css("display", "inline");
+    $("#loader-text").css("display", "inline");
+    $.ajax({
+      url: 'service/synchronize/',
+      type: 'PUT',
+      success: function(result){
+        location.reload();
+      }
+    });
+    // put loader on html
+    // loader visible before http request to synchronize
+    // do synchronize
+    // when finished reload page
+  });
+
   $("#list-tab").click(function(){
     $("#view-type").text("Instances List View");
   });
