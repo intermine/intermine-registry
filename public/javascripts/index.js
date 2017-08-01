@@ -72,6 +72,18 @@ function getInstances(search){
 
       }
 
+      var mineColor = "";
+      if (typeof instance.colors !== "undefined"){
+        if (typeof instance.colors.header !== "undefined"){
+            mineColor = instance.colors.header.main;
+        } else {
+            mineColor = instance.colors.focus.bg;
+        }
+      } else {
+        mineColor = "#ffffff";
+      }
+      mineColor = mineColor.replace(";", "");
+
       $("#list-table-body").append(
         "<tr class='registry-item' id='item-"+ instance.id +"'>" +
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
@@ -80,16 +92,34 @@ function getInstances(search){
           "<td>" + organisms + "</td>" +
         "</tr>");
 
+      var usePanels = true;
+
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
 
+      var canvas = document.createElement("canvas");
+      canvas.width = 225;
+      canvas.height = 200;
+      var ctx = canvas.getContext("2d");
+      ctx.fillStyle = mineColor;
+      ctx.fillRect(0, 0, 225, 200);
+
+      var img = $(document.createElement("img"));
+      img.attr("src", canvas.toDataURL("image/png"));
+      img.attr("class", "grid-image");
+
       gridTextFill = instance.description.length > 120 ? "..." : "";
+
+      var imgHTMLtoRender = img.prop('outerHTML');
+      if (usePanels){
+        imgHTMLtoRender = '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>';
+      }
 
       $("#og-grid").append(
         '<li class="grid-box" style="transition: height 350ms ease; height: 200px;">' +
           '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
             '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
-              '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>' +
+              imgHTMLtoRender +
               '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
               '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
               '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
