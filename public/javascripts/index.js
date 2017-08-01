@@ -46,7 +46,6 @@ function getInstances(search){
     var response = response.instances;
     globalInstances = response;
     for (var i = 0; i < response.length; i++){
-      console.log("se repite");
       var instance = response[i];
       var imageURL = "";
       if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){

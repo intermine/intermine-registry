@@ -3,7 +3,7 @@
 <%- include('header.ejs') %>
 <body>
 	<%- include('navbar.ejs') %>
-  
+
     <section id = 'intro' class = 'pt-70 pl-50'>
       <div id="dimmer"></div>
       <div id="loader"></div>
@@ -48,13 +48,17 @@
               </div>
             <% } %>
             <div class="row main-center">
-              <div class="col-md-2">
-                <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
-              </div>
-              <div class="col-md-2">
-                <button class="btn" id="sync-instances"> Synchronize All </button>
-              </div>
-              <div class="col-md-5">
+							<% if (typeof user === "undefined") { %>
+              	<div class="col-md-9">
+			        <% } else { %>
+								<div class="col-md-2">
+	                <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
+	              </div>
+	              <div class="col-md-2">
+	                <button class="btn" id="sync-instances"> Synchronize All </button>
+	              </div>
+								<div class="col-md-5">
+			        <% } %>
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
                     <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
@@ -100,9 +104,11 @@
 
                     	</div>
                     	<div class="modal-footer">
-                        <a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
-                        <button class="btn btn-warning" id="sync-mine-list">Synchronize</button>
-                        <button class="btn btn-danger deletemineb">Delete</button>
+												<% if (typeof user !== "undefined") { %>
+													<a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
+	                        <button class="btn btn-warning" id="sync-mine-list">Synchronize</button>
+	                        <button class="btn btn-danger deletemineb">Delete</button>
+											  <% } %>
                     		<button class="btn closeb" data-dismiss="modal">Close</button>
                     	</div>
                   	</div>
@@ -152,6 +158,11 @@
     		</div>
       </div>
     </section>
+		<% if (typeof user !== "undefined") { %>
+			<script type="text/javascript">
+					var user = <%- JSON.stringify(user) %>;
+			</script>
+		<% } %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">

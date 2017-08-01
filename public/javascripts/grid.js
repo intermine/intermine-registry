@@ -353,6 +353,8 @@ var Grid = (function($) {
 			// create Preview structure:
 			var value = "CAMBIADO";
 			var myPanorama = this;
+
+
 			myPanorama.$description = $( '<p id="data-description"></p>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
@@ -360,7 +362,6 @@ var Grid = (function($) {
 															'<a id="grid-update" href="#" class="grid-preview-buttons ml-10"> Update </a>' +
 															'<button class="grid-preview-buttons syncmineb ml-10" id="grid-sync"> Synchronize </button>' +
 															'<button class="grid-preview-buttons deletemineb ml-10" id="grid-delete"> Delete </button></div>'
-
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
@@ -393,6 +394,12 @@ var Grid = (function($) {
 	          });
 					});
 
+					if (typeof user === "undefined"){
+						$("#grid-sync").css("display","none");
+						$("#grid-update").css("display","none");
+						$("#grid-delete").css("display","none");
+					}
+					
 					$(".deletemineb").click(function(){
 			       $('#delete-modal').modal({show:true});
 			    });
