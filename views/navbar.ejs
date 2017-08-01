@@ -10,6 +10,11 @@
     </div>
     <div class="collapse navbar-collapse" id="myTopnav">
       <ul class="nav navbar-nav">
+        <li>
+          <a href="http://intermine.org/" target="_blank">
+            <img class="ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+          </a>
+        </li>
         <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
         <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine">GitHub</a></li>
         <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a></li>
@@ -17,10 +22,18 @@
         <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-        <a href="http://intermine.org/" target="_blank">
-          <img class="mr-40 ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
-        </a> </li>
+        <% if (typeof user === "undefined") { %>
+          <li>
+           <a class="mr-20" href="/login" >Log In</a>
+          </li>
+        <% } else { %>
+          <li class="dropdown">
+           <a class="mr-20" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.user %><span class="caret"></span></a>
+           <ul class="dropdown-menu mr-20">
+             <li><a href="/logout">Logout</a></li>
+           </ul>
+          </li>
+        <% } %>
       </ul>
     </div>
   </div>

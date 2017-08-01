@@ -7,7 +7,7 @@ var schema = new Schema({
     password: String
 },
 {
-    collection: 'Users'
+    collection: 'users'
 });
 
 var User = mongoose.model("User", schema);

@@ -5,7 +5,7 @@ var passport = require('passport');
 
 router.get('/login', function(req, res, next){
     res.render('login', { user: req.user });
-  });
+});
 
 router.post('/login', passport.authenticate(
 	'local', {
@@ -21,7 +21,8 @@ router.get('/logout', function(req, res, next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    console.log(req.user);
+    res.render('index', { user: req.user });
 });
 
 router.get('/instance', function(req, res, next) {

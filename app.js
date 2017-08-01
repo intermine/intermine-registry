@@ -8,7 +8,6 @@ var passport = require("passport");
 var Strategy = require('passport-local').Strategy;
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var instances = require('./routes/instances');
 var synchronize = require('./routes/synchronize');
 
@@ -28,13 +27,13 @@ var User = require('./models/user');
 // will be set at `req.user` in route handlers after authentication.
 passport.use(new Strategy(
   function(username, password, done) {
-    User.findOne({ 'correo': username }, function(err, user) {
+    User.findOne({ 'user': username }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        return done(null, false, { message: 'Incorrect Username.' });
       }
       if (user.password != password) {
-        return done(null, false, { message: 'Incorrect password.' });
+        return done(null, false, { message: 'Incorrect Password.' });
       }
       return done(null, user);
     });
@@ -72,6 +71,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(function(req, res, next) {
    if(req.url.substr(-1) != '/' && req.url.substr(-8) == "registry" && req.url.length > 1){
@@ -88,7 +91,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
 app.use('/', index);
-app.use('/users', users);
 app.use('/service/instances', instances);
 app.use('/service/synchronize', synchronize);
 
