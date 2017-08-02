@@ -62,6 +62,10 @@ function updateInstance(req, res, next){
       "organisms": organisms,
       "neighbours": neighbours
     },
+    auth: {
+      "user": req.user.user,
+      "pass": req.user.password
+    },
     url: reqUrl,
     json: true
   }, function (err, httpResponse, body){
@@ -117,6 +121,10 @@ router.post('/instance', function(req, res, next) {
         },
         "organisms": organisms,
         "neighbours": neighbours
+      },
+      auth: {
+        "user": req.user.user,
+        "pass": req.user.password
       },
       url: reqUrl,
       json: true

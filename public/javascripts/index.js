@@ -4,13 +4,18 @@ $(document).ready(function () {
     $("#dimmer").css("display", "inline");
     $("#loader").css("display", "inline");
     $("#loader-text").css("display", "inline");
-    $.ajax({
-      url: 'service/synchronize/',
-      type: 'PUT',
-      success: function(result){
-        location.reload();
-      }
-    });
+    if (typeof user !== "undefined"){
+      $.ajax({
+        url: 'service/synchronize/',
+        type: 'PUT',
+        success: function(result){
+          location.reload();
+        },
+        beforeSend: function(xhr){
+          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+        }
+      });
+    }
   });
 
   $("#list-tab").click(function(){
@@ -180,24 +185,35 @@ function getInstances(search){
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
         $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
         $(".confirmdeleteb").click(function(){
-          $('#mine-modals').modal('hide');
-          $.ajax({
-            url: 'service/instances/' + instance.id,
-            type: 'DELETE',
-            success: function(result){
-              location.reload();
-            }
-          });
+          if (typeof user !== "undefined"){
+            $('#mine-modals').modal('hide');
+            $.ajax({
+              url: 'service/instances/' + instance.id,
+              type: 'DELETE',
+              success: function(result){
+                location.reload();
+              },
+              beforeSend: function(xhr){
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+              }
+            });
+          }
+
         });
 
         $("#sync-mine-list").click(function(){
-          $.ajax({
-            url: 'service/synchronize/' + instance.id,
-            type: 'PUT',
-            success: function(result){
-              location.reload();
-            }
-          });
+          if (typeof user !== "undefined"){
+            $.ajax({
+              url: 'service/synchronize/' + instance.id,
+              type: 'PUT',
+              success: function(result){
+                location.reload();
+              },
+              beforeSend: function(xhr){
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+              }
+            });
+          }
         });
 
         $("#mine-modal-body").empty();
