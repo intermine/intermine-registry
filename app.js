@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require("passport");
 var Strategy = require('passport-local').Strategy;
+var BasicStrategy = require('passport-http').BasicStrategy;
 
 var index = require('./routes/index');
 var instances = require('./routes/instances');
@@ -25,8 +26,27 @@ var User = require('./models/user');
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
+
 passport.use(new Strategy(
   function(username, password, done) {
+    User.findOne({ 'user': username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect Username.' });
+      }
+      if (user.password != password) {
+        return done(null, false, { message: 'Incorrect Password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
+
+passport.use(new BasicStrategy(
+  function(username, password, done) {
+    console.log(username);
+    console.log(password);
     User.findOne({ 'user': username }, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
