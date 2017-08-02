@@ -16,8 +16,6 @@ const swaggerDocument = require('./swagger.json');
 
 const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
 
-var User = require('./models/user');
-
 var auth = require('./routes/auth');
 
 var app = express();

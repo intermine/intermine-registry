@@ -4,7 +4,11 @@ var request = require('request');
 var passport = require('passport');
 
 router.get('/login', function(req, res, next){
-    res.render('login', { user: req.user });
+  if (typeof req.user === "undefined"){
+    res.render('login', {user: req.user});
+  } else {
+    res.redirect('/');
+  }
 });
 
 router.post('/login', passport.authenticate(
@@ -21,12 +25,16 @@ router.get('/logout', function(req, res, next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    console.log(req.user);
     res.render('index', { user: req.user });
 });
 
 router.get('/instance', function(req, res, next) {
-    res.render('addInstance', { title: 'Express' });
+    console.log(req.user);
+    if (typeof req.user === "undefined"){
+      res.render('403');
+    } else {
+      res.render('addInstance', {user: req.user});
+    }
 });
 
 function updateInstance(req, res, next){
