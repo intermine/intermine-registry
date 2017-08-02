@@ -1,6 +1,7 @@
 var express = require('express');
 var request = require('request');
 var async = require('async');
+var passport = require('passport');
 var router = express.Router();
 var Instance = require('../models/instance');
 var validate = require('express-jsonschema').validate;
@@ -58,7 +59,7 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-router.delete('/:id', function(req, res, next){
+router.delete('/:id', passport.authenticate('basic', {session: false}), function(req, res, next){
     Instance.find({id: req.params.id}).remove(function(err, info){
         if (err){
             return res.send(err);
@@ -78,7 +79,7 @@ router.delete('/:id', function(req, res, next){
     });
 });
 
-router.post('/', validate({body: InstanceSchema}), function(req, res, next){
+router.post('/', passport.authenticate('basic', {session: false}), validate({body: InstanceSchema}), function(req, res, next){
 
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
@@ -129,6 +130,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
                 last_time_updated:  new Date()
             };
 
+            newInstanceObject.status = "Running";
             newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
             newInstanceObject.description = typeof(req.body.description) !== 'undefined' ? req.body.description : "";
             newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};
@@ -217,7 +219,7 @@ router.post('/', validate({body: InstanceSchema}), function(req, res, next){
 });
 
 
-router.put('/:id', validate({body: InstancePutSchema}), function(req, res, next){
+router.put('/:id', passport.authenticate('basic', {session: false}), validate({body: InstancePutSchema}), function(req, res, next){
     // Check if the request is an 'application/json' type.
     if (req.get('Content-Type') !== 'application/json'){
         res.status(406).json({

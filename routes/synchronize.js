@@ -1,11 +1,12 @@
 var express = require('express');
 var request = require('request');
+var passport = require('passport');
 var async = require('async');
 var asyncLoop = require('node-async-loop');
 var router = express.Router();
 var Instance = require('../models/instance');
 
-router.put('/:id', function(req, res, next){
+router.put('/:id', passport.authenticate('basic', {session: false}), function(req, res, next){
 
     var toFind = req.params.id;
     Instance.findOne({
@@ -95,7 +96,7 @@ router.put('/:id', function(req, res, next){
     });
 });
 
-router.put('/', function(req, res, next){
+router.put('/', passport.authenticate('basic', {session: false}), function(req, res, next){
 
     var toFind = req.params.id;
     Instance.find({}, function(err, instances){

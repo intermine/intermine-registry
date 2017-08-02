@@ -1,23 +1,51 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var passport = require('passport');
+
+router.get('/login', function(req, res, next){
+  if (typeof req.user === "undefined"){
+    res.render('login', {user: req.user});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.post('/login', passport.authenticate(
+	'local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+
+router.get('/logout', function(req, res, next){
+    req.logout();
+    res.redirect('/');
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    res.render('index', { user: req.user });
 });
 
 router.get('/instance', function(req, res, next) {
-    res.render('addInstance', { title: 'Express' });
+    console.log(req.user);
+    if (typeof req.user === "undefined"){
+      res.render('403');
+    } else {
+      res.render('addInstance', {user: req.user});
+    }
 });
 
 function updateInstance(req, res, next){
+  var organisms = [];
+  var neighbours = [];
   if (req.body.newOrganisms !== "") {
-    var organisms = req.body.newOrganisms.split(",") ;
+    organisms = req.body.newOrganisms.split(",") ;
   }
 
   if (req.body.newNeighbours !== "") {
-    var neighbours = req.body.newNeighbours.split(",");
+    neighbours = req.body.newNeighbours.split(",");
   }
 
   var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
@@ -33,6 +61,10 @@ function updateInstance(req, res, next){
       },
       "organisms": organisms,
       "neighbours": neighbours
+    },
+    auth: {
+      "user": req.user.user,
+      "pass": req.user.password
     },
     url: reqUrl,
     json: true
@@ -89,6 +121,10 @@ router.post('/instance', function(req, res, next) {
         },
         "organisms": organisms,
         "neighbours": neighbours
+      },
+      auth: {
+        "user": req.user.user,
+        "pass": req.user.password
       },
       url: reqUrl,
       json: true
