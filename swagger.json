@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "description": "API Documentation for the InterMine Registry RESTful API.",
-    "version": "1.0.0",
-    "title": "Intermine Registry",
+    "version": "1.1.0",
+    "title": "InterMine Registry",
     "license": {
       "name": "GNU General Public License v3.0",
       "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
@@ -38,8 +38,8 @@
         "tags": [
           "instances"
         ],
-        "summary": "Add an instance to the registry",
-        "description": "Add a new instance to the Intermine Registry.",
+        "summary": "Add an instance to the InterMine Registry.",
+        "description": "Add a new instance to the InterMine Registry. Name and URL are required. Provided URL is subject to test by doing a ping to the mine /version endpoint.",
         "operationId": "addinstances",
         "consumes": [
           "application/json"
@@ -108,14 +108,26 @@
           "201": {
             "description": "Instance Successfully Added to the Registry"
           },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "WWW_Authenticate": {
+                "type": "string"
+              }
+            }
+          },
           "406": {
             "description": "Bad Request"
           },
           "400": {
             "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           }
+
         },
         "security": [
+          {
+            "basicAuth": []
+          }
         ]
       },
 
@@ -123,8 +135,8 @@
         "tags": [
           "instances"
         ],
-        "summary": "Get all Registry Instances",
-        "description": "Get all Registry Instances",
+        "summary": "Get all InterMine Registry Instances information.",
+        "description": "Get all Registry Instances which status is Running.",
         "operationId": "getAllInstances",
         "produces": [
           "application/json"
@@ -152,6 +164,7 @@
           }
         },
         "security": [
+
         ]
       }
     },
@@ -163,7 +176,7 @@
           "instances"
         ],
         "summary": "Finds an instance by its ID or Name",
-        "description": "Get all the information (URL, name, brief description, version and neighbours) of a given InterMine instance.",
+        "description": "Get all the information of a given InterMine instance (id or Name).",
         "operationId": "findInstanceById",
         "produces": [
           "application/json"
@@ -201,8 +214,8 @@
         "tags": [
           "instances"
         ],
-        "summary": "Update an instance on the registry",
-        "description": "Update the instance entry given in the URL from the registry.",
+        "summary": "Update an instance on the InterMine Registry",
+        "description": "Update the instance given in the URL on the InterMine Registry.",
         "operationId": "updateInstance",
         "consumes": [
           "application/json"
@@ -281,6 +294,14 @@
           "400": {
             "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "WWW_Authenticate": {
+                "type": "string"
+              }
+            }
+          },
           "404": {
             "description": "Instance Not Found"
           },
@@ -289,14 +310,17 @@
           }
         },
         "security": [
+          {
+            "basicAuth": []
+          }
         ]
       },
       "delete": {
         "tags": [
           "instances"
         ],
-        "summary": "Deletes an instance",
-        "description": "Delete the instance entry given in the URL from the registry.",
+        "summary": "Deletes an instance from the InterMine Registry",
+        "description": "Delete the instance given in the URL from the registry.",
         "operationId": "deleteinstances",
         "produces": [
           "application/json"
@@ -315,11 +339,22 @@
           "200": {
             "description": "Instance Successfully Deleted"
           },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "WWW_Authenticate": {
+                "type": "string"
+              }
+            }
+          },
           "404": {
             "description": "Instance Not Found"
           }
         },
         "security": [
+          {
+            "basicAuth": []
+          }
         ]
       }
     },
@@ -328,8 +363,8 @@
           "tags": [
             "synchronize"
           ],
-          "summary": "Update the branding & version information of every instance on the registry",
-          "description": "Update the branding & version information of every instance on the registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
+          "summary": "Update the branding & version information of every instance on the InterMine Registry",
+          "description": "Update the branding & version information of every instance on the InterMine Registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
           "operationId": "synchronizeInstances",
           "consumes": [
             "application/json"
@@ -339,13 +374,24 @@
           ],
           "responses": {
             "201": {
-              "description": "Instance Version & Branding Successfully Updated on the Registry"
+              "description": "Instance Version & Branding Successfully Updated on the InterMine Registry"
+            },
+            "401": {
+              "description": "Authentication information is missing or invalid",
+              "headers": {
+                "WWW_Authenticate": {
+                  "type": "string"
+                }
+              }
             },
             "406": {
               "description": "Bad Request"
             }
           },
           "security": [
+            {
+              "basicAuth": []
+            }
           ]
         }
       },
@@ -354,7 +400,7 @@
             "tags": [
               "synchronize"
             ],
-            "summary": "Update the branding & version information of the specified instance on the registry",
+            "summary": "Update the branding & version information on the InterMine Registry of the specified instance in the URL",
             "description": "Update the branding & version information of the instance given in the URL",
             "operationId": "synchronizeInstance",
             "consumes": [
@@ -376,6 +422,14 @@
               "201": {
                 "description": "Instances Versions & Branding Successfully Updated on the Registry"
               },
+              "401": {
+                "description": "Authentication information is missing or invalid",
+                "headers": {
+                  "WWW_Authenticate": {
+                    "type": "string"
+                  }
+                }
+              },
               "404": {
                 "description": "Instance Not Found"
               },
@@ -384,12 +438,18 @@
               }
             },
             "security": [
+              {
+                "basicAuth": []
+              }
             ]
           }
         }
   },
 
   "securityDefinitions": {
+      "basicAuth": {
+        "type": "basic"
+      }
   },
 
 
@@ -513,6 +573,10 @@
         "twitter": {
             "type": "string",
             "example": "@intermineorg"
+        },
+        "status": {
+            "type": "string",
+            "example": "Running"
         }
       }
     },
@@ -544,7 +608,7 @@
     }
   },
   "externalDocs": {
-    "description": "Intermine Registry GitHub",
+    "description": "InterMine Registry GitHub",
     "url": "https://github.com/intermine/intermine-registry/"
   }
 }

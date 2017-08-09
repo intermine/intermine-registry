@@ -43,6 +43,10 @@ var InstanceSchema = {
             id: "/properties/twitter",
             type: "string"
         },
+        isProduction: {
+            id: "/properties/isProduction",
+            type: "boolean"
+        },
         url: {
             id: "/properties/url",
             type: "string"
@@ -169,6 +173,10 @@ var InstancePutSchema = {
         twitter: {
             id: "/properties/twitter",
             type: "string"
+        },
+        isProduction: {
+            id: "/properties/isProduction",
+            type: "boolean"
         },
         url: {
             id: "/properties/url",

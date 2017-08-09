@@ -3,7 +3,7 @@
 <%- include('header.ejs') %>
 <body>
 	<%- include('navbar.ejs') %>
-  
+
     <section id="addinstance-body" class = 'pt-50'>
     	<div class="container pt-20">
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
@@ -23,7 +23,7 @@
                   </div>
                 <% } %>
           				<div class="main-login main-center">
-          				<h5>Please, enter the instance information. Name and URL are required. </h5>
+          				<h5>Please, enter the instance information. Name and URL are required. If instance is a development mine, please check the Dev Mine checkbox.</h5>
 
 
           					<form class="" method="post" action="">
@@ -31,22 +31,27 @@
 
           						<div class="form-group">
                         <div class="row">
-          							  <label for="name" class="col-md-5 control-label">Name</label>
-                          <label for="email" class="col-md-7 control-label">URL</label>
+          							  <label for="name" class="col-md-4 control-label">Name</label>
+                          <label for="email" class="col-md-6 control-label">URL</label>
                         </div>
                         <div class="row">
-            							<div class="col-md-5">
+            							<div class="col-md-4">
             								<div class="input-group">
             									<span class="input-group-addon"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
             									<input required type="text" class="form-control" name="newName" id="newName" placeholder="Instance Name"/>
             								</div>
             							</div>
-                          <div class="col-md-7">
+                          <div class="col-md-6">
             								<div class="input-group">
             									<span class="input-group-addon"><i class="glyphicon glyphicon-cloud" aria-hidden="true"></i></span>
             									<input type="url" class="form-control" name="newUrl" id="newUrl"  placeholder="Instance URL"/>
             								</div>
             							</div>
+													<div class="col-md-2">
+														<div class="checkbox">
+														  <label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
+														</div>
+													</div>
                         </div>
           						</div>
                       <div class="form-group">
