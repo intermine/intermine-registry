@@ -21,7 +21,19 @@ router.get('/', function(req, res, next) {
         }
     }
 
+    if (req.query.mines){
+        var productionParam = req.query.mines;
+        if (productionParam === "dev"){
+            db_query.isProduction = false;
+        } else if (productionParam === "prod") {
+            db_query.isProduction = true;
+        }
+    } else {
+        db_query.isProduction = true;
+    }
+
     db_query.status = "Running";
+
 
     Instance.find(db_query).sort({name: 1}).exec(function(err, instances){
         if (err){

@@ -53,7 +53,8 @@ var schema = new Schema({
         logo: String
     },
     twitter:            String,
-    status: String
+    status: String,
+    isProduction: Boolean
 },
     {
         collection: 'instances'
