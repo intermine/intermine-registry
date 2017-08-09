@@ -48,6 +48,12 @@ function updateInstance(req, res, next){
     neighbours = req.body.newNeighbours.split(",");
   }
 
+  var isProduction = true;
+
+  if (req.body.newIsDev === 1){
+    var isProduction = false;
+  }
+
   var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
   request.put({
     body: {
@@ -60,7 +66,8 @@ function updateInstance(req, res, next){
         "longitude": req.body.newLongitude
       },
       "organisms": organisms,
-      "neighbours": neighbours
+      "neighbours": neighbours,
+      "isProduction": isProduction
     },
     auth: {
       "user": req.user.user,
@@ -108,6 +115,12 @@ router.post('/instance', function(req, res, next) {
       var neighbours = req.body.newNeighbours.split(",");
     }
 
+    var isProduction = true;
+
+    if (req.body.newIsDev === 1){
+      var isProduction = false;
+    }
+
     var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances";
     request.post({
       body: {
@@ -120,7 +133,8 @@ router.post('/instance', function(req, res, next) {
           "longitude": req.body.newLongitude
         },
         "organisms": organisms,
-        "neighbours": neighbours
+        "neighbours": neighbours,
+        "isProduction": isProduction
       },
       auth: {
         "user": req.user.user,
