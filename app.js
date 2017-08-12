@@ -1,3 +1,6 @@
+/**
+ * InterMine Registry
+ */
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,36 +8,31 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require("passport");
-
-
 var index = require('./routes/index');
 var instances = require('./routes/instances');
 var synchronize = require('./routes/synchronize');
-
 const swaggerUi = require('swagger-ui-express');
+// Swagger.json file is used to generate the API-DOCS
 const swaggerDocument = require('./swagger.json');
-
 const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
-
 var auth = require('./routes/auth');
-
 var app = express();
 
-// view engine setup
+// Views Engine Setup: EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+/**
+ * ============ Middlewares =============
+ */
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
-
 app.use(passport.initialize());
 app.use(passport.session());
-
+// Middleware to delete URL final slash
 app.use(function(req, res, next) {
    if(req.url.substr(-1) != '/' && req.url.substr(-8) == "registry" && req.url.length > 1){
        res.redirect(301, req.url + "/");
@@ -42,18 +40,16 @@ app.use(function(req, res, next) {
        next();
    }
 });
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 //Routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', index);
 app.use('/service/instances', instances);
 app.use('/service/synchronize', synchronize);
 
-// catch 404 and forward to error handler
+// 404 catcher
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -73,10 +69,9 @@ app.use(function(req, res, next) {
   res.type('txt').send('Not found');
 });
 
-
-// error handler
+// Error Handler Middlewares
 app.use(function(err, req, res, next) {
-
+  // JsonSchema not valid
   if (err.name === 'JsonSchemaValidation'){
     res.status(400).json({
         statusCode: 400,
@@ -87,7 +82,7 @@ app.use(function(err, req, res, next) {
     return;
   }
 
-  // Check for Malformed JSON
+  // JSON is not valid
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     res.status(400).json({
         statusCode: 400,
