@@ -81,21 +81,23 @@ app.use(function(err, req, res, next) {
     res.status(400).json({
         statusCode: 400,
         message: "Malformed JSON. Invalid or Missing Data.",
+        friendlyMessage: "Please, fill out all the required fields.",
         executionTime: new Date().toLocaleString()
     });
     return;
   }
 
-  // Need to check if this is ok
   // Check for Malformed JSON
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     res.status(400).json({
         statusCode: 400,
         message: "Malformed JSON",
+        friendlyMessage: "Malformed JSON",
         executionTime: new Date().toLocaleString()
     });
     return;
   }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

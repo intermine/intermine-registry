@@ -1,6 +1,5 @@
 /**
- * Synchronize endpoint API router
- * NEEDS REAFACTORING
+ * Router for the InterMine Registry API Synchronize operations.
  */
 var express = require('express');
 var request = require('request');
@@ -13,12 +12,12 @@ var Instance = require('../models/instance');
 /**
  * Endpoint:  /synchronize/:id
  * Method:    PUT
- * Description:
- *
+ * Description: Update the branding & version information of the instance given
+ * in the URL.
  */
 router.put('/:id', passport.authenticate('basic', {session: false}), function(req, res, next){
     var toFind = req.params.id;
-    // Query to find the instance
+    // Find the instance to update
     Instance.findOne({
         $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]
     }, function(err, instance){
@@ -27,16 +26,18 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
           res.status(404).json({
               statusCode: 404,
               message: "Instance Not Found",
+              friendlyMessage: "Instance Not Found",
               executionTime: new Date().toLocaleString()
           });
           return;
       }
+
       var intermine_endpoint = instance.url + "/service/version/intermine";
       var release_endpoint = instance.url + "/service/version/release";
       var api_endpoint = instance.url + "/service/version";
       var branding_endpoint = instance.url + "/service/branding";
 
-      // Four parallel calls to the endpoints previously instantiated
+      // We do 4 async parallel calls for fetching information
       async.parallel([
           function(callback){
               request.get(intermine_endpoint, function(err, response, body){
@@ -55,6 +56,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
           function(callback){
               request.get(release_endpoint, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
+                      // Sanitize response
                       instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                   }
                   callback(null, true);
@@ -63,6 +65,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
           function(callback){
               request.get(api_endpoint, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
+                      // Sanitize response
                       instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                   }
                   callback(null, true);
@@ -90,11 +93,12 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
               });
           }
       ], function (err, results){
-          // If api_version is equal to another version, then the other version is left empty.
+          // Check for other endpoints correct existance
           instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
           instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
           instance.last_time_updated = new Date();
-          // Save the synchronized instance on the registry
+
+          // Save instance on the Registry
           instance.save(function(err){
               if (err){
                   return res.send(err);
@@ -103,6 +107,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
                       instance_id: instance.id,
                       statusCode: 201,
                       message: "Instance " + instance.name +" Versions Updated",
+                      friendlyMessage: "Instance " + instance.name +" Versions Updated",
                       executionTime: new Date().toLocaleString()
                   });
               }
@@ -114,8 +119,10 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
 /**
  * Endpoint:  /synchronize
  * Method:    PUT
- * Description:
- *
+ * Description: Update the branding & version information of every instance on
+ * the InterMine Registry. For each instance on the registry we do 4 parallel
+ * http requests to the branding & version endpoints to verify if they are
+ * updated.
  */
 router.put('/', passport.authenticate('basic', {session: false}), function(req, res, next){
     Instance.find({}, function(err, instances){
@@ -196,6 +203,5 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
       });
   });
 });
-
 
 module.exports = router;

@@ -1,10 +1,14 @@
+/**
+ * Scheduled cron for the InterMine Registry automatic Update taks.
+ * This script is excecuted every 24 hours at 00:00:00 server time.
+ */
 var cron = require('node-cron');
 var async = require('async');
 var asyncLoop = require('node-async-loop');
 var request = require('request');
 var Instance = require('../models/instance');
-// Every 24 hours: 0 0 * * *
 
+// Every 24 hours: 0 0 * * *
 cron.schedule('0 0 * * *', function(){
   // Get all instances from DB
   Instance.find({}, function(err, instances){
@@ -12,13 +16,15 @@ cron.schedule('0 0 * * *', function(){
           console.log("Error on the Automatic Update");
           return;
       }
-      // Iter every instance
+      // Asynchrounously loop over instances
       asyncLoop(instances, function(instance, next){
           var instanceUrl = instance.url;
           var intermine_endpoint = instanceUrl + "/service/version/intermine";
           var release_endpoint = instanceUrl + "/service/version/release";
           var api_endpoint = instanceUrl + "/service/version";
           var branding_endpoint = instanceUrl + "/service/branding";
+
+          // We do 4 async parallel calls for fetching information
           async.parallel([
               function(callback){
                   request.get(intermine_endpoint, function(err, response, body){
@@ -73,11 +79,12 @@ cron.schedule('0 0 * * *', function(){
                   });
               }
           ], function (err, results){
+              // Check for other endpoints correct existance
               instance.last_time_updated = new Date();
               instance.release_version = instance.api_version === instance.release_version ? "" : instance.release_version;
               instance.intermine_version = instance.api_version === instance.intermine_version ? "" : instance.intermine_version;
 
-              // After all updates have been done. Save Instance
+              // Save instance
               instance.save(function(err){
                   if (err){
                       console.log('Error Updating: ' + instance.name);

@@ -1,8 +1,17 @@
+/**
+ * Router for the InterMine Registry Front End endpoints.
+ */
 var express = require('express');
 var router = express.Router();
 var request = require('request');
 var passport = require('passport');
 
+/**
+ * Endpoint:  /login
+ * Method:    GET
+ * Description: Render the login view if the user is not logged in. Otherwise
+ * redirect to home page.
+ */
 router.get('/login', function(req, res, next){
   if (typeof req.user === "undefined"){
     res.render('login', {user: req.user});
@@ -11,6 +20,12 @@ router.get('/login', function(req, res, next){
   }
 });
 
+/**
+ * Endpoint:  /login
+ * Method:    POST
+ * Description: Authenticate user with passport. If failure, reload. If success,
+ * redirect to home page.
+ */
 router.post('/login', passport.authenticate(
 	'local', {
     successRedirect: '/',
@@ -18,16 +33,31 @@ router.post('/login', passport.authenticate(
   })
 );
 
+/**
+ * Endpoint:  /logout
+ * Method:    GET
+ * Description: Logout user. Redirect to home page.
+ */
 router.get('/logout', function(req, res, next){
     req.logout();
     res.redirect('/');
 });
 
-/* GET home page. */
+/**
+ * Endpoint:  /
+ * Method:    GET
+ * Description: Render home page, sending user as parameter.
+ */
 router.get('/', function(req, res, next) {
     res.render('index', { user: req.user });
 });
 
+/**
+ * Endpoint:  /instance
+ * Method:    GET
+ * Description: Render add instance page if user is logged in. Otherwhise,
+ * redirect to unauthorized.
+ */
 router.get('/instance', function(req, res, next) {
     console.log(req.user);
     if (typeof req.user === "undefined"){
@@ -37,9 +67,15 @@ router.get('/instance', function(req, res, next) {
     }
 });
 
+/**
+ * Called from POST /instance. Does the Update instance procedure. Recieve
+ * the same params that the POST /instance endpoint.
+ */
 function updateInstance(req, res, next){
   var organisms = [];
   var neighbours = [];
+
+  // Get fields from form
   if (req.body.newOrganisms !== "") {
     organisms = req.body.newOrganisms.split(",") ;
   }
@@ -49,11 +85,11 @@ function updateInstance(req, res, next){
   }
 
   var isProduction = true;
-
   if (req.body.newIsDev === 1){
     var isProduction = false;
   }
 
+  // Do a request to the API PUT endpoint, passing body and authentication
   var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
   request.put({
     body: {
@@ -81,6 +117,7 @@ function updateInstance(req, res, next){
       body = JSON.parse(body);
     }
 
+    // If not sucessfull, render add Instance view with form filled and error message
     if (body.statusCode != 201){
       res.render('addInstance', {
           name: req.body.newName,
@@ -100,13 +137,20 @@ function updateInstance(req, res, next){
 
 }
 
+/**
+ * Endpoint:  /instance
+ * Method:    POST
+ * Description: Add or update and instance to the registry from front end.
+ */
 router.post('/instance', function(req, res, next) {
 
+    // If method is PUT (update instance), call update function
     if (req.body._method === "put"){
       updateInstance(req, res, next);
       return;
     }
 
+    // Get fields from form
     if (req.body.newOrganisms !== "") {
       var organisms = req.body.newOrganisms.split(",") ;
     }
@@ -116,11 +160,11 @@ router.post('/instance', function(req, res, next) {
     }
 
     var isProduction = true;
-
     if (req.body.newIsDev === 1){
       var isProduction = false;
     }
 
+    // Do a request to the API POST endpoint, passing body and authentication
     var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances";
     request.post({
       body: {
@@ -148,6 +192,7 @@ router.post('/instance', function(req, res, next) {
         body = JSON.parse(body);
       }
 
+      // If not sucessfull, render add Instance view with form filled and error message
       if (body.statusCode != 201){
         res.render('addInstance', {
             name: req.body.newName,
