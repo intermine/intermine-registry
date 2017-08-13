@@ -1,7 +1,6 @@
 /**
  * Instance Model.
  */
-
 // Registry Connection
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
