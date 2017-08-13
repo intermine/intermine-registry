@@ -128,7 +128,7 @@ function updateInstance(req, res, next){
           lon: req.body.newLongitude,
           organisms: req.body.newOrganisms,
           neighbours: req.body.newNeighbours,
-          message: body.message
+          message: body.friendlyMessage
       });
     } else {
       res.redirect('/');
@@ -203,7 +203,7 @@ router.post('/instance', function(req, res, next) {
             lon: req.body.newLongitude,
             organisms: req.body.newOrganisms,
             neighbours: req.body.newNeighbours,
-            message: body.message
+            message: body.friendlyMessage
         });
       } else {
         res.redirect('/');

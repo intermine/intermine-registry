@@ -19,6 +19,7 @@ $(document).ready(function () {
         url: 'service/synchronize/',
         type: 'PUT',
         success: function(result){
+          localStorage.setItem("message", "All instances were updated successfully.");
           location.reload();
         },
         beforeSend: function(xhr){
@@ -225,6 +226,7 @@ function getInstances(search){
               url: 'service/instances/' + instance.id,
               type: 'DELETE',
               success: function(result){
+                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
                 location.reload();
               },
               beforeSend: function(xhr){
@@ -241,6 +243,7 @@ function getInstances(search){
               url: 'service/synchronize/' + instance.id,
               type: 'PUT',
               success: function(result){
+                localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
                 location.reload();
               },
               beforeSend: function(xhr){

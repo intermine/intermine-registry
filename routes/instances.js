@@ -113,7 +113,7 @@ router.delete('/:id', passport.authenticate('basic', {session: false}), function
             api_response.message = 'Instance Not Found';
         }
         api_response.executionTime = new Date().toLocaleString();
-        res.status(statusCode).json(api_response);
+        res.status(api_response.statusCode).json(api_response);
     });
 });
 
@@ -155,11 +155,17 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             if (err){
                 return res.send(err);
             }
-            newInstanceId = found.length + 1;
+
+            var allIds = found.map(function(inst){ return parseInt(inst.id) });
+            allIds.sort(function(a,b){
+              return a-b;
+            })
+            newInstanceId = allIds[found.length-1] + 1;
 
             // Test if name or URL provided is already in the registry
             var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
-            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() })
+            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
+
             if (allNames.indexOf(req.body.name.toLowerCase()) >= 0 || allUrls.indexOf(req.body.url.toLowerCase()) >=0) {
                 res.status(409).json({
                     statusCode: 409,
@@ -184,6 +190,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             newInstanceObject.status = "Running";
 
             // Check for instance additional fields existance
+            newInstanceObject.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : true;
             newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
             newInstanceObject.description = typeof(req.body.description) !== 'undefined' ? req.body.description : "";
             newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};

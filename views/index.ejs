@@ -42,6 +42,8 @@
         <h2 class='align-center mb-50' id="view-type"> Instances List View </h2>
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
+						<div id="successAlertDiv">
+						</div>
             <% if (typeof message !== 'undefined') { %>
               <div class="successalert">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -185,7 +187,15 @@
     <script language="javascript" src="/javascripts/index.js"></script>
 
     <script type="text/javascript">
-
+			console.log(localStorage.getItem("message"));
+			if (localStorage.getItem("message")){
+				$("#successAlertDiv").append( '<div class = "successalert" id = "indexActionAlert"> ' +
+												'<span class="closebtn" onclick="this.parentElement.style.display='+"'none'" + ';">&times;</span> ' +
+												localStorage.getItem("message") 		 +
+												'</div>'
+											);
+				localStorage.clear();
+			}
     </script>
 
 
