@@ -46,7 +46,7 @@ asyncLoop(mines, function(mine, next){
     };
     request.post({
         json: true,
-        url: host + "/registry/service/instances",
+        url: host + "/service/instances",
         body: req
     }, function(err, res, body){
         console.log(mineName + " Added")

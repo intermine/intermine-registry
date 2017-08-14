@@ -3,11 +3,10 @@
  */
 // Registry Connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry';
-var DB_USER = process.env.DB_USER;
-var DB_PASS = process.env.DB_PASS;
-//var mongoDB = 'mongodb://'+ DB_USER + ':' + DB_PASS + '@ds115712.mlab.com:15712/intermineregistry';
-mongoose.connect(mongoDB);
+
+//var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry'
+mongoose.connect(process.env.MONGODB_URL);
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
