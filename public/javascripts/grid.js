@@ -395,7 +395,8 @@ var Grid = (function($) {
 	            url: 'service/synchronize/' + instance.id,
 	            type: 'PUT',
 	            success: function(result){
-	              location.reload();
+								localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
+	              window.location = window.location.pathname;
 	            },
 							beforeSend: function(xhr){
 								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));

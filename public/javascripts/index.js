@@ -20,7 +20,7 @@ $(document).ready(function () {
         type: 'PUT',
         success: function(result){
           localStorage.setItem("message", "All instances were updated successfully.");
-          location.reload();
+          window.location = window.location.pathname;
         },
         beforeSend: function(xhr){
           xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
@@ -227,7 +227,7 @@ function getInstances(search){
               type: 'DELETE',
               success: function(result){
                 localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
-                location.reload();
+                window.location = window.location.pathname;
               },
               beforeSend: function(xhr){
                 xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
@@ -244,7 +244,7 @@ function getInstances(search){
               type: 'PUT',
               success: function(result){
                 localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
-                location.reload();
+                window.location = window.location.pathname;
               },
               beforeSend: function(xhr){
                 xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
