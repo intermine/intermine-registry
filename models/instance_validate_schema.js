@@ -1,3 +1,8 @@
+/**
+ * Schemas to validate JSON requests to instances POST and PUT endpoints.
+ */
+
+// POST SCHEMA
 var InstanceSchema = {
     type: "object",
     properties: {
@@ -55,6 +60,7 @@ var InstanceSchema = {
     required: ['name', 'url']
 };
 
+// UPDATE SCHEMA 
 var InstancePutSchema = {
     type: "object",
     properties: {

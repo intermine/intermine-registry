@@ -1,12 +1,15 @@
-/*
-* debouncedresize: special jQuery event that happens once after a window resize
-*
-* latest version and complete README available on Github:
-* https://github.com/louisremi/jquery-smartresize/blob/master/jquery.debouncedresize.js
-*
-* Copyright 2011 @louis_remi
-* Licensed under the MIT license.
-*/
+/**
+ * debouncedresize: special jQuery event that happens once after a window resize
+ *
+ * latest version and complete README available on Github:
+ * https://github.com/louisremi/jquery-smartresize/blob/master/jquery.debouncedresize.js
+ *
+ * Copyright 2011 @louis_remi
+ * Licensed under the MIT license.
+ *
+ * Enchanced by @lkuffo to fullify InterMine Registry project requirements:
+ * This file is in charge all the Grid view functionality and content.
+ */
 
 var instance_clicked = "";
 jQuery_1_9_1(".main a").click(function(){
@@ -354,14 +357,14 @@ var Grid = (function($) {
 			var value = "CAMBIADO";
 			var myPanorama = this;
 
-
+			// Preview Structure adapted to Intermine Registry
 			myPanorama.$description = $( '<p id="data-description"></p>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
 															'<a id=grid-instance-url href="#" target="_blank">Visit website</a>' +
-															'<a id="grid-update" href="#" class="grid-preview-buttons ml-10"> Update </a>' +
-															'<button class="grid-preview-buttons syncmineb ml-10" id="grid-sync"> Synchronize </button>' +
-															'<button class="grid-preview-buttons deletemineb ml-10" id="grid-delete"> Delete </button></div>'
+															'<a id="grid-update" href="#" style="display: none;" class="grid-preview-buttons ml-10"> Update </a>' +
+															'<button class="grid-preview-buttons syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
+															'<button class="grid-preview-buttons deletemineb ml-10" style="display: none;" id="grid-delete"> Delete </button></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
@@ -376,36 +379,46 @@ var Grid = (function($) {
 				myPanorama.setTransition();
 			}
 
+			// Get the expanded grid instance information, and buttons functionalities
 			$.ajax({
 				url: "service/instances/" + instance_clicked,
 				success: function(response){
 					var instance = response.instance;
 					var name = instance.name;
 
+					// Update Button
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
+					// Sync Button
 					$("#grid-sync").click(function(){
 						$.ajax({
 	            url: 'service/synchronize/' + instance.id,
 	            type: 'PUT',
 	            success: function(result){
-	              location.reload();
-	            }
+								localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
+	              window.location = window.location.pathname;
+	            },
+							beforeSend: function(xhr){
+								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+							}
 	          });
 					});
-
-					if (typeof user === "undefined"){
-						$("#grid-sync").css("display","none");
-						$("#grid-update").css("display","none");
-						$("#grid-delete").css("display","none");
+					// If user is undefined, none of this buttons appear.
+					if (typeof user !== "undefined"){
+						$("#grid-sync").css("display","inline");
+						$("#grid-update").css("display","inline");
+						$("#grid-delete").css("display","inline");
 					}
 
 					$(".deletemineb").click(function(){
 			       $('#delete-modal').modal({show:true});
 			    });
 
-					if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+					// Fill Preview Box Content
+
+					// Image
 		        if (instance.images.logo.startsWith("http")){
+							if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
 		          imageURL = instance.images.logo;
 		        } else {
 		          imageURL = instance.url + "/" + instance.images.logo;
@@ -413,24 +426,22 @@ var Grid = (function($) {
 		      } else {
 		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
 		      }
-
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>");
+					// Versions
 					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
-
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(
 	            '<br><br><span class="bold"> Release Version: </span>' +
 	            '<span id="grid-release-version"> '+ instance.release_version + '</span>'
 	          );
 	        }
-
 	        if (instance.intermine_version !== ""){
 	          $("#grid-details-versions").append(
 	            '<br><br><span class="bold"> Intermine Version: </span>' +
 	            '<span id="grid-intermine-version"> '+ instance.intermine_version + '</span>'
 	          );
 	        }
-
+					// Organisms
 					if (instance.organisms.length != 0){
 	          var list = "";
 	          for (var j = 0; j < instance.organisms.length; j++){
@@ -451,7 +462,7 @@ var Grid = (function($) {
 	            '</div>'
 	          );
 	        }
-
+					// Neighbours
 					if (instance.neighbours.length != 0){
 	          var list = "";
 	          for (var j = 0; j < instance.neighbours.length; j++){
@@ -472,7 +483,7 @@ var Grid = (function($) {
 	            '</div>'
 	          );
 	        }
-
+					// Twitter
 					if (instance.twitter !== ""){
 	          $("#grid-right-preview").append(
 	            '<br>' +
@@ -482,9 +493,11 @@ var Grid = (function($) {
 	            '</div>'
 	          );
 	        }
-
+					// Title
 					$("#grid-instance-title").text(name);
+					// Description
 					$("#data-description").text(instance.description);
+					// Url
 					$("#grid-instance-url").attr("href", instance.url);
 				}
 			});
@@ -516,6 +529,9 @@ var Grid = (function($) {
 					description : $itemEl.data( 'description' )
 				};
 			var myPanorama = this;
+
+			// Same logic as when expanding
+
 			$.ajax({
 				url: "service/instances/" + instance_clicked,
 				success: function(response){

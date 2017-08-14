@@ -1,5 +1,15 @@
+/**
+ *
+ * Map View Functionality .js
+ *
+ *
+ */
+// All mines object
 var mines = {};
 
+/**
+ * Load mines from Registry
+ */
 function loadMines(){
   $.get("service/instances", function(response){
     var response = response.instances;
@@ -25,7 +35,6 @@ function loadMines(){
   });
 }
 
-
 var mineMiner = function() {
   var map;
   function init() {
@@ -40,7 +49,7 @@ var mineMiner = function() {
   }
 
   $("#map").on( "click", function() {
-
+      map.invalidateSize(false);
   });
 
   $("#map").mouseover(function() {
@@ -49,13 +58,14 @@ var mineMiner = function() {
 
 
   /**
-  * Adds all mines in the JSON to the map and make nice popups for them
-  **/
+   * Adds all mines in the JSON to the map and make nice popups for them
+   */
   function addMines(){
     var mineKeys = Object.keys(mines), mine;
     for (var i = 0; i < mineKeys.length; i++) {
       var minesToAdd = [];
       mine = mines[mineKeys[i]];
+      // Check for mines with same location
       for (var j = 0; j < mineKeys.length; j++){
         var mineToCheck = mines[mineKeys[j]];
         if (mineToCheck.location.lat == mine.location.lat && mineToCheck.location.lon == mine.location.lon){
@@ -70,9 +80,10 @@ var mineMiner = function() {
       .bindPopup(makeMinePopup(minesToAdd));
     }
   }
+
   /**
-  * Format HTML for the map mine popup
-  **/
+   * Format HTML for the map mine popup
+   **/
   function makeMinePopup(minesToAdd){
     var mineHtml = "";
     for (var j = 0; j < minesToAdd.length; j++){

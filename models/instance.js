@@ -1,16 +1,16 @@
 /**
- * Intermine Registry Instance Model.
- *
+ * Instance Model.
  */
+// Registry Connection
 var mongoose = require('mongoose');
 
 //var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry'
 mongoose.connect(process.env.MONGODB_URL);
 
 var db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+// Schema Modeling
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
@@ -57,8 +57,8 @@ var schema = new Schema({
     }
 );
 
+// Create Text index on description field
 schema.index({description: "text"});
 
 var Instance = mongoose.model("instance", schema);
-
 module.exports = Instance;

@@ -7,71 +7,6 @@ html {
   overflow-y: scroll;
 }
 
-.github-btn {
-    position: relative;
-    overflow: visible;
-    display: inline-block;
-    padding: 0.5em 1em;
-    height: 28px;
-    border: 1px solid #d4d4d4;
-    margin: 0;
-    text-decoration: none;
-    text-align: center;
-    text-shadow: 1px 1px 0 #fff;
-    font:11px/normal sans-serif;
-    font-weight: bold;
-    color: #333;
-    white-space: nowrap;
-    cursor: pointer;
-    vertical-align: top;
-    outline: none;
-    background-color: #ececec;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
-    background-image: -moz-linear-gradient(#f4f4f4, #ececec);
-    background-image: -ms-linear-gradient(#f4f4f4, #ececec);
-    background-image: -o-linear-gradient(#f4f4f4, #ececec);
-    background-image: linear-gradient(#f4f4f4, #ececec);
-    -moz-background-clip: padding; /* for Firefox 3.6 */
-    background-clip: padding-box;
-    border-radius: 0.2em;
-    /* IE hacks */
-    zoom: 1;
-    *display: inline;
-}
-
-.github-btn:hover,
-.github-btn:focus,
-.github-btn:active,
-.github-btn.active {
-    border-color: #3072b3;
-    border-bottom-color: #2a65a0;
-    text-decoration: none;
-    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-    color: #fff;
-    background-color: #3c8dde;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
-    background-image: -moz-linear-gradient(#599bdc, #3072b3);
-    background-image: -o-linear-gradient(#599bdc, #3072b3);
-    background-image: linear-gradient(#599bdc, #3072b3);
-}
-
-.github-btn:active,
-.github-btn.active {
-    border-color: #2a65a0;
-    border-bottom-color: #3884cd;
-    background-color: #3072b3;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
-    background-image: -moz-linear-gradient(#3072b3, #599bdc);
-    background-image: -ms-linear-gradient(#3072b3, #599bdc);
-    background-image: -o-linear-gradient(#3072b3, #599bdc);
-    background-image: linear-gradient(#3072b3, #599bdc);
-}
-
-/* overrides extra padding on button elements in Firefox */
-.github-btn::-moz-focus-inner {
-    padding: 0;
-    border: 0;
-}
 
 html, body {
     margin: 0;
@@ -80,33 +15,6 @@ html, body {
     font-size:16px;
 }
 
-.successalert{
-  padding: 20px;
-  background-color: #4CAF50;
-  color: white;
-  margin-bottom: 15px;
-}
-
-/* The close button */
-.closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* When moving the mouse over the close button */
-.closebtn:hover {
-    color: black;
-}
-
-.right {
-    float: right !important;
-}
 
 #intro{
 
@@ -151,146 +59,6 @@ h1{
   }
 }
 
-#view-type {
-  font-size: 40px;
-}
-
-.header-title{
-  /*font-family: 'Coda', cursive;*/
-	font-family: 'Muli', sans-serif;
-	color: white;
-	word-wrap: break-word;
-}
-
-.header-text{
-	color: #cccccc;
-	opacity: 0;
-	word-wrap: break-word;
-  font-size: 18px;
-}
-
-.nav {
-    display: block;
-}
-
-.navbar, .navbar-default, .navbar-nav, .navbar-collapse, #myTopnav{
-    margin: 0 0 0 0;
-    border-bottom: 0px;
-    color: white !important;
-}
-
-.navbar-toggle
-{
-    float:none;
-
-}
-.navbar-header
-{
-    text-align:center;
-}
-
-.navbar-default .navbar-nav>li>a {
-    color: white !important;
-}
-
-.navbar-default > div > ul > a{
-  color: white !important;
-}
-
-.navbar-nav > li >a:hover {
-   background-color: transparent;
-   text-shadow: 2px 2px 8px black;
-}
-
-.navbar-nav > li >a {
-   color: white;
-}
-
-.topnav, .navbar-collapse, .navbar-header {
-    background-color: #333;
-    background: url(http://intermine.readthedocs.io/en/latest/_static/img/pattern-1.jpg) repeat 0 0;
-    overflow: hidden;
-    color: #fff;
-    padding: 5px 0px;
-    border-bottom: 1px solid #596a02;
-    font-size: 1em;
-}
-
-.container {
-	width: 100%;
-	position: relative;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 8px 16px;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.grid-panel {
-    position: relative;
-    background-clip: padding-box;
-}
-
-
-
-.grid-panel-title{
-    position: absolute;
-    width: 100%;
-    top: 10px;
-    left: 0px;
-    color: black;
-    font-size: 22px !important;
-    font-weight: bold;
-}
-
-.grid-panel-description{
-    position: absolute;
-    width: 100%;
-    top: 65px;
-    left: 0px;
-    right: 100%;
-    padding-right: 20px;
-    color: black;
-    text-overflow: ellipsis;
-    white-space: pre-wrap;
-    word-wrap: normal;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-    text-shadow: 2px 2px 8px black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.bold{
-	font-weight: bold;
-}
-
-.align-center {
-    margin: 0 auto;
-    text-align: center;
-    align-items: center;
-    display: block;
-}
-
-.align-right {
-    margin: 0 auto;
-    text-align: right;
-    align-items: right;
-    display: block;
-}
-
 .panel-icons{
     position: absolute;
     top: 90%;
@@ -299,20 +67,6 @@ h1{
     transform: translate(-45%, -45%);
     display: block;
 }
-
-.align-left {
-    margin: 0 auto;
-    text-align: left;
-    align-items: left;
-    display: block;
-}
-
-/**
- * ========================================
- * LIST VIEW
- * ========================================
- */
-
 
 /* enable absolute positioning */
 .inner-addon {
@@ -334,83 +88,51 @@ h1{
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
 
-.truncate {
-  max-width: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:focus,
-.nav-pills>li.active>a:hover{
-	background-color: rgb(86, 149, 0);
-	color: #FFF;
-	transition: all 0.25s;
-}
-.nav-pills>li>a{
-	color: rgb(105,105,105);
-	transition: all 0.25s;
-}
-.nav-pills>li>a:hover{
-	border-color: #e6e6e6 #e6e6e6 #ddd;
-}
-
 body.modal-open {
     overflow: visible;
 }
 
-/* END */
-.btn.focus, .btn:focus, .btn:hover{
-	font-weight: bold;
+#loader {
+	display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
-.navbar-default, .navbar-default .navbar-toggle .nav-tabs{
-    border: none !important;
+#loader-text {
+	display: none;
+	color: white;
+	position: fixed;
+	left: 50%;
+	top: 70%;
+	z-index: 1;
+	margin: -75px 0 0 -75px;
+	width: 120px;
+	height: 120px;
 }
 
-
-
-
-
-.hvr-float-shadow {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px transparent;
-  position: relative;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: transform;
-  transition-property: transform;
-}
-.hvr-float-shadow:before {
-  pointer-events: none;
-  position: absolute;
-  z-index: -1;
-  content: '';
-  top: 100%;
-  left: 5%;
-  height: 10px;
-  width: 90%;
-  opacity: 0;
-  background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, transparent 80%);
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, transparent 80%);
-  /* W3C */
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: transform, opacity;
-  transition-property: transform, opacity;
-}
-.hvr-float-shadow:hover, .hvr-float-shadow:focus, .hvr-float-shadow:active {
-  -webkit-transform: translateY(-5px);
-  transform: translateY(-5px);
-  /* move the element up by 5px */
-}
-.hvr-float-shadow:hover:before, .hvr-float-shadow:focus:before, .hvr-float-shadow:active:before {
-  opacity: 1;
-  -webkit-transform: translateY(5px);
-  transform: translateY(5px);
-  /* move the element down by 5px (it will stay in place because it's attached to the element that also moves up 5px) */
+#dimmer{
+	display: none;
+	height:100%;
+	width:100%;
+	position:fixed;
+	left:0;
+	top:0;
+	z-index:1 !important;
+	background-color:black;
+	filter: alpha(opacity=75); /* internet explorer */
+	-khtml-opacity: 0.75;      /* khtml, old safari */
+		-moz-opacity: 0.75;      /* mozilla, netscape */
+				 opacity: 0.75;      /* fx, safari, opera */
 }
