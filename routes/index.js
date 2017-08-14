@@ -49,7 +49,15 @@ router.get('/logout', function(req, res, next){
  * Description: Render home page, sending user as parameter.
  */
 router.get('/', function(req, res, next) {
-    res.render('index', { user: req.user });
+    if (typeof (req.query.success)){
+      var operation = req.query.success;
+      if (operation == 1){
+        return res.render('index', { user: req.user, message: "Instance Added Successfully" });
+      } else if (operation == 2) {
+        return res.render('index', { user: req.user, message: "Instance Updated Successfuly" });
+      }
+    }
+    return res.render('index', { user: req.user });
 });
 
 /**
@@ -131,7 +139,7 @@ function updateInstance(req, res, next){
           message: body.friendlyMessage
       });
     } else {
-      res.redirect('/');
+      res.redirect('/?success=2');
     }
   });
 
@@ -206,10 +214,9 @@ router.post('/instance', function(req, res, next) {
             message: body.friendlyMessage
         });
       } else {
-        res.redirect('/');
+        res.redirect('/?success=1');
       }
     });
-
 });
 
 module.exports = router;

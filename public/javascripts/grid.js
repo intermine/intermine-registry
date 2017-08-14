@@ -362,9 +362,9 @@ var Grid = (function($) {
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
 															'<a id=grid-instance-url href="#" target="_blank">Visit website</a>' +
-															'<a id="grid-update" href="#" class="grid-preview-buttons ml-10"> Update </a>' +
-															'<button class="grid-preview-buttons syncmineb ml-10" id="grid-sync"> Synchronize </button>' +
-															'<button class="grid-preview-buttons deletemineb ml-10" id="grid-delete"> Delete </button></div>'
+															'<a id="grid-update" href="#" style="display: none;" class="grid-preview-buttons ml-10"> Update </a>' +
+															'<button class="grid-preview-buttons syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
+															'<button class="grid-preview-buttons deletemineb ml-10" style="display: none;" id="grid-delete"> Delete </button></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
@@ -396,14 +396,17 @@ var Grid = (function($) {
 	            type: 'PUT',
 	            success: function(result){
 	              location.reload();
-	            }
+	            },
+							beforeSend: function(xhr){
+								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+							}
 	          });
 					});
 					// If user is undefined, none of this buttons appear.
-					if (typeof user === "undefined"){
-						$("#grid-sync").css("display","none");
-						$("#grid-update").css("display","none");
-						$("#grid-delete").css("display","none");
+					if (typeof user !== "undefined"){
+						$("#grid-sync").css("display","inline");
+						$("#grid-update").css("display","inline");
+						$("#grid-delete").css("display","inline");
 					}
 
 					$(".deletemineb").click(function(){
@@ -527,7 +530,7 @@ var Grid = (function($) {
 			var myPanorama = this;
 
 			// Same logic as when expanding
-		
+
 			$.ajax({
 				url: "service/instances/" + instance_clicked,
 				success: function(response){
