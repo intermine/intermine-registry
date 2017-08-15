@@ -1,3 +1,8 @@
+/**
+ * Schemas to validate JSON requests to instances POST and PUT endpoints.
+ */
+
+// POST SCHEMA
 var InstanceSchema = {
     type: "object",
     properties: {
@@ -43,6 +48,10 @@ var InstanceSchema = {
             id: "/properties/twitter",
             type: "string"
         },
+        isProduction: {
+            id: "/properties/isProduction",
+            type: "boolean"
+        },
         url: {
             id: "/properties/url",
             type: "string"
@@ -51,6 +60,7 @@ var InstanceSchema = {
     required: ['name', 'url']
 };
 
+// UPDATE SCHEMA 
 var InstancePutSchema = {
     type: "object",
     properties: {
@@ -169,6 +179,10 @@ var InstancePutSchema = {
         twitter: {
             id: "/properties/twitter",
             type: "string"
+        },
+        isProduction: {
+            id: "/properties/isProduction",
+            type: "boolean"
         },
         url: {
             id: "/properties/url",

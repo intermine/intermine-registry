@@ -1,58 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>InterMine Registry</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<%- include('header.ejs') %>
+<body>
+	<%- include('navbar.ejs') %>
 
-     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/custom-bootstrap-margin-padding.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
-		<link rel="stylesheet" type="text/css" href="/stylesheets/component.css" />
-    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
-    <link rel="stylesheet" href="/stylesheets/leaflet.css" />
-    <link href="https://fonts.googleapis.com/css?family=Coda:800" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/addInstance.css" />
-    <style>
-      #map { height: 500px; }
-    </style>
-	</head>
-  <body>
-    <nav class="navbar navbar-default">
-      <div class="row">
-        <div class="navbar-header">
-    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTopnav" aria-expanded="false">
-    				<span class="sr-only">Toggle navigation</span>
-    				<span class="icon-bar"></span>
-    				<span class="icon-bar"></span>
-    				<span class="icon-bar"></span>
-    			</button>
-    		</div>
-        <div class="collapse navbar-collapse" id="myTopnav">
-          <ul class="nav navbar-nav">
-            <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
-            <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine">GitHub</a></li>
-            <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a></li>
-            <li><a class='ml-20' href="http://chat.intermine.org">Support chat</a></li>
-            <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-            <a href="http://intermine.org/" target="_blank">
-              <img class="mr-40 ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
-            </a> </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
     <section id = 'intro' class = 'pt-70 pl-50'>
+      <div id="dimmer"></div>
+      <div id="loader"></div>
+      <div id="loader-text" class="align-center"> Synchronizing Instances </div>
       <div class="container-fluid">
         <div class="row">
           <div class = 'container'>
@@ -70,7 +25,8 @@
                   <p class = 'header-desc pb-0 mb-0 pt-0 mt-0'> This information includes: Instances names, URLs, versions, neighbours, descriptions, location, organisms and branding information. </p>
                   <p class = 'header-desc pb-0 mb-0 pt-0 mt-0'></p>
                 <div class="pt-50">
-                  <a class="github-button" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="InterMine-Registry on GitHub">Source</a>
+	                  <a class="github-button" style="vertical-align: middle;" href="https://github.com/intermine/intermine-registry" data-size="large" aria-label="InterMine-Registry on GitHub">Source</a>
+										<a class="github-btn ml-30" target="_blank" href="/api-docs" data-size="large">Documentation</a>
                 </div>
                 </div>
               </div>
@@ -86,6 +42,8 @@
         <h2 class='align-center mb-50' id="view-type"> Instances List View </h2>
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
+						<div id="successAlertDiv">
+						</div>
             <% if (typeof message !== 'undefined') { %>
               <div class="successalert">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -93,10 +51,17 @@
               </div>
             <% } %>
             <div class="row main-center">
-              <div class="col-md-2">
-                <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
-              </div>
-              <div class="col-md-7">
+							<% if (typeof user === "undefined") { %>
+              	<div class="col-md-9">
+			        <% } else { %>
+								<div class="col-md-2">
+	                <button class="btn" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
+	              </div>
+	              <div class="col-md-2">
+	                <button class="btn" id="sync-instances"> Synchronize All </button>
+	              </div>
+								<div class="col-md-5">
+			        <% } %>
                 <div class="inner-addon left-addon">
                     <i class="glyphicon glyphicon-search"></i>
                     <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
@@ -142,8 +107,11 @@
 
                     	</div>
                     	<div class="modal-footer">
-                        <a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
-                        <button class="btn btn-danger deletemineb">Delete</button>
+												<% if (typeof user !== "undefined") { %>
+													<a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
+	                        <button class="btn btn-warning" id="sync-mine-list">Synchronize</button>
+	                        <button class="btn btn-danger deletemineb">Delete</button>
+											  <% } %>
                     		<button class="btn closeb" data-dismiss="modal">Close</button>
                     	</div>
                   	</div>
@@ -193,6 +161,11 @@
     		</div>
       </div>
     </section>
+		<% if (typeof user !== "undefined") { %>
+			<script type="text/javascript">
+					var user = <%- JSON.stringify(user) %>;
+			</script>
+		<% } %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -203,18 +176,26 @@
     <script type="text/javascript">
       var jQuery_2_1_3 = $.noConflict(true);
     </script>
-    <script language="javascript" src="/javascripts/header.js"></script>
+    <script language="javascript" src="/javascripts/headerAnimation.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/javascripts/leaflet.js"></script>
     <!-- <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script> -->
 
-    <script language="javascript" type="text/javascript" src="/javascripts/mapView.js"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/map.js"></script>
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <script language="javascript" src="/javascripts/index.js"></script>
 
     <script type="text/javascript">
-
+			console.log(localStorage.getItem("message"));
+			if (localStorage.getItem("message")){
+				$("#successAlertDiv").append( '<div class = "successalert" id = "indexActionAlert"> ' +
+												'<span class="closebtn" onclick="this.parentElement.style.display='+"'none'" + ';">&times;</span> ' +
+												localStorage.getItem("message") 		 +
+												'</div>'
+											);
+				localStorage.clear();
+			}
     </script>
 
 
