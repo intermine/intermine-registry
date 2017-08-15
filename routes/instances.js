@@ -71,9 +71,11 @@ router.get('/', function(req, res, next) {
  */
 router.get('/:id', function(req, res, next) {
     var toFind = req.params.id;
+
+    var regex = new RegExp(["^", toFind, "$"].join(""), "i");
     // Exec query
     Instance.find({
-        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]  // Case Insensitive
+        $or:[ { id: toFind}, {name: regex } ]  // Case Insensitive
     }, function(err, instances){
         if (err){
             return res.send(err);
