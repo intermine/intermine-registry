@@ -18,8 +18,9 @@ var Instance = require('../models/instance');
 router.put('/:id', passport.authenticate('basic', {session: false}), function(req, res, next){
     var toFind = req.params.id;
     // Find the instance to update
+    var regex = new RegExp(["^", toFind, "$"].join(""), "i");
     Instance.findOne({
-        $or:[ { id: toFind}, {name: {$regex: toFind, $options: "i"}} ]
+        $or:[ { id: toFind}, {name: regex} ]
     }, function(err, instance){
       // Instance not found
       if (instance == null){
