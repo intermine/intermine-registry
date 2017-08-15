@@ -1,7 +1,21 @@
 /* General Demo Style */
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
-html { height: 100%; }
+html {
+	height: 100%;
+}
+
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    background: #f9f9f9;
+    font-weight: 300;
+		height: auto;
+    font-size: 15px;
+    color: #333;
+    overflow-x: hidden;
+}
+
+
 
 *,
 *:after,
@@ -11,6 +25,76 @@ html { height: 100%; }
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
+}
+
+.align-center {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    display: block;
+}
+
+.align-right {
+    margin: 0 auto;
+    text-align: right;
+    align-items: right;
+    display: block;
+}
+
+.align-left {
+    margin: 0 auto;
+    text-align: left;
+    align-items: left;
+    display: block;
+}
+
+.right {
+    float: right !important;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.truncate {
+  max-width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#view-type {
+  font-size: 40px;
+}
+
+.header-title{
+  /*font-family: 'Coda', cursive;*/
+	font-family: 'Muli', sans-serif;
+	color: white;
+	word-wrap: break-word;
+}
+
+.header-text{
+	color: #cccccc;
+	opacity: 0;
+	word-wrap: break-word;
+  font-size: 18px;
+}
+
+.container {
+	width: 100%;
+	position: relative;
+}
+
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
@@ -26,14 +110,4 @@ html { height: 100%; }
 
 .clearfix {
     *zoom: 1;
-}
-
-body {
-    font-family: 'Lato', Calibri, Arial, sans-serif;
-    background: #f9f9f9;
-    font-weight: 300;
-		height: auto;
-    font-size: 15px;
-    color: #333;
-    overflow-x: hidden;
 }
