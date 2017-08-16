@@ -88,6 +88,10 @@ function getInstances(search){
 
 
       var organisms = "";
+      for (var z = 0; z < instance.organisms.length; z++){
+        instance.organisms[z] = instance.organisms[z].trim();
+      }
+      instance.organisms = instance.organisms.sort();
       for (var j = 0; j < instance.organisms.length; j++){
         if (j === instance.organisms.length - 1){
           organisms += instance.organisms[j];
