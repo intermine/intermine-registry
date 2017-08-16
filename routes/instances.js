@@ -164,6 +164,10 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             })
             newInstanceId = allIds[found.length-1] + 1;
 
+            if (found.length == 0){
+              newInstanceId = 1;
+            }
+
             // Test if name or URL provided is already in the registry
             var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
             var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
@@ -323,6 +327,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
         instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
         instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
         instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
+        instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
         instance.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : instance.twitter;
         if (typeof(req.body.location) !== 'undefined'){
             instance.location.latitude = typeof(req.body.location.latitude) !== 'undefined' ? req.body.location.latitude : instance.location.latitude;
