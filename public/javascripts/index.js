@@ -213,6 +213,7 @@ function getInstances(search){
       $('#delete-modal').modal({show:true});
     });
 
+
     $(".registry-item").click(function(){
       var selectedMine = $(this).children("td[class='bold mine-name']").text();
 
@@ -257,9 +258,23 @@ function getInstances(search){
           }
         });
 
+        if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+          if (instance.images.logo.startsWith("http")){
+            imageURL = instance.images.logo;
+          } else {
+            imageURL = instance.url + "/" + instance.images.logo;
+          }
+        } else {
+          imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+        }
+        $("#modal-mine-img").attr("src", imageURL);
+
         // Fill out modal body with fields of the instance
         $("#mine-modal-body").empty();
         $("#modal-mine-title").text(instance.name);
+
+
+
         $("#list-api-version").text(instance.api_version);
         $("#list-url").text(instance.url);
         $("#list-url").attr("href", instance.url);

@@ -417,8 +417,8 @@ var Grid = (function($) {
 					// Fill Preview Box Content
 
 					// Image
-		        if (instance.images.logo.startsWith("http")){
-							if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+		      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+						if (instance.images.logo.startsWith("http")){
 		          imageURL = instance.images.logo;
 		        } else {
 		          imageURL = instance.url + "/" + instance.images.logo;
