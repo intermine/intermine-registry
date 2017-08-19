@@ -364,7 +364,7 @@ var Grid = (function($) {
 															'<a id=grid-instance-url href="#" target="_blank">Visit website</a>' +
 															'<a id="grid-update" href="#" style="display: none;" class="grid-preview-buttons ml-10"> Update </a>' +
 															'<button class="grid-preview-buttons syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
-															'<button class="grid-preview-buttons deletemineb ml-10" style="display: none;" id="grid-delete"> Delete </button></div>'
+															'<button class="grid-preview-buttons ml-10 deletemineg" style="display: none;" id="grid-delete"> Delete </button></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
@@ -410,15 +410,30 @@ var Grid = (function($) {
 						$("#grid-delete").css("display","inline");
 					}
 
-					$(".deletemineb").click(function(){
-			       $('#delete-modal').modal({show:true});
-			    });
+
+					$(".deletemineg").click(function(){
+	          if (typeof user !== "undefined"){
+	            $.ajax({
+	              url: 'service/instances/' + instance.id,
+	              type: 'DELETE',
+	              success: function(result){
+	                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
+	                window.location = window.location.pathname;
+	              },
+	              beforeSend: function(xhr){
+	                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+	              }
+	            });
+	          }
+	        });
+
+
 
 					// Fill Preview Box Content
 
 					// Image
-		        if (instance.images.logo.startsWith("http")){
-							if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+		      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+						if (instance.images.logo.startsWith("http")){
 		          imageURL = instance.images.logo;
 		        } else {
 		          imageURL = instance.url + "/" + instance.images.logo;

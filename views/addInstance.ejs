@@ -190,8 +190,8 @@
         $("#newUrl").val(instance.url);
         $("#newDesc").val(instance.description);
         $("#newTwitter").val(instance.twitter);
-        $("#newLatitude").val("");
-        $("#newLongitude").val("");
+        $("#newLatitude").val(instance.location.latitude);
+        $("#newLongitude").val(instance.location.longitude);
         $("#newOrganisms").val(instance.organisms.join());
         $("#newNeighbours").val(instance.neighbours.join());
       });

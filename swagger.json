@@ -148,6 +148,13 @@
             "description": "A space-delimited list of word to look for in the instance name, organisms or brief description. If not given, all the instances are returned.",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "mines",
+            "in": "query",
+            "description": "Three possible values: 'dev', 'all' or 'prod'. Retrieves the InterMine instances that are 'development' mines, all the mines or 'production' mines respectively. ",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
