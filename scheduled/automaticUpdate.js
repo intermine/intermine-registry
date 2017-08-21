@@ -27,7 +27,7 @@ cron.schedule('0 0 * * *', function(){
           // We do 4 async parallel calls for fetching information
           async.parallel([
               function(callback){
-                  request.get(intermine_endpoint, function(err, response, body){
+                  request.get(intermine_endpoint, {timeout: 3000}, function(err, response, body){
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                           instance.status = "Running";
@@ -39,7 +39,7 @@ cron.schedule('0 0 * * *', function(){
                   });
               },
               function(callback){
-                  request.get(release_endpoint, function(err, response, body){
+                  request.get(release_endpoint, {timeout: 3000}, function(err, response, body){
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       }
@@ -48,7 +48,7 @@ cron.schedule('0 0 * * *', function(){
                   });
               },
               function(callback){
-                  request.get(api_endpoint, function(err, response, body){
+                  request.get(api_endpoint, {timeout: 3000}, function(err, response, body){
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       }
@@ -57,7 +57,7 @@ cron.schedule('0 0 * * *', function(){
                   });
               },
               function(callback){
-                  request.get(branding_endpoint, function(err, response, body){
+                  request.get(branding_endpoint, {timeout: 3000}, function(err, response, body){
                       if (err){
                           console.log("Error Updating Instance Branding");
                       } else {

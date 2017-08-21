@@ -41,7 +41,11 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
       // We do 4 async parallel calls for fetching information
       async.parallel([
           function(callback){
-              request.get(intermine_endpoint, function(err, response, body){
+              request.get(intermine_endpoint, {timeout: 3000}, function(err, response, body){
+                  if (err && (err.code == 'ETIMEDOUT' || ERR.CONNECT === true)){
+                    console.log("Timeout error fetching " + instance.name);
+                    instance.status = "Not Running";
+                  }
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       // Sanitize response
                       instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
@@ -55,7 +59,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
               });
           },
           function(callback){
-              request.get(release_endpoint, function(err, response, body){
+              request.get(release_endpoint, {timeout: 3000}, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       // Sanitize response
                       instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
@@ -64,7 +68,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
               });
           },
           function(callback){
-              request.get(api_endpoint, function(err, response, body){
+              request.get(api_endpoint, {timeout: 3000}, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       // Sanitize response
                       instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
@@ -73,7 +77,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
               });
           },
           function(callback){
-              request.get(branding_endpoint, function(err, response, body){
+              request.get(branding_endpoint, {timeout: 3000}, function(err, response, body){
                   if (err){
                       return res.send(err);
                   } else {
@@ -135,19 +139,22 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
         var branding_endpoint = instance.url + "/service/branding";
         async.parallel([
           function(callback){
-              request.get(intermine_endpoint, function(err, response, body){
+              request.get(intermine_endpoint, {timeout: 5000}, function(err, response, body){
+                  if (err && (err.code == 'ETIMEDOUT' || ERR.CONNECT === true)){
+                    console.log("Timeout error fetching " + instance.name);
+                    instance.status = "Not Running";
+                  }
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       instance.intermine_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                       instance.status = "Running";
                   } else {
                       instance.status = "Not Running";
                   }
-
                   callback(null, true);
               });
           },
           function(callback){
-              request.get(release_endpoint, function(err, response, body){
+              request.get(release_endpoint, {timeout: 2000}, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       instance.release_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                   }
@@ -155,7 +162,7 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
               });
           },
           function(callback){
-              request.get(api_endpoint, function(err, response, body){
+              request.get(api_endpoint, {timeout: 2000}, function(err, response, body){
                   if (typeof(response) != "undefined" && response.statusCode == 200){
                       instance.api_version =  body.replace(/[`'"<>\{\}\[\]\\\/]/gi, '').trim();
                   }
@@ -163,7 +170,7 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
               });
           },
           function(callback){
-              request.get(branding_endpoint, function(err, response, body){
+              request.get(branding_endpoint, {timeout: 2000}, function(err, response, body){
                   if (err){
                       return res.send(err);
                   } else {

@@ -93,7 +93,7 @@ function updateInstance(req, res, next){
   }
 
   var isProduction = true;
-  if (req.body.newIsDev === 1){
+  if (req.body.newIsDev === "1"){
     var isProduction = false;
   }
 
@@ -168,7 +168,7 @@ router.post('/instance', function(req, res, next) {
     }
 
     var isProduction = true;
-    if (req.body.newIsDev === 1){
+    if (req.body.newIsDev === "1"){
       var isProduction = false;
     }
 
