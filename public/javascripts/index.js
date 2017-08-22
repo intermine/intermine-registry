@@ -293,6 +293,10 @@ function getInstances(search){
             '<span id="list-intermine-version"> '+ instance.intermine_version + '</span>'
           );
         }
+        for (var z = 0; z < instance.organisms.length; z++){
+          instance.organisms[z] = instance.organisms[z].trim();
+        }
+        instance.organisms = instance.organisms.sort();
         if (instance.organisms.length != 0){
           var list = "";
           for (var j = 0; j < instance.organisms.length; j++){
