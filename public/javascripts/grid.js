@@ -412,19 +412,22 @@ var Grid = (function($) {
 
 
 					$(".deletemineg").click(function(){
-	          if (typeof user !== "undefined"){
-	            $.ajax({
-	              url: 'service/instances/' + instance.id,
-	              type: 'DELETE',
-	              success: function(result){
-	                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
-	                window.location = window.location.pathname;
-	              },
-	              beforeSend: function(xhr){
-	                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-	              }
-	            });
-	          }
+						var r = confirm("Are you sure deleting " + instance.name + " from the Intermine Registry?");
+						if (r === true){
+							if (typeof user !== "undefined"){
+		            $.ajax({
+		              url: 'service/instances/' + instance.id,
+		              type: 'DELETE',
+		              success: function(result){
+		                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
+		                window.location = window.location.pathname;
+		              },
+		              beforeSend: function(xhr){
+		                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+		              }
+		            });
+		          }
+						}
 	        });
 
 
@@ -457,6 +460,10 @@ var Grid = (function($) {
 	          );
 	        }
 					// Organisms
+					for (var z = 0; z < instance.organisms.length; z++){
+						instance.organisms[z] = instance.organisms[z].trim();
+					}
+					instance.organisms = instance.organisms.sort();
 					if (instance.organisms.length != 0){
 	          var list = "";
 	          for (var j = 0; j < instance.organisms.length; j++){
@@ -590,7 +597,10 @@ var Grid = (function($) {
 	            '<span id="grid-intermine-version"> '+ instance.intermine_version + '</span>'
 	          );
 	        }
-
+					for (var z = 0; z < instance.organisms.length; z++){
+						instance.organisms[z] = instance.organisms[z].trim();
+					}
+					instance.organisms = instance.organisms.sort();
 					if (instance.organisms.length != 0){
 	          var list = "";
 	          for (var j = 0; j < instance.organisms.length; j++){
