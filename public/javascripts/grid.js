@@ -412,19 +412,22 @@ var Grid = (function($) {
 
 
 					$(".deletemineg").click(function(){
-	          if (typeof user !== "undefined"){
-	            $.ajax({
-	              url: 'service/instances/' + instance.id,
-	              type: 'DELETE',
-	              success: function(result){
-	                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
-	                window.location = window.location.pathname;
-	              },
-	              beforeSend: function(xhr){
-	                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-	              }
-	            });
-	          }
+						var r = confirm("Are you sure deleting " + instance.name + " from the Intermine Registry?");
+						if (r === true){
+							if (typeof user !== "undefined"){
+		            $.ajax({
+		              url: 'service/instances/' + instance.id,
+		              type: 'DELETE',
+		              success: function(result){
+		                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
+		                window.location = window.location.pathname;
+		              },
+		              beforeSend: function(xhr){
+		                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+		              }
+		            });
+		          }
+						}
 	        });
 
 
