@@ -30,16 +30,16 @@ $(document).ready(function () {
   });
 
   // Title text changes
-  $("#list-tab").click(function(){
-    $("#view-type").text("Instances List View");
-  });
-  $("#grid-tab").click(function(){
-    $("#view-type").text("Instances Grid View");
-    getInstances($("#search-instance").val());
-  });
-  $("#world-tab").click(function(){
-    $("#view-type").text("Instances World View");
-  });
+  // $("#list-tab").click(function(){
+  //   $("#view-type").text("Instances List View");
+  // });
+  // $("#grid-tab").click(function(){
+  //   $("#view-type").text("Instances Grid View");
+  //   getInstances($("#search-instance").val());
+  // });
+  // $("#world-tab").click(function(){
+  //   $("#view-type").text("Instances World View");
+  // });
 
   // Search instance functionality
   $("#search-instance").on('keyup', function(){
