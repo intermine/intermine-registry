@@ -13,7 +13,7 @@
         <ul class="nav navbar-nav">
           <li>
             <a href="/" style="padding-bottom: 0px; padding-top: 0px;">
-              <h2 id="title" class="ml-30">InterMine Registry</h2>
+              <h2 id="title" class="ml-30 bold">InterMine Registry</h2>
             </a>
           </li>
           <li>
@@ -47,14 +47,14 @@
              <ul class="dropdown-menu">
                <li>
                  <a href="http://intermine.org/" target="_blank">
-                   <img class="ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+                   <img class="" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
                  </a>
                </li>
-               <li><a class='ml-20' href="http://intermineorg.wordpress.com" target="_blank">Blog</a></li>
-               <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine" target="_blank">GitHub</a></li>
-               <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/" target="_blank">Mailing list</a></li>
-               <li><a class='ml-20' href="http://chat.intermine.org" target="_blank">Support chat</a></li>
-               <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/" target="_blank">BlueGenes</a></li>
+               <li><a class='' href="http://intermineorg.wordpress.com" target="_blank">Blog</a></li>
+               <li><a class='' target="_github" href="https://github.com/intermine/intermine" target="_blank">GitHub</a></li>
+               <li><a class='' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/" target="_blank">Mailing list</a></li>
+               <li><a class='' href="http://chat.intermine.org" target="_blank">Support chat</a></li>
+               <li><a class='' href="http://bluegenes.apps.intermine.org/" target="_blank">BlueGenes</a></li>
              </ul>
             </li>
           </li>
@@ -74,40 +74,6 @@
           <% } %>
         </ul>
       </div>
-    </div>
-  </nav>
-
-
-
-  <nav class="navbar navbar-default pb-15">
-    <div class="row">
-        <div class="col-md-2">
-          <% if (typeof user === "undefined") { %>
-            <li>
-
-            </li>
-          <% } else { %>
-            <li>
-            </li>
-          <% } %>
-        </div>
-        <div class="col-md-7">
-          <li>
-            <div class="inner-addon left-addon">
-                <i class="glyphicon glyphicon-search"></i>
-                <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
-            </div>
-          </li>
-        </div>
-        <div class="col-md-2">
-          <li>
-            <ul class="nav nav-pills navbar-right mr-20 pt-40 vertical-align-middle" role="tablist" id='intances-tabs'>
-              <li role="presentation" class="active"><a href="#instances-list" id="list-tab" class="glyphicon glyphicon-list" style="font-size:20px;" aria-controls="list" role="tab" data-toggle="tab"></a></li>
-              <li role="presentation"><a href="#instances-grid" id="grid-tab" class="glyphicon glyphicon-th" style="font-size:20px;" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
-              <li role="presentation"><a href="#instances-world" id="world-tab" class="glyphicon glyphicon-globe" style="font-size:20px;" aria-controls="world" role="tab" data-toggle="tab"></a></li>
-            </ul>
-          </li>
-        </div>
     </div>
   </nav>
 </nav>

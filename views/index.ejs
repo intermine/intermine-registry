@@ -3,7 +3,37 @@
 <%- include('header.ejs') %>
 <body>
 	<%- include('navbar.ejs') %>
+	<nav class="navbar navbar-default pb-15" id="tools-bar">
+    <div class="row">
+        <div class="col-md-2">
+          <% if (typeof user === "undefined") { %>
+            <li>
 
+            </li>
+          <% } else { %>
+            <li>
+            </li>
+          <% } %>
+        </div>
+        <div class="col-md-7">
+          <li>
+            <div class="inner-addon left-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
+            </div>
+          </li>
+        </div>
+        <div class="col-md-2">
+          <li>
+            <ul class="nav nav-pills navbar-right mr-20 pt-40 vertical-align-middle" role="tablist" id='intances-tabs'>
+              <li role="presentation" class="active"><a href="#instances-list" id="list-tab" class="glyphicon glyphicon-list" style="font-size:20px;" aria-controls="list" role="tab" data-toggle="tab"></a></li>
+              <li role="presentation"><a href="#instances-grid" id="grid-tab" class="glyphicon glyphicon-th" style="font-size:20px;" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
+              <li role="presentation"><a href="#instances-world" id="world-tab" class="glyphicon glyphicon-globe" style="font-size:20px;" aria-controls="world" role="tab" data-toggle="tab"></a></li>
+            </ul>
+          </li>
+        </div>
+    </div>
+  </nav>
     <!-- <section id = 'intro' class = 'pt-70 pl-50'>
       <div id="dimmer"></div>
       <div id="loader"></div>
@@ -39,7 +69,7 @@
     </section> -->
     <section id="registry-body" class = 'pt-50'>
     	<div class="container pt-20">
-        <h2 class='align-center mb-50' id="view-type"> Instances List View </h2>
+        <h2 class='align-center' id="view-type"> Instances List View </h2>
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
 						<div id="successAlertDiv">

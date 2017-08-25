@@ -122,6 +122,12 @@ body.modal-open {
 	height: 120px;
 }
 
+#tools-bar{
+   -webkit-box-shadow: 0 10px 6px -7px #777;
+      -moz-box-shadow: 0 10px 6px -7px #777;
+           box-shadow: 0 10px 6px -7px #777;
+}
+
 #dimmer{
 	display: none;
 	height:100%;

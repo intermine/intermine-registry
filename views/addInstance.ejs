@@ -158,7 +158,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script language="javascript" src="/js/bootstrap.min.js"></script>
-
+		<script src="/js/material.js"></script>
+		<script src="/js/ripples.min.js"></script>
+		<script>
+		  $.material.init();
+			$('[data-toggle="tooltip"]').tooltip();
+		</script>
     <% if (typeof message !== 'undefined') { %>
       <script type="text/javascript">
         $("#newName").val("<%= name %>");

@@ -13,11 +13,16 @@ var passport = require('passport');
  * redirect to home page.
  */
 router.get('/login', function(req, res, next){
-  if (typeof req.user === "undefined"){
-    res.render('login', {user: req.user});
+  if (req.query.success){
+    res.render('login', { user: req.user, message: "Username or password are incorrect. Please, try again." });
   } else {
-    res.redirect('/');
+    if (typeof req.user === "undefined"){
+      res.render('login', {user: req.user});
+    } else {
+      res.redirect('/');
+    }    
   }
+
 });
 
 /**
@@ -29,7 +34,7 @@ router.get('/login', function(req, res, next){
 router.post('/login', passport.authenticate(
 	'local', {
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/login?success=0'
   })
 );
 
