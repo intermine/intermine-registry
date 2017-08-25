@@ -222,7 +222,7 @@ function getInstances(search){
 
         $("#update-mine-list").attr('href', 'instance/?update=' + instance.id);
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
-        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
+        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Registry?")
         // Delete Instance
         $(".confirmdeleteb").click(function(){
           if (typeof user !== "undefined"){
@@ -297,39 +297,40 @@ function getInstances(search){
           instance.organisms[z] = instance.organisms[z].trim();
         }
         instance.organisms = instance.organisms.sort();
+
         if (instance.organisms.length != 0){
-          var list = "";
+          var organismsString = "";
           for (var j = 0; j < instance.organisms.length; j++){
-              list += "<li>" + instance.organisms[j] + "</li>";
+            if (j === instance.organisms.length-1){
+              organismsString += instance.organisms[j];
+            } else {
+              organismsString += instance.organisms[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
             '<br><br>'+
-            '<div style="display: inline-block;">' +
-            '<div class="col-lg-12">' +
             '<span class="bold"> Organisms: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-organisms"> '+ organismsString + '</span>'
           );
         }
+
+
         if (instance.neighbours.length != 0){
-          var list = "";
+          var neighboursString = "";
           for (var j = 0; j < instance.neighbours.length; j++){
-              list += "<li>" + instance.neighbours[j] + "</li>";
+            if (j === instance.neighbours.length-1){
+              neighboursString += instance.neighbours[j];
+            } else {
+              neighboursString += instance.neighbours[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
-            '<div style="display: inline-block; vertical-align:top;">' +
-            '<div class="col-lg-12">' +
+            '<br><br>'+
             '<span class="bold"> Neighbours: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-neighbours"> '+ neighboursString + '</span>'
           );
         }
+
         if (instance.twitter !== ""){
           $("#mine-modal-body").append(
             '<br>' +
