@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default pb-10" id="principal-nav">
   <div class="row">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTopnav" aria-expanded="false">
@@ -11,28 +11,67 @@
     <div class="collapse navbar-collapse" id="myTopnav">
       <ul class="nav navbar-nav">
         <li>
-          <a href="http://intermine.org/" target="_blank">
-            <img class="ml-20" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+          <a href="/" style="padding-bottom: 0px; padding-top: 0px;">
+            <h2 id="title" class="ml-20 bold">InterMine Registry</h2>
           </a>
         </li>
-        <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
+        <li>
+          <div>
+            <p id="title-desc" class="vertical-align-middle mt-30"> All InterMine instances up-to-date information in one place. </p>
+          </div>
+        </li>
+        <!-- <li><a class='ml-20' href="http://intermineorg.wordpress.com">Blog</a></li>
         <li><a class='ml-20' target="_github" href="https://github.com/intermine/intermine">GitHub</a></li>
         <li><a class='ml-20' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/">Mailing list</a></li>
         <li><a class='ml-20' href="http://chat.intermine.org">Support chat</a></li>
-        <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li>
+        <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li class="ml-50">
+          <a class="btn btn-default nopadding" href="https://github.com/intermine/intermine-registry" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Source" target="_blank">
+              <i class="fa fa-github nav-icons" style="font-size: 40px; vertical-align: middle;" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="ml-50 mr-50">
+          <a class="btn btn-default nopadding" href="/api-docs" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Documentation" target="_blank">
+            <i class="fa fa-book nav-icons" style="font-size: 40px;" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="ml-50 mr-50">
+          <li class="dropdown">
+           <a class="nopadding mt-10 mb-10" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+             <img class="centered" src="/images/interminelogo.png" width="40" height="40">
+             <span class="caret"></span>
+           </a>
+           <ul class="dropdown-menu animated fadeIn">
+             <li>
+               <a href="http://intermine.org/" target="_blank">
+                 <img class="" src="http://intermine.org/assets/img/logo.png" style="width: 140px; height: 18px;">
+               </a>
+             </li>
+             <li><a class='' href="http://intermineorg.wordpress.com" target="_blank">Blog</a></li>
+             <li><a class='' target="_github" href="https://github.com/intermine/intermine" target="_blank">GitHub</a></li>
+             <li><a class='' href="http://intermine.readthedocs.io/en/latest/support/mailing-list/" target="_blank">Mailing list</a></li>
+             <li><a class='' href="http://chat.intermine.org" target="_blank">Support chat</a></li>
+             <li><a class='' href="http://bluegenes.apps.intermine.org/" target="_blank">BlueGenes</a></li>
+           </ul>
+          </li>
+        </li>
         <% if (typeof user === "undefined") { %>
+        <ul class="nav navbar-nav navbar-right">
           <li>
            <a class="mr-20" href="/login" >Log In</a>
           </li>
+        </ul>
         <% } else { %>
-          <li class="dropdown">
-           <a class="mr-20" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.user %><span class="caret"></span></a>
-           <ul class="dropdown-menu mr-20">
-             <li><a href="/logout">Logout</a></li>
-           </ul>
-          </li>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+             <a class="mr-20" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.user %><span class="caret"></span></a>
+             <ul class="dropdown-menu mr-20  animated fadeIn">
+               <li><a href="/logout">Logout</a></li>
+             </ul>
+            </li>
+          </ul>
         <% } %>
       </ul>
     </div>

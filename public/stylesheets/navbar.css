@@ -20,16 +20,19 @@
 }
 
 .navbar-default .navbar-nav>li>a {
-    color: white !important;
+    color: black !important;
 }
 
 .navbar-default > div > ul > a{
-  color: white !important;
+  color: black !important;
 }
 
 .navbar-nav > li >a:hover {
    background-color: transparent;
-   text-shadow: 2px 2px 8px black;
+}
+
+.navbar, .navbar.navbar-default{
+  background-color: white !important;
 }
 
 .navbar-nav > li >a {
@@ -37,8 +40,7 @@
 }
 
 .topnav, .navbar-collapse, .navbar-header {
-    background-color: #333;
-    background: url(http://intermine.readthedocs.io/en/latest/_static/img/pattern-1.jpg) repeat 0 0;
+    background-color: white;
     overflow: hidden;
     color: #fff;
     padding: 5px 0px;

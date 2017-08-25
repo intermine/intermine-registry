@@ -30,16 +30,16 @@ $(document).ready(function () {
   });
 
   // Title text changes
-  $("#list-tab").click(function(){
-    $("#view-type").text("Instances List View");
-  });
-  $("#grid-tab").click(function(){
-    $("#view-type").text("Instances Grid View");
-    getInstances($("#search-instance").val());
-  });
-  $("#world-tab").click(function(){
-    $("#view-type").text("Instances World View");
-  });
+  // $("#list-tab").click(function(){
+  //   $("#view-type").text("Instances List View");
+  // });
+  // $("#grid-tab").click(function(){
+  //   $("#view-type").text("Instances Grid View");
+  //   getInstances($("#search-instance").val());
+  // });
+  // $("#world-tab").click(function(){
+  //   $("#view-type").text("Instances World View");
+  // });
 
   // Search instance functionality
   $("#search-instance").on('keyup', function(){
@@ -118,7 +118,7 @@ function getInstances(search){
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
           "<td class='truncate'>" + instance.description + "</td>" +
-          "<td>" + organisms + "</td>" +
+          "<td class='truncate'>" + organisms + "</td>" +
         "</tr>"
       );
 
@@ -222,7 +222,7 @@ function getInstances(search){
 
         $("#update-mine-list").attr('href', 'instance/?update=' + instance.id);
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
-        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
+        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Registry?")
         // Delete Instance
         $(".confirmdeleteb").click(function(){
           if (typeof user !== "undefined"){
@@ -297,44 +297,45 @@ function getInstances(search){
           instance.organisms[z] = instance.organisms[z].trim();
         }
         instance.organisms = instance.organisms.sort();
+
         if (instance.organisms.length != 0){
-          var list = "";
+          var organismsString = "";
           for (var j = 0; j < instance.organisms.length; j++){
-              list += "<li>" + instance.organisms[j] + "</li>";
+            if (j === instance.organisms.length-1){
+              organismsString += instance.organisms[j];
+            } else {
+              organismsString += instance.organisms[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
             '<br><br>'+
-            '<div style="display: inline-block;">' +
-            '<div class="col-lg-12">' +
             '<span class="bold"> Organisms: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-organisms"> '+ organismsString + '</span>'
           );
         }
+
+
         if (instance.neighbours.length != 0){
-          var list = "";
+          var neighboursString = "";
           for (var j = 0; j < instance.neighbours.length; j++){
-              list += "<li>" + instance.neighbours[j] + "</li>";
+            if (j === instance.neighbours.length-1){
+              neighboursString += instance.neighbours[j];
+            } else {
+              neighboursString += instance.neighbours[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
-            '<div style="display: inline-block; vertical-align:top;">' +
-            '<div class="col-lg-12">' +
+            '<br><br>'+
             '<span class="bold"> Neighbours: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-neighbours"> '+ neighboursString + '</span>'
           );
         }
+
         if (instance.twitter !== ""){
           $("#mine-modal-body").append(
             '<br>' +
             '<div class="align-right">' +
-            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+            '<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
             '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
             '</div>'
           );

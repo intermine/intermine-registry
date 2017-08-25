@@ -1,9 +1,15 @@
 # InterMine Registry
 Web application that will allow users to view, search and administer basic information about existing InterMine instances by consuming a RESTful API. This information includes instances names, URLs, versions, neighbours, branding information, location, twitter account and descriptions.
 
+## GSoC 2017 ##
+[InterMine registry](http://registry.intermine.org/) was entirely implemented and developed as a GSoC 2017 program project by the student [Leonardo Kuffo](https://github.com/lkuffo). Click [here](https://github.com/intermine/intermine-registry/commits/master?author=lkuffo) to find all of Leonardo's contributions for the project as evidence of his work.
+
+
 ## Registry API ##
 
-The core of the Intermine Registry App is the restFUL API. It contains endpoints to search and administer instances. These endpoints can be reached through the following base path: `http://registry.intermine.org/service/`
+
+The core of the InterMine Registry App is the restFUL API. It contains endpoints to search and administer instances. These endpoints can be reached through the following base path: `http://intermine.org/registry/service/`
+
 
 - `POST`    /instances     Add an instance to the registry.
 - `GET`     /instances     Get all the instances from the registry.
@@ -38,4 +44,4 @@ In addition of running the application, this will also configure the MongoDB env
 
 ### Configure the API Docs ###
 
-The API-DOCS are generated based on the `swagger.json` file in the repository. In order for the API-DOCS to work correctly, on this file you have to specify the "HOST" and the "SCHEME" of the app (http or https). 
+The API-DOCS are generated based on the `swagger.json` file in the repository. In order for the API-DOCS to work correctly, on this file you have to specify the "HOST" and the "SCHEME" of the app (http or https).
