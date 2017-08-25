@@ -201,7 +201,7 @@
 }
 
 #grid-sync{
-	color: #eea236;
+	/*color: #eea236;*/
 	-moz-transition: all .2s ease-in;
 	-o-transition: all .2s ease-in;
 	-webkit-transition: all .2s ease-in;
@@ -210,13 +210,13 @@
 
 
 #grid-sync:hover{
-	color: white;
+	/*color: white;
 	border-color: #eea236;
-	background: #eea236;
+	background: #eea236;*/
 }
 
 #grid-delete{
-	color: #d43f3a;
+	/*color: #d43f3a;*/
 	-moz-transition: all .2s ease-in;
 	-o-transition: all .2s ease-in;
 	-webkit-transition: all .2s ease-in;
@@ -225,13 +225,13 @@
 
 
 #grid-delete:hover{
-	color: white;
-	border-color: #d43f3a;
-	background: #d43f3a;
+	/*color: white;*/
+	/*border-color: #d43f3a;
+	background: #d43f3a;*/
 }
 
 #grid-update{
-	color: #2e6da4;
+	/*color: #2e6da4;*/
 	-moz-transition: all .2s ease-in;
 	-o-transition: all .2s ease-in;
 	-webkit-transition: all .2s ease-in;
@@ -240,13 +240,13 @@
 
 
 #grid-update:hover{
-	color: white;
-	border-color: #2e6da4;
-	background: #2e6da4;
+	/*color: white;*/
+	/*border-color: #2e6da4;
+	background: #2e6da4;*/
 }
 
 
-#grid-instance-url, .grid-preview-buttons {
+.grid-preview-buttons {
 	font-weight: 700;
 	font-size: 16px;
 	color: #333;
@@ -260,10 +260,10 @@
 	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-#grid-instance-url:hover{
+/*#grid-instance-url:hover{
 	text-decoration: none;
   text-shadow: 1px 1px 2px #427388;
-}
+}*/
 
 .og-details a::before {
 	content: '\2192';
