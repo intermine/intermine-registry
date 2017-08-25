@@ -42,6 +42,7 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
+app.use(express.static(__dirname + '/node_modules/bootstrap-material-design/dist'));
 
 //Routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
