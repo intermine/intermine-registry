@@ -4,6 +4,9 @@
   color: #fff !important;
 }
 
+.btn {
+  font-weight: bold;
+}
 
 .github-btn {
     position: relative;

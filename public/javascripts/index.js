@@ -334,7 +334,7 @@ function getInstances(search){
           $("#mine-modal-body").append(
             '<br>' +
             '<div class="align-right">' +
-            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+            '<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
             '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
             '</div>'
           );
