@@ -118,7 +118,7 @@ function getInstances(search){
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
           "<td class='truncate'>" + instance.description + "</td>" +
-          "<td>" + organisms + "</td>" +
+          "<td class='truncate'>" + organisms + "</td>" +
         "</tr>"
       );
 

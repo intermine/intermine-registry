@@ -11,7 +11,7 @@ html {
 html, body {
     margin: 0;
     height: 100%;
-    font-family: 'Muli';
+    font-family: 'Roboto', sans-serif;
     font-size:16px;
 }
 
@@ -19,7 +19,7 @@ html, body {
 #intro{
 
 	padding-bottom: 150px;
-	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/indexbackg.jpg) no-repeat center;
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
 	width: 100%;
 	height: 65vh;
 	background-attachment: fixed;
@@ -30,7 +30,7 @@ html, body {
 }
 
 h1{
-  font-size: 75px;
+  font-size: 40px;
 }
 
 @media (max-width: 1300px){

@@ -1,12 +1,10 @@
 /* General Demo Style */
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 html {
 	height: 100%;
 }
 
 body {
-    font-family: 'Lato', Calibri, Arial, sans-serif;
     background: #f9f9f9;
     font-weight: 300;
 		height: auto;
@@ -52,6 +50,11 @@ body {
     float: right !important;
 }
 
+.vertical-align-middle{
+		vertical-align: middle !important;
+		position: relative;
+}
+
 .bold{
 	font-weight: bold;
 }
@@ -68,8 +71,6 @@ body {
 }
 
 .header-title{
-  /*font-family: 'Coda', cursive;*/
-	font-family: 'Muli', sans-serif;
 	color: white;
 	word-wrap: break-word;
 }
