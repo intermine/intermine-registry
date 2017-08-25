@@ -3,9 +3,11 @@
 <%- include('header.ejs') %>
 <body>
 	<%- include('navbar.ejs') %>
+	<% if (typeof user !== "undefined") { %>
 	<button id="sync-instances" class="btn btn-warning btn-raised btn-fab" data-toggle="tooltip" data-placement="left" title="" data-original-title="Synchronize All">
 		<i class="material-icons">sync</i>
 	</button>
+	<% } %>
 	<nav class="navbar navbar-default pb-15 animated fadeInUp" id="tools-bar">
 
     <div class="row">
