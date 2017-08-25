@@ -58,7 +58,6 @@
              </ul>
             </li>
           </li>
-        <ul>
           <% if (typeof user === "undefined") { %>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -77,36 +76,38 @@
       </div>
     </div>
   </nav>
-  <nav class="navbar navbar-default">
+
+
+
+  <nav class="navbar navbar-default pb-15">
     <div class="row">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myTopnav" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse" id="myTopnav">
-        <ul class="nav navbar-nav">
-
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <div class="col-md-2">
           <% if (typeof user === "undefined") { %>
-
             <li>
-             <a class="mr-20" href="/login" >Log In</a>
+
             </li>
           <% } else { %>
-            <li class="dropdown">
-             <a class="mr-20" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.user %><span class="caret"></span></a>
-             <ul class="dropdown-menu mr-20">
-               <li><a href="/logout">Logout</a></li>
-             </ul>
+            <li>
             </li>
           <% } %>
-        </ul>
-      </div>
+        </div>
+        <div class="col-md-7">
+          <li>
+            <div class="inner-addon left-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
+            </div>
+          </li>
+        </div>
+        <div class="col-md-2">
+          <li>
+            <ul class="nav nav-pills navbar-right mr-20 pt-40 vertical-align-middle" role="tablist" id='intances-tabs'>
+              <li role="presentation" class="active"><a href="#instances-list" id="list-tab" class="glyphicon glyphicon-list" style="font-size:20px;" aria-controls="list" role="tab" data-toggle="tab"></a></li>
+              <li role="presentation"><a href="#instances-grid" id="grid-tab" class="glyphicon glyphicon-th" style="font-size:20px;" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
+              <li role="presentation"><a href="#instances-world" id="world-tab" class="glyphicon glyphicon-globe" style="font-size:20px;" aria-controls="world" role="tab" data-toggle="tab"></a></li>
+            </ul>
+          </li>
+        </div>
     </div>
   </nav>
 </nav>

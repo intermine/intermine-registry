@@ -31,6 +31,10 @@
    background-color: transparent;
 }
 
+.navbar, .navbar.navbar-default{
+  background-color: white !important;
+}
+
 .navbar-nav > li >a {
    color: white;
 }
