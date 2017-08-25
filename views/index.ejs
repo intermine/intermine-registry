@@ -4,6 +4,7 @@
 <body>
 	<%- include('navbar.ejs') %>
 	<nav class="navbar navbar-default pb-15" id="tools-bar">
+
     <div class="row">
         <div class="col-md-2">
           <% if (typeof user === "undefined") { %>
@@ -11,7 +12,11 @@
 
             </li>
           <% } else { %>
+						<button id="sync-instances" class="btn btn-warning btn-raised btn-fab" data-toggle="tooltip" data-placement="left" title="" data-original-title="Synchronize All">
+							<i class="material-icons">sync</i>
+						</button>
             <li>
+							<button class="btn btn-raised btn-info" id="add-instance" onclick="location.href='instance'"> Add Instance </button>
             </li>
           <% } %>
         </div>
@@ -132,11 +137,11 @@
                     	</div>
                     	<div class="modal-footer">
 												<% if (typeof user !== "undefined") { %>
-													<a class="btn btn-primary" href="instance/?q=" id="update-mine-list">Update</a>
-	                        <button class="btn btn-warning" id="sync-mine-list">Synchronize</button>
-	                        <button class="btn btn-danger deletemineb">Delete</button>
+													<a class="btn btn-primary btn-raised" href="instance/?q=" id="update-mine-list">Update</a>
+	                        <button class="btn btn-raised btn-warning" id="sync-mine-list">Synchronize</button>
+	                        <button class="btn btn-raised btn-danger deletemineb">Delete</button>
 											  <% } %>
-                    		<button class="btn closeb" data-dismiss="modal">Close</button>
+                    		<button class="btn btn-raised closeb" data-dismiss="modal">Close</button>
                     	</div>
                   	</div>
                   </div>
@@ -152,8 +157,8 @@
                     	<div class="modal-body" id="mine-delete-modal-body">
                     	</div>
                     	<div class="modal-footer">
-                        <button class="btn btn-danger confirmdeleteb" data-dismiss="modal">Confirm</button>
-                    		<button class="btn closeb" data-dismiss="modal">Close</button>
+                        <button class="btn btn-raised btn-danger confirmdeleteb" data-dismiss="modal">Confirm</button>
+                    		<button class="btn btn-raised closeb" data-dismiss="modal">Close</button>
                     	</div>
                   	</div>
                   </div>
