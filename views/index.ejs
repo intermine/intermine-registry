@@ -10,10 +10,10 @@
 	<% } %>
 	<nav class="navbar navbar-default pb-15 animated fadeInUp" id="tools-bar">
 
-    <div class="row">
+    <div class="row ml-10">
 
           <% if (typeof user === "undefined") { %>
-						<div class="col-md-9 ml-20">
+						<div class="col-md-10">
 		            <div class="form-group animated fadeInLeft">
 		                <input type="text" class="form-control" id="search-instance" placeholder="Search for an instance..." />
 		            </div>
@@ -32,7 +32,7 @@
           <% } %>
 
 
-        <div class="col-md-2 pt-20 animated fadeInRight">
+        <div class="col-md-2 pt-20 align-right animated fadeInRight">
             <ul class="nav nav-pills navbar-right mr-20 vertical-align-middle" role="tablist" id='intances-tabs'>
               <li role="presentation" class="active"><a href="#instances-list" title="List View" id="list-tab" class="glyphicon glyphicon-list" style="font-size:20px;" aria-controls="list" role="tab" data-toggle="tab"></a></li>
               <li role="presentation"><a href="#instances-grid" id="grid-tab" title="Grid View" class="glyphicon glyphicon-th" style="font-size:20px;" aria-controls="grid" role="tab" data-toggle="tab"></a></li>
