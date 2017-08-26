@@ -105,11 +105,12 @@
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-bottom-color: #f8f8f8;
+	border-bottom-color: rgb(248, 248, 248);
 	border-width: 15px;
 	left: 50%;
 	padding-top: 90%;
 	margin: -20px 0 0 -15px;
+  z-index: 100;
 }
 
 .og-expander {
@@ -126,6 +127,9 @@
 	text-align: left;
 	height: 0;
 	overflow: hidden;
+  -webkit-box-shadow: 0px 4px 30px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 30px -4px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 30px -4px rgba(0,0,0,0.75);
 }
 
 .og-expander-inner {

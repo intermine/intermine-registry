@@ -358,10 +358,10 @@ var Grid = (function($) {
 			var myPanorama = this;
 
 			// Preview Structure adapted to Intermine Registry
-			myPanorama.$description = $( '<p id="data-description"></p>' );
+			myPanorama.$description = $( '<p id="data-description"></p><br>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$information = $( '<div id="grid-instance-details" class="pb-20"></div>' );
-			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right">' +
+			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
 															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank">Visit website</a>' +
 															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-primary ml-10"> Update </a>' +
 															'<button class="btn btn-raised btn-warning syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
@@ -504,9 +504,9 @@ var Grid = (function($) {
 	        }
 					// Twitter
 					if (instance.twitter !== ""){
-	          $("#grid-right-preview").append(
-	            '<div class="align-right mb-30 mr-50" style="position:absolute; bottom:0; right:0">' +
-	            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+	          $("#grid-instance-details").append(
+	            '<div class="align-left mb-30 ml-30" style="position:absolute; bottom:0; left:0;">' +
+            	'<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
 	            '</div>'
 	          );
@@ -636,10 +636,9 @@ var Grid = (function($) {
 	        }
 
 					if (instance.twitter !== ""){
-	          $("#grid-right-preview").append(
-	            '<br>' +
-	            '<div class="align-right mb-30 mr-50" style="position:absolute; bottom:0; right:0">' +
-	            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+	          $("#grid-instance-details").append(
+	            '<div class="align-left mb-30 ml-30" style="position:absolute; bottom:0; left:0">' +
+            	'<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
 	            '</div>'
 	          );

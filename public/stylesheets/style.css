@@ -123,15 +123,15 @@ body.modal-open {
 }
 
 #tools-bar{
-   -webkit-box-shadow: 0 10px 6px -7px #777;
-      -moz-box-shadow: 0 10px 6px -7px #777;
-           box-shadow: 0 10px 6px -7px #777;
+   -webkit-box-shadow: 0 10px 6px -9px #777;
+      -moz-box-shadow: 0 10px 6px -9px #777;
+           box-shadow: 0 10px 6px -9px #777;
 }
 
 .shadow-bar{
-     -webkit-box-shadow: 0 10px 6px -7px #777;
-        -moz-box-shadow: 0 10px 6px -7px #777;
-             box-shadow: 0 10px 6px -7px #777;
+  -webkit-box-shadow: 0 10px 6px -9px #777;
+     -moz-box-shadow: 0 10px 6px -9px #777;
+          box-shadow: 0 10px 6px -9px #777;
 }
 
 #dimmer{
