@@ -19,6 +19,7 @@
     "express-session": "^1.15.4",
     "forever": "^0.15.3",
     "jquery": "~3.2.1",
+    "leaflet-search": "^2.3.2",
     "mongoose": "~4.10.3",
     "morgan": "~1.7.0",
     "node-async-loop": "^1.2.2",

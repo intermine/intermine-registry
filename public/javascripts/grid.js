@@ -558,7 +558,7 @@ var Grid = (function($) {
 
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
-					$(".og-fullimg").empty();
+					//$(".og-fullimg").empty();
 					$("#grid-instance-details").empty();
 					$("#grid-right-preview").empty();
 

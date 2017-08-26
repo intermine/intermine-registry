@@ -17,15 +17,107 @@
                     <strong>Warning!</strong> <%= message %>
                   </div>
                 <% } %>
-          				<div class="main-login main-center">
+          				<div class="main-login main-center animated fadeInDown">
           				<h5>Please, enter the instance information. Name and URL are required. If instance is a development mine, please check the Dev Mine checkbox.</h5>
-
 
           					<form class="" method="post" action="">
 
+												<div class="row">
+													<div class="col-md-10">
+															<div class="form-group">
+													      <label for="newName" class="col-md-2 control-label">Name</label>
+													      <div class="col-md-10">
+													        <input type="text" class="form-control" id="newName" name="newName" placeholder="Instance Name" required>
+													      </div>
+													    </div>
 
-          						<div class="form-group">
-                        <div class="row">
+															<div class="form-group">
+													      <label for="newName" class="col-md-2 control-label">URL</label>
+													      <div class="col-md-10">
+													        <input type="url" class="form-control" id="newUrl" name="newUrl" placeholder="Instance URL" required>
+													      </div>
+													    </div>
+													</div>
+													<div class="col-md-2">
+														<div class="col-md-12 pt-60">
+															<div class="checkbox">
+																<label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
+															</div>
+														</div>
+													</div>
+												</div>
+
+
+												<div class="form-group" style="z-index: 1000;">
+										      <label for="newDesc" class="col-md-2 control-label">Description</label>
+										      <div class="col-md-10">
+										        <textarea class="form-control" rows="3" id="newDesc" name="newDesc"></textarea>
+										        <span class="help-block">Enter the mine description</span>
+										      </div>
+										    </div>
+
+												<div class="row">
+													<div class="col-md-6">
+
+														<div class="form-group" style="z-index: 1000;">
+												      <label for="newOrganisms" class="col-md-2 control-label" style="z-index: 1001;">Organisms</label>
+												      <div class="col-md-10 mb-20">
+		              							<textarea type="text" rows=3 class="form-control" name="newOrganisms" id="newOrganisms"> </textarea>
+																<span class="help-block">Comma separated list of Organisms</span>
+															</div>
+												    </div>
+
+														<div class="form-group" style="z-index: 1000;">
+												      <label for="newNeighbours" class="col-md-2 control-label" style="z-index: 1001;">Neighbours</label>
+												      <div class="col-md-10 mb-20">
+												        <textarea type="text" rows=3 class="form-control" name="newNeighbours" id="newNeighbours"></textarea>
+																<span class="help-block">Comma separated list of Neighbours</span>
+															</div>
+												    </div>
+
+
+														<div class="form-group" style="z-index: 1000;">
+												      <label for="newTwitter" class="col-md-2 control-label" style="z-index: 1001;">Twitter</label>
+												      <div class="col-md-10 mb-20">
+												        <input type="text" class="form-control" id="newTwitter" name="newTwitter" placeholder="Instance Twitter">
+												      </div>
+												    </div>
+
+														<div class="form-group" style="z-index: 1000;">
+												      <label for="newLatitude" class="col-md-2 control-label" style="z-index: 1001;">Latitude</label>
+												      <div class="col-md-10">
+												        <input type="number" step="0.00000001" class="form-control" name="newLatitude" id="newLatitude"  placeholder="Instance Location Latitude"/>
+												      </div>
+												    </div>
+
+														<div class="form-group" style="z-index: 1000;">
+												      <label for="newLongitude" class="col-md-2 control-label" style="z-index: 1001;">Longitude</label>
+												      <div class="col-md-10">
+												        <input type="number" step="0.00000001" class="form-control" name="newLongitude" id="newLongitude"  placeholder="Instance Location Longitude"/>
+												      </div>
+												    </div>
+													</div>
+													<div class="col-md-6">
+														<div class="col-md-12 pt-60">
+															<div id="mapid">
+
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<!-- <div class="form-group">
+	            						<div class="row">
+	            							<label for="newDesc" class="col-md-12 control-label">Description</label>
+	            							<div class="col-md-12">
+	            								<div class="input-group">
+	            									<span class="input-group-addon"><i class="glyphicon glyphicon-align-justify" aria-hidden="true"></i></span>
+	            									<textarea rows="6" type="text" class="form-control" name="newDesc" id="newDesc"  placeholder="Instance Description"> </textarea>
+	            								</div>
+	            							</div>
+	            						</div>
+	                      </div> -->
+                        <!-- <div class="row">
           							  <label for="name" class="col-md-4 control-label">Name</label>
                           <label for="email" class="col-md-6 control-label">URL</label>
                         </div>
@@ -47,20 +139,9 @@
 														  <label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
 														</div>
 													</div>
-                        </div>
-          						</div>
-                      <div class="form-group">
-            						<div class="row">
-            							<label for="username" class="col-md-12 control-label">Description</label>
-            							<div class="col-md-12">
-            								<div class="input-group">
-            									<span class="input-group-addon"><i class="glyphicon glyphicon-align-justify" aria-hidden="true"></i></span>
-            									<textarea rows="6" type="text" class="form-control" name="newDesc" id="newDesc"  placeholder="Instance Description"> </textarea>
-            								</div>
-            							</div>
-            						</div>
-                      </div>
+                        </div> -->
 
+<!--
           						<div class="form-group">
                         <div class="row">
             							<label for="newTwitter" class="col-md-5 control-label">Twitter</label>
@@ -125,12 +206,12 @@
               								</div>
               							</div>
                           </div>
-            						</div>
+            						</div> -->
 
           						<div class="form-group" id="submit-form">
                         <input id="form-action-type" type="hidden" name="_method" value="post" />
                         <input id="form-instance-id" type="hidden" name="updateId" value="" />
-          							<input type="submit" value="Save" id="submit-button" class="btn btn-primary btn-lg btn-block login-button" />
+          							<input type="submit" value="Save" id="submit-button" class="btn btn-primary btn-raised btn-block" />
           						</div>
 
           					</form>
@@ -150,9 +231,12 @@
     <script language="javascript" src="/javascripts/header.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+	    integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+	    crossorigin=""></script>
     <script language="javascript" src="/js/bootstrap.min.js"></script>
 		<script src="/js/material.js"></script>
+		<script src="/leaflet-search.min.js"></script>
 		<script src="/js/ripples.min.js"></script>
 		<script>
 		  $("#principal-nav").addClass("shadow-bar");
@@ -173,6 +257,43 @@
     <% } %>
 
     <script type="text/javascript">
+
+			var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			    maxZoom: 18,
+			    id: 'mapbox.streets',
+			    accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
+			}).addTo(mymap);
+
+			L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.0-rc.3/dist/images/'
+
+			mymap.addControl( new L.Control.Search({
+				url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
+				jsonpParam: 'json_callback',
+				propertyName: 'display_name',
+				propertyLoc: ['lat','lon'],
+				marker: L.circleMarker([0,0],{radius:30}),
+				autoCollapse: true,
+				autoType: false,
+				minLength: 2
+			}) );
+
+			var popup = L.popup();
+
+			var marker;
+			function onMapClick(e) {
+
+					$("#newLatitude").val(e.latlng.lat.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
+					$("#newLongitude").val(e.latlng.lng.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
+					if (typeof marker !== "undefined"){
+						mymap.removeLayer(marker);
+					}
+					marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+			}
+
+			mymap.on('click', onMapClick);
+
       $.urlParam = function(name){
       	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       	return results[1] || 0;

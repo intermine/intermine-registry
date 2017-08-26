@@ -27,13 +27,13 @@
         <li><a class='ml-20' href="http://bluegenes.apps.intermine.org/">BlueGenes</a></li> -->
       </ul>
       <% if (typeof user === "undefined") { %>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right mt-5">
         <li>
          <a class="mr-20" href="/login" >Log In</a>
         </li>
       </ul>
       <% } else { %>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right  mt-5">
           <li class="dropdown">
            <a class="mr-20" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= user.user %><span class="caret"></span></a>
            <ul class="dropdown-menu mr-20  animated fadeIn">
