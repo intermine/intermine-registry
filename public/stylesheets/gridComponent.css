@@ -217,11 +217,6 @@
 }
 
 
-#grid-sync:hover{
-	/*color: white;
-	border-color: #eea236;
-	background: #eea236;*/
-}
 
 #grid-delete{
 	/*color: #d43f3a;*/
@@ -232,7 +227,7 @@
 }
 
 
-#grid-delete:hover{
+.delete:hover{
 	/*color: white;*/
 	/*border-color: #d43f3a;
 	background: #d43f3a;*/
@@ -246,12 +241,6 @@
 	transition: all .2s ease-in;
 }
 
-
-#grid-update:hover{
-	/*color: white;*/
-	/*border-color: #2e6da4;
-	background: #2e6da4;*/
-}
 
 
 .grid-preview-buttons {

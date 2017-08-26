@@ -363,8 +363,8 @@ var Grid = (function($) {
 			myPanorama.$information = $( '<div id="grid-instance-details" class="pb-20"></div>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
 															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank">Visit website</a>' +
-															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-primary ml-10"> Update </a>' +
-															'<button class="btn btn-raised btn-warning syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
+															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"> Update </a>' +
+															'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
 															'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"> Delete </button></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$information, myPanorama.$href );

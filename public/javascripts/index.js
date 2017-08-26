@@ -158,7 +158,7 @@ function getInstances(search){
 
 
       // If false, then mineColor are used for the Grid View
-      var usePanels = true;
+      var usePanels = false;
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
       var canvas = document.createElement("canvas");

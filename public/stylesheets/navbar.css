@@ -60,6 +60,10 @@
     font-size: 14px;
 }
 
+.navbar .dropdown-menu li > a, .navbar.navbar-default .dropdown-menu li > a {
+  font-size: 1em;
+}
+
 /* Change the color of links on hover */
 .topnav a:hover {
     text-shadow: 2px 2px 8px black;
@@ -81,7 +85,7 @@
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover{
-	background-color: rgb(86, 149, 0);
+	background-color: #829b02;
 	color: #FFF;
 	transition: all 0.25s;
 }

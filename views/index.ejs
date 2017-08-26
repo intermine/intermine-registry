@@ -4,7 +4,7 @@
 <body>
 	<%- include('navbar.ejs') %>
 	<% if (typeof user !== "undefined") { %>
-	<button id="sync-instances" class="btn btn-warning btn-raised btn-fab" data-toggle="tooltip" data-placement="left" title="" data-original-title="Synchronize All">
+	<button id="sync-instances" class="btn sync btn-raised btn-fab" data-toggle="tooltip" data-placement="left" title="" data-original-title="Synchronize All">
 		<i class="material-icons">sync</i>
 	</button>
 	<% } %>
@@ -141,8 +141,8 @@
 
 												<% if (typeof user !== "undefined") { %>
 											<div class="modal-footer">
-													<a class="btn btn-primary btn-raised" href="instance/?q=" id="update-mine-list">Update</a>
-	                        <button class="btn btn-raised btn-warning" id="sync-mine-list">Synchronize</button>
+													<a class="btn btn-info btn-raised" href="instance/?q=" id="update-mine-list">Update</a>
+	                        <button class="btn btn-raised sync" id="sync-mine-list">Synchronize</button>
 	                        <button class="btn btn-raised btn-danger deletemineb">Delete</button>
 													<button class="btn btn-raised closeb mr-10" data-dismiss="modal">Close</button>
 											</div>
