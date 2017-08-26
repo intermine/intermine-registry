@@ -360,15 +360,16 @@ var Grid = (function($) {
 			// Preview Structure adapted to Intermine Registry
 			myPanorama.$description = $( '<p id="data-description"></p>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
-			myPanorama.$href = $( '<div id="grid-preview-buttons-div">' +
+			myPanorama.$information = $( '<div id="grid-instance-details" class="pb-20"></div>' );
+			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right">' +
 															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank">Visit website</a>' +
 															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-primary ml-10"> Update </a>' +
 															'<button class="btn btn-raised btn-warning syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
 															'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"> Delete </button></div>'
 														);
-			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$href );
+			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$information, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
-			myPanorama.$fullimage = $( '<div class="og-fullimg mt-20"> </div>' );
+			//myPanorama.$fullimage = $( '<div class="og-fullimg mt-20"> </div>' );
 			myPanorama.$closePreview = $( '<span class="og-close"></span>' );
 			myPanorama.$previewInner = $( '<div class="og-expander-inner ml-20 mr-50"></div>' ).append( myPanorama.$closePreview, myPanorama.$fullimage, myPanorama.$details );
 			myPanorama.$previewEl = $( '<div class="og-expander"></div>' ).append( myPanorama.$previewInner );
@@ -446,7 +447,7 @@ var Grid = (function($) {
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>");
 					// Versions
-					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
+					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(
 	            '<br><br><span class="bold"> Release Version: </span>' +
@@ -468,19 +469,17 @@ var Grid = (function($) {
 	          var list = "";
 	          for (var j = 0; j < instance.organisms.length; j++){
 								if (j == instance.organisms.length - 1){
-										list += "<li style='height: 10px;'>" + instance.organisms[j] + "</li>";
+										list += instance.organisms[j] + "";
 								} else {
-									  list += "<li style='height: 10px;'>" + instance.organisms[j] + ",</li>";
+									  list += instance.organisms[j] + ", ";
 								}
 
 	          }
-	          $(".og-fullimg").append(
+	          $("#grid-instance-details").append(
 	            '<br>'+
 	            '<div class="align-left">' +
 	            '<span class="bold"> Organisms: </span>' +
-	            '<ul>'+
-	              list +
-	            '</ul>' +
+	            list +
 	            '</div>'
 	          );
 	        }
@@ -489,26 +488,23 @@ var Grid = (function($) {
 	          var list = "";
 	          for (var j = 0; j < instance.neighbours.length; j++){
 								if (j == instance.neighbours.length - 1){
-										list += "<li style='height: 10px;'>" + instance.neighbours[j] + "</li>";
+										list += instance.neighbours[j] + "";
 								} else {
-									  list += "<li style='height: 10px;'>" + instance.neighbours[j] + ",</li>";
+									  list += instance.neighbours[j] + ", ";
 								}
 
 	          }
-	          $(".og-fullimg").append(
+	          $("#grid-instance-details").append(
 	            '<br>'+
 	            '<div class="align-left">' +
 	            '<span class="bold"> Neighbours: </span>' +
-	            '<ul>'+
 	              list +
-	            '</ul>' +
 	            '</div>'
 	          );
 	        }
 					// Twitter
 					if (instance.twitter !== ""){
 	          $("#grid-right-preview").append(
-	            '<br>' +
 	            '<div class="align-right mb-30 mr-50" style="position:absolute; bottom:0; right:0">' +
 	            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
@@ -563,7 +559,7 @@ var Grid = (function($) {
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
 					$(".og-fullimg").empty();
-					$("#grid-details-versions").empty();
+					$("#grid-instance-details").empty();
 					$("#grid-right-preview").empty();
 
 					myPanorama.$title.html( instance.name );
@@ -582,7 +578,7 @@ var Grid = (function($) {
 		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
-					$(".og-fullimg").append('<div class="mt-30 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
+					$("#grid-instance-details").append('<div class="align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(
@@ -605,19 +601,17 @@ var Grid = (function($) {
 	          var list = "";
 	          for (var j = 0; j < instance.organisms.length; j++){
 								if (j == instance.organisms.length - 1){
-										list += "<li style='height: 10px;'>" + instance.organisms[j] + "</li>";
+										list += instance.organisms[j] + "";
 								} else {
-									  list += "<li style='height: 10px;'>" + instance.organisms[j] + ",</li>";
+									  list += instance.organisms[j] + ", ";
 								}
 
 	          }
-	          $(".og-fullimg").append(
+	          $("#grid-instance-details").append(
 	            '<br>'+
 	            '<div class="align-left">' +
 	            '<span class="bold"> Organisms: </span>' +
-	            '<ul>'+
 	              list +
-	            '</ul>' +
 	            '</div>'
 	          );
 	        }
@@ -626,19 +620,17 @@ var Grid = (function($) {
 	          var list = "";
 	          for (var j = 0; j < instance.neighbours.length; j++){
 								if (j == instance.neighbours.length - 1){
-										list += "<li style='height: 10px;'>" + instance.neighbours[j] + "</li>";
+										list += instance.neighbours[j] + "";
 								} else {
-									  list += "<li style='height: 10px;'>" + instance.neighbours[j] + ",</li>";
+									  list += instance.neighbours[j] + ", ";
 								}
 
 	          }
-	          $(".og-fullimg").append(
+	          $("#grid-instance-details").append(
 	            '<br>'+
 	            '<div class="align-left">' +
 	            '<span class="bold"> Neighbours: </span>' +
-	            '<ul>'+
 	              list +
-	            '</ul>' +
 	            '</div>'
 	          );
 	        }
@@ -661,18 +653,18 @@ var Grid = (function($) {
 
 					// preload large image and add it to the preview
 					// for smaller screens we don´t display the large image (the media query will hide the fullimage wrapper)
-					if( self.$fullimage.is( ':visible' ) ) {
-						myPanorama.$loading.show();
-						$( '<img/>' ).load( function() {
-							var $img = $( myPanorama );
-							if( $img.attr( 'src' ) === self.$item.children('a').data( 'largesrc' ) ) {
-								self.$loading.hide();
-								self.$fullimage.find( 'img' ).remove();
-								self.$largeImg = $img.fadeIn( 350 );
-								self.$fullimage.append( self.$largeImg );
-							}
-						} ).attr( 'src', eldata.largesrc );
-					}
+					// if( self.$fullimage.is( ':visible' ) ) {
+					// 	myPanorama.$loading.show();
+					// 	$( '<img/>' ).load( function() {
+					// 		var $img = $( myPanorama );
+					// 		if( $img.attr( 'src' ) === self.$item.children('a').data( 'largesrc' ) ) {
+					// 			self.$loading.hide();
+					// 			self.$fullimage.find( 'img' ).remove();
+					// 			self.$largeImg = $img.fadeIn( 350 );
+					// 			self.$fullimage.append( self.$largeImg );
+					// 		}
+					// 	} ).attr( 'src', eldata.largesrc );
+					// }
 				}
 			});
 			//this.$href.attr( 'href', eldata.href );
