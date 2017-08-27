@@ -126,7 +126,7 @@
     <script type="text/javascript">
       var jQuery_2_1_3 = $.noConflict(true);
     </script>
-    <script language="javascript" src="/javascripts/header.js"></script>
+
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
@@ -202,6 +202,18 @@
 
         var instance = response.instance;
 
+				var organisms = "";
+	      for (var z = 0; z < instance.organisms.length; z++){
+	        instance.organisms[z] = instance.organisms[z].trim();
+	      }
+	      instance.organisms = instance.organisms.sort();
+	      for (var j = 0; j < instance.organisms.length; j++){
+	        if (j === instance.organisms.length - 1){
+	          organisms += instance.organisms[j];
+	        } else {
+	          organisms += instance.organisms[j] + ", ";
+	        }
+	      }
         $("#form-action-type").attr('value', 'put');
         $("#form-instance-id").attr('value', instance.id)
 
@@ -212,10 +224,12 @@
         $("#newTwitter").val(instance.twitter);
         $("#newLatitude").val(instance.location.latitude);
         $("#newLongitude").val(instance.location.longitude);
-				mymap.setView(new L.LatLng(parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)), 13);
-				marker = L.marker([parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)]).addTo(mymap);
-        $("#newOrganisms").val(instance.organisms.join());
+        $("#newOrganisms").val(organisms);
         $("#newNeighbours").val(instance.neighbours.join());
+				if (instance.location.latitude !== "" && instance.location.longitude !== ""){
+					mymap.setView(new L.LatLng(parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)), 13);
+					marker = L.marker([parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)]).addTo(mymap);
+				}
       });
     </script>
 
