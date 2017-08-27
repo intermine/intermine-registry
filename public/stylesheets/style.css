@@ -179,3 +179,13 @@ body.modal-open {
 		-moz-opacity: 0.75;      /* mozilla, netscape */
 				 opacity: 0.75;      /* fx, safari, opera */
 }
+
+.drop-toggle-item {
+  color: #000000 !important;
+}
+
+@media only screen and (max-width: 450px) {
+    .org-col{
+        display: none !important;
+    }
+}
