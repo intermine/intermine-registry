@@ -1,5 +1,5 @@
 # InterMine Registry
-Web application that will allow users to view, search and administer basic information about existing InterMine instances by consuming a RESTful API. This information includes instances names, URLs, versions, neighbours, branding information, location, twitter account and descriptions.
+InterMine Registry is a place where all the up-to-date instances information is stored and can be consumed by applications like Blue Genes, iOS, InterMine R, the friendly mine tool or available to everyone who needs it. The core of InterMine Registry is its [RESTful API](http://registry.intermine.org/api-docs/). Running over Node.js integrated with MongoDB, it contains methods (endpoints) to administer the instances on the registry (add, update & delete) and search among them. Furthermore, InterMine Registry also includes a nice fully responsive front-end [web application](http://registry.intermine.org/), from which everyone can see all the InterMine instances and search among them.
 
 ## GSoC 2017 ##
 [InterMine registry](http://registry.intermine.org/) was entirely implemented and developed as a GSoC 2017 program project by the student [Leonardo Kuffo](https://github.com/lkuffo). Click [here](https://github.com/intermine/intermine-registry/commits/master?author=lkuffo) to find all of Leonardo's contributions for the project as evidence of his work.
@@ -45,3 +45,7 @@ In addition of running the application, this will also configure the MongoDB env
 ### Configure the API Docs ###
 
 The API-DOCS are generated based on the `swagger.json` file in the repository. In order for the API-DOCS to work correctly, on this file you have to specify the "HOST" and the "SCHEME" of the app (http or https).
+
+## Detailed Documentation ##
+
+For more in-deep information about the code, and detailed guidelines on the project, please, visit the following [link](https://docs.google.com/document/d/1ODWOBPA0XePfXmpKN75GQoBPjvFH9Rnp5yIooD1szXw/edit?usp=sharing).
