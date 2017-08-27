@@ -45,6 +45,7 @@ var mineMiner = function() {
       id: 'mapbox.streets',
       accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
     }).addTo(map);
+    L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.0-rc.3/dist/images/'
     addMines();
   }
 

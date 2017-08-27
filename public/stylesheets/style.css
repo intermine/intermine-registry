@@ -122,16 +122,47 @@ body.modal-open {
 	height: 120px;
 }
 
+.sync{
+	background-color: #eea236 !important;
+  color: white !important;
+	-moz-transition: all .2s ease-in;
+	-o-transition: all .2s ease-in;
+	-webkit-transition: all .2s ease-in;
+	transition: all .2s ease-in;
+}
+
+.sync:hover{
+	color: white !important;
+	border-color: #eea236 !important;
+	background: #f9ab3b !important;
+}
+
+.update{
+	background-color: #2e6da4 !important;
+  color: white !important;
+	-moz-transition: all .2s ease-in;
+	-o-transition: all .2s ease-in;
+	-webkit-transition: all .2s ease-in;
+	transition: all .2s ease-in;
+}
+
+
+.update:hover{
+	color: white !important;
+	border-color: #2e6da4 !important;
+	background: #3681c4 !important;
+}
+
 #tools-bar{
-   -webkit-box-shadow: 0 10px 6px -7px #777;
-      -moz-box-shadow: 0 10px 6px -7px #777;
-           box-shadow: 0 10px 6px -7px #777;
+   -webkit-box-shadow: 0 10px 6px -9px #777;
+      -moz-box-shadow: 0 10px 6px -9px #777;
+           box-shadow: 0 10px 6px -9px #777;
 }
 
 .shadow-bar{
-     -webkit-box-shadow: 0 10px 6px -7px #777;
-        -moz-box-shadow: 0 10px 6px -7px #777;
-             box-shadow: 0 10px 6px -7px #777;
+  -webkit-box-shadow: 0 10px 6px -9px #777;
+     -moz-box-shadow: 0 10px 6px -9px #777;
+          box-shadow: 0 10px 6px -9px #777;
 }
 
 #dimmer{
@@ -147,4 +178,79 @@ body.modal-open {
 	-khtml-opacity: 0.75;      /* khtml, old safari */
 		-moz-opacity: 0.75;      /* mozilla, netscape */
 				 opacity: 0.75;      /* fx, safari, opera */
+}
+
+.drop-toggle-item {
+  color: #000000 !important;
+}
+
+@media only screen and (max-width: 450px) {
+    .org-col{
+        display: none !important;
+    }
+}
+
+
+@media only screen and (max-width: 750px) {
+    #title{
+      margin: 0 0 0 0 !important;
+      text-align: center;
+      align-items: center;
+      display: block;
+      padding-top: 15px;
+    }
+
+    #title-desc{
+    	font-size: 11px !important;
+    }
+}
+
+@media only screen and (max-width: 830px) {
+  .nav-tabs > li, .nav-pills > li {
+      float:none;
+      display:inline-block;
+      *display:inline; /* ie7 fix */
+       zoom:1; /* hasLayout ie7 trigger */
+  }
+
+  .nav-tabs, .nav-pills {
+      text-align:center;
+      margin-right: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  #tools-bar > div{
+    margin-right: 10px !important;
+  }
+
+  #add-instance-responsive{
+    display: inline !important;
+  }
+
+  #add-instance{
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+    #responsive-title {display: none}
+    #normal-title {display: inline}
+}
+
+@media (max-width: 767px) {
+    #responsive-title {display: inline}
+    #normal-title {display: none}
+}
+
+@media (min-width: 841px) {
+    span.icon {display:none}
+    span.text {display:inline-block}
+    .close-btn {display: inline}
+}
+
+@media (max-width: 840px) {
+    span.icon {display:inline-block}
+    span.text {display:none}
+    .close-btn {display: none}
 }
