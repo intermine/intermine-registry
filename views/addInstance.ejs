@@ -5,7 +5,7 @@
 	<%- include('navbar.ejs') %>
 
     <section id="addinstance-body" class = 'pt-50'>
-    	<div class="container pt-20">
+    	<div class="container pt-20  animated fadeInDown">
     		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
     			<div class="col-lg-10 col-lg-offset-1">
             <div class="row">
@@ -17,7 +17,7 @@
                     <strong>Warning!</strong> <%= message %>
                   </div>
                 <% } %>
-          				<div class="main-login main-center animated fadeInDown">
+          				<div class="main-login main-center">
           				<h5>Please, enter the instance information. Name and URL are required. If instance is a development mine, please check the Dev Mine checkbox.</h5>
 
           					<form class="" method="post" action="">
@@ -106,108 +106,6 @@
 													</div>
 												</div>
 
-												<!-- <div class="form-group">
-	            						<div class="row">
-	            							<label for="newDesc" class="col-md-12 control-label">Description</label>
-	            							<div class="col-md-12">
-	            								<div class="input-group">
-	            									<span class="input-group-addon"><i class="glyphicon glyphicon-align-justify" aria-hidden="true"></i></span>
-	            									<textarea rows="6" type="text" class="form-control" name="newDesc" id="newDesc"  placeholder="Instance Description"> </textarea>
-	            								</div>
-	            							</div>
-	            						</div>
-	                      </div> -->
-                        <!-- <div class="row">
-          							  <label for="name" class="col-md-4 control-label">Name</label>
-                          <label for="email" class="col-md-6 control-label">URL</label>
-                        </div>
-                        <div class="row">
-            							<div class="col-md-4">
-            								<div class="input-group">
-            									<span class="input-group-addon"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
-            									<input required type="text" class="form-control" name="newName" id="newName" placeholder="Instance Name"/>
-            								</div>
-            							</div>
-                          <div class="col-md-6">
-            								<div class="input-group">
-            									<span class="input-group-addon"><i class="glyphicon glyphicon-cloud" aria-hidden="true"></i></span>
-            									<input type="url" class="form-control" name="newUrl" id="newUrl"  placeholder="Instance URL"/>
-            								</div>
-            							</div>
-													<div class="col-md-2">
-														<div class="checkbox">
-														  <label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
-														</div>
-													</div>
-                        </div> -->
-
-<!--
-          						<div class="form-group">
-                        <div class="row">
-            							<label for="newTwitter" class="col-md-5 control-label">Twitter</label>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-5">
-            								<div class="input-group">
-            									<span class="input-group-addon"><i class="glyphicon glyphicon-heart" aria-hidden="true"></i></span>
-            									<input type="text" class="form-control" name="newTwitter" id="newTwitter"  placeholder="Instance Twitter Account"/>
-            								</div>
-            							</div>
-                        </div>
-          						</div>
-
-          						<div class="form-group">
-
-          							<div class="row">
-                          <label for="location" class="col-md-12 control-label">Location</label>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-5">
-                            <div class="input-group">
-                              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
-                              <input type="number" step="0.00000001" class="form-control" name="newLatitude" id="newLatitude"  placeholder="Instance Location Latitude"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row mt-10">
-                          <div class="col-md-5">
-                            <div class="input-group">
-                              <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i></span>
-                              <input type="number" step="0.00000001" class="form-control" name="newLongitude" id="newLongitude"  placeholder="Instance Location Longitude"/>
-                            </div>
-                          </div>
-                        </div>
-
-          							</div>
-
-                        <div class="form-group">
-                          <div class="row">
-              							<label for="newTwitter" class="col-md-12 control-label">Organisms</label>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-              								<div class="input-group">
-              									<span class="input-group-addon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></span>
-              									<input type="text" class="form-control" name="newOrganisms" id="newOrganisms"  placeholder="Comma separated list of Organisms"/>
-              								</div>
-              							</div>
-                          </div>
-            						</div>
-
-                        <div class="form-group">
-                          <div class="row">
-              							<label for="newTwitter" class="col-md-12 control-label">Neighbours</label>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-              								<div class="input-group">
-              									<span class="input-group-addon"><i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i></span>
-              									<input type="text" class="form-control" name="newNeighbours" id="newNeighbours"  placeholder="Comma separated list of Neighbours"/>
-              								</div>
-              							</div>
-                          </div>
-            						</div> -->
-
           						<div class="form-group" id="submit-form">
                         <input id="form-action-type" type="hidden" name="_method" value="post" />
                         <input id="form-instance-id" type="hidden" name="updateId" value="" />
@@ -259,6 +157,7 @@
     <script type="text/javascript">
 
 			var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
 			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			    maxZoom: 18,
@@ -313,6 +212,8 @@
         $("#newTwitter").val(instance.twitter);
         $("#newLatitude").val(instance.location.latitude);
         $("#newLongitude").val(instance.location.longitude);
+				mymap.setView(new L.LatLng(parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)), 13);
+				marker = L.marker([parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)]).addTo(mymap);
         $("#newOrganisms").val(instance.organisms.join());
         $("#newNeighbours").val(instance.neighbours.join());
       });
