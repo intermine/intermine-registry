@@ -81,6 +81,13 @@
     z-index: 500;
 }
 
+#add-instance-responsive {
+    position: fixed;
+    bottom: 95px;
+    right: 20px;
+    z-index: 500;
+}
+
 
 /* The close button */
 .closebtn {

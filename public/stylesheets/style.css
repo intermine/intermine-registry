@@ -189,3 +189,32 @@ body.modal-open {
         display: none !important;
     }
 }
+
+
+@media only screen and (max-width: 750px) {
+    #title{
+      margin: 0 0 0 0 !important;
+      text-align: center;
+      align-items: center;
+      display: block;
+      padding-top: 15px;
+    }
+
+    #title-desc{
+    	font-size: 11px !important;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+  #tools-bar > div{
+    margin-right: 10px !important;
+  }
+
+  #add-instance-responsive{
+    display: inline !important;
+  }
+
+  #add-instance{
+    display: none;
+  }
+}
