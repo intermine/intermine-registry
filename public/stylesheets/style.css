@@ -205,6 +205,20 @@ body.modal-open {
     }
 }
 
+@media only screen and (max-width: 830px) {
+  .nav-tabs > li, .nav-pills > li {
+      float:none;
+      display:inline-block;
+      *display:inline; /* ie7 fix */
+       zoom:1; /* hasLayout ie7 trigger */
+  }
+
+  .nav-tabs, .nav-pills {
+      text-align:center;
+      margin-right: 0px !important;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   #tools-bar > div{
     margin-right: 10px !important;
@@ -217,6 +231,16 @@ body.modal-open {
   #add-instance{
     display: none;
   }
+}
+
+@media (min-width: 768px) {
+    #responsive-title {display: none}
+    #normal-title {display: inline}
+}
+
+@media (max-width: 767px) {
+    #responsive-title {display: inline}
+    #normal-title {display: none}
 }
 
 @media (min-width: 841px) {
