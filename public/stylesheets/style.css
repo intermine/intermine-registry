@@ -218,3 +218,15 @@ body.modal-open {
     display: none;
   }
 }
+
+@media (min-width: 841px) {
+    span.icon {display:none}
+    span.text {display:inline-block}
+    .close-btn {display: inline}
+}
+
+@media (max-width: 840px) {
+    span.icon {display:inline-block}
+    span.text {display:none}
+    .close-btn {display: none}
+}

@@ -144,14 +144,33 @@
 
 												<% if (typeof user !== "undefined") { %>
 											<div class="modal-footer">
-													<a class="btn btn-info btn-raised" href="instance/?q=" id="update-mine-list">Update</a>
-	                        <button class="btn btn-raised sync" id="sync-mine-list">Synchronize</button>
-	                        <button class="btn btn-raised btn-danger deletemineb">Delete</button>
-													<button class="btn btn-raised closeb mr-10" data-dismiss="modal">Close</button>
+													<a class="btn btn-info btn-raised" href="instance/?q=" id="update-mine-list">
+														<span class="text">Update</span>
+														<span class="icon">
+															<i class="fa fa-pencil" aria-hidden="true"></i>
+														</span>
+													</a>
+	                        <button class="btn btn-raised sync" id="sync-mine-list">
+														<span class="text">Synchronize</span>
+														<span class="icon">
+															<i class="fa fa-refresh" style="fond-size:11px;" aria-hidden="true"></i>
+														</span>
+													</button>
+	                        <button class="btn btn-raised btn-danger deletemineb">
+														<span class="text">Delete</span>
+														<span class="icon">
+															<i class="fa fa-trash" aria-hidden="true"></i>
+														</span>
+													</button>
+													<button class="btn btn-raised closeb mr-10 close-btn" data-dismiss="modal">
+														<span class="text">Close</span>
+													</button>
 											</div>
 											  <% } else { %>
 											<div class="modal-footer pb-15">
-													<button class="btn btn-raised closeb mr-10" data-dismiss="modal">Close</button>
+													<button class="btn btn-raised closeb mr-10 close-btn" data-dismiss="modal">
+														<span class="text">Close</span>
+													</button>
                     	</div>
 											  <% } %>
                   	</div>

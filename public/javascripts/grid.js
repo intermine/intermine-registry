@@ -362,10 +362,10 @@ var Grid = (function($) {
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
 			myPanorama.$information = $( '<div id="grid-instance-details" class="pb-20"></div>' );
 			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
-															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank">Visit website</a>' +
-															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"> Update </a>' +
-															'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"> Synchronize </button>' +
-															'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"> Delete </button></div>'
+															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank"><span class="text">Visit Website</span><span class="icon"><i class="fa fa-external-link" aria-hidden="true"></i></span></a>' +
+															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"><span class="text">Update</span><span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>' +
+															'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"><span class="text">Synchronize</span><span class="icon"><i class="fa fa-refresh" style="fond-size:11px;" aria-hidden="true"></i></span></button>' +
+															'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"><span class="text">Delete</span><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span></button></div>'
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$information, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
