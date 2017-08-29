@@ -378,7 +378,6 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             if (typeof(req.body.url) !== 'undefined'){
                 request.get(req.body.url+"/service/version/", function(err, response, body){
                     if (typeof(response) === 'undefined' || response.statusCode != "200"){
-                        console.log('hola');
                         res.status(400).json({
                             statusCode: 400,
                             message: "Bad Request. Instance URL is not working.",

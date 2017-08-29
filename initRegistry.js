@@ -1,5 +1,6 @@
 /**
-  * File used to init a raw copy of InterMine Registry on a new DB environment 
+  * File used to init a raw copy of InterMine Registry on a new DB environment.
+  *
   */
 
 var request = require('request');
