@@ -111,12 +111,12 @@ function getInstances(search){
             mineColor = instance.colors.header.main;
             colorForPanel = instance.colors.header.main;
         } else {
-            mineColor = instance.colors.focus.bg;
-            colorForPanel = "#999999"
+            mineColor = "#595455";
+            colorForPanel = "#595455"
         }
       } else {
-        colorForPanel = "#999999"
-        mineColor = "#ffffff";
+        colorForPanel = "#595455"
+        mineColor = "#595455";
       }
       mineColor = mineColor.replace(";", "");
       colorForPanel = colorForPanel.replace(";", "");
@@ -141,7 +141,7 @@ function getInstances(search){
               if (typeof globalInstances[i].colors.header !== "undefined"){
                   mineColor = globalInstances[i].colors.header.main;
               } else {
-                  mineColor = globalInstances[i].colors.focus.bg;
+                  mineColor = "#595455";
               }
 
               break;
