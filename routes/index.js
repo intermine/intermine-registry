@@ -13,11 +13,16 @@ var passport = require('passport');
  * redirect to home page.
  */
 router.get('/login', function(req, res, next){
-  if (typeof req.user === "undefined"){
-    res.render('login', {user: req.user});
+  if (req.query.success){
+    res.render('login', { user: req.user, message: "Username or password are incorrect. Please, try again." });
   } else {
-    res.redirect('/');
+    if (typeof req.user === "undefined"){
+      res.render('login', {user: req.user});
+    } else {
+      res.redirect('/');
+    }
   }
+
 });
 
 /**
@@ -29,7 +34,7 @@ router.get('/login', function(req, res, next){
 router.post('/login', passport.authenticate(
 	'local', {
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/login?success=0'
   })
 );
 
@@ -67,7 +72,6 @@ router.get('/', function(req, res, next) {
  * redirect to unauthorized.
  */
 router.get('/instance', function(req, res, next) {
-    console.log(req.user);
     if (typeof req.user === "undefined"){
       res.render('403');
     } else {
@@ -84,11 +88,11 @@ function updateInstance(req, res, next){
   var neighbours = [];
 
   // Get fields from form
-  if (req.body.newOrganisms !== "") {
+  if (req.body.newOrganisms.trim() !== "") {
     organisms = req.body.newOrganisms.split(",") ;
   }
 
-  if (req.body.newNeighbours !== "") {
+  if (req.body.newNeighbours.trim() !== "") {
     neighbours = req.body.newNeighbours.split(",");
   }
 
@@ -101,10 +105,10 @@ function updateInstance(req, res, next){
   var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances/" + req.body.updateId;
   request.put({
     body: {
-      "name": req.body.newName,
-      "url": req.body.newUrl,
+      "name": req.body.newName.trim(),
+      "url": req.body.newUrl.trim(),
       "description": req.body.newDesc,
-      "twitter": req.body.newTwitter,
+      "twitter": req.body.newTwitter.trim(),
       "location": {
         "latitude": req.body.newLatitude,
         "longitude": req.body.newLongitude
@@ -159,11 +163,11 @@ router.post('/instance', function(req, res, next) {
     }
 
     // Get fields from form
-    if (req.body.newOrganisms !== "") {
+    if (req.body.newOrganisms.trim() !== "") {
       var organisms = req.body.newOrganisms.split(",") ;
     }
 
-    if (req.body.newNeighbours !== "") {
+    if (req.body.newNeighbours.trim() !== "") {
       var neighbours = req.body.newNeighbours.split(",");
     }
 
@@ -176,10 +180,10 @@ router.post('/instance', function(req, res, next) {
     var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances";
     request.post({
       body: {
-        "name": req.body.newName,
-        "url": req.body.newUrl,
-        "description": req.body.newDesc,
-        "twitter": req.body.newTwitter,
+        "name": req.body.newName.trim(),
+        "url": req.body.newUrl.trim(),
+        "description": req.body.newDesc.trim(),
+        "twitter": req.body.newTwitter.trim(),
         "location": {
           "latitude": req.body.newLatitude,
           "longitude": req.body.newLongitude

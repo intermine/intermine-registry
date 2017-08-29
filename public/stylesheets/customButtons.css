@@ -1,3 +1,12 @@
+.btn-positive{
+  background-color: #387ef5 !important;
+  border-color: #0c63ee !important;
+  color: #fff !important;
+}
+
+.btn {
+  font-weight: bold;
+}
 
 .github-btn {
     position: relative;
@@ -65,6 +74,19 @@
     border: 0;
 }
 
+#sync-instances {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 500;
+}
+
+#add-instance-responsive {
+    position: fixed;
+    bottom: 95px;
+    right: 20px;
+    z-index: 500;
+}
 
 
 /* The close button */
@@ -87,5 +109,4 @@
 
 /* END */
 .btn.focus, .btn:focus, .btn:hover{
-	font-weight: bold;
 }

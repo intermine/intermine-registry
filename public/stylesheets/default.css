@@ -1,13 +1,11 @@
 /* General Demo Style */
-@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 html {
 	height: 100%;
 }
 
 body {
-    font-family: 'Lato', Calibri, Arial, sans-serif;
-    background: #f9f9f9;
+    background: #ededed;
     font-weight: 300;
 		height: auto;
     font-size: 15px;
@@ -15,6 +13,22 @@ body {
     overflow-x: hidden;
 }
 
+.modal-header{
+
+}
+
+.first-toolbar-icon{
+	display: block !important;
+}
+
+.nopadding{
+	padding: 0 0 0 0 !important;
+}
+
+.centered {
+    display: inline-block;
+    vertical-align: middle;
+}
 
 
 *,
@@ -52,6 +66,11 @@ body {
     float: right !important;
 }
 
+.vertical-align-middle{
+		vertical-align: middle !important;
+		position: relative;
+}
+
 .bold{
 	font-weight: bold;
 }
@@ -63,13 +82,19 @@ body {
   text-overflow: ellipsis;
 }
 
+#title-desc{
+	color: #444;
+}
+
+.nav-icons{
+	color: #444 !important;
+}
+
 #view-type {
   font-size: 40px;
 }
 
 .header-title{
-  /*font-family: 'Coda', cursive;*/
-	font-family: 'Muli', sans-serif;
 	color: white;
 	word-wrap: break-word;
 }

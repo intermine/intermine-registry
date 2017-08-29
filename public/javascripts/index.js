@@ -30,16 +30,16 @@ $(document).ready(function () {
   });
 
   // Title text changes
-  $("#list-tab").click(function(){
-    $("#view-type").text("Instances List View");
-  });
+  // $("#list-tab").click(function(){
+  //   $("#view-type").text("Instances List View");
+  // });
   $("#grid-tab").click(function(){
-    $("#view-type").text("Instances Grid View");
+    //$("#view-type").text("Instances Grid View");
     getInstances($("#search-instance").val());
   });
-  $("#world-tab").click(function(){
-    $("#view-type").text("Instances World View");
-  });
+  // $("#world-tab").click(function(){
+  //   $("#view-type").text("Instances World View");
+  // });
 
   // Search instance functionality
   $("#search-instance").on('keyup', function(){
@@ -53,6 +53,11 @@ $(document).ready(function () {
   getInstances("");
 
 });
+
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
 
 /**
  * Get instances from the registry and fill the list and grid view.
@@ -104,13 +109,17 @@ function getInstances(search){
       if (typeof instance.colors !== "undefined"){
         if (typeof instance.colors.header !== "undefined"){
             mineColor = instance.colors.header.main;
+            colorForPanel = instance.colors.header.main;
         } else {
             mineColor = instance.colors.focus.bg;
+            colorForPanel = "#999999"
         }
       } else {
+        colorForPanel = "#999999"
         mineColor = "#ffffff";
       }
       mineColor = mineColor.replace(";", "");
+      colorForPanel = colorForPanel.replace(";", "");
 
       // Fill the list view instances list content
       $("#list-table-body").append(
@@ -118,7 +127,7 @@ function getInstances(search){
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
           "<td class='truncate'>" + instance.description + "</td>" +
-          "<td>" + organisms + "</td>" +
+          "<td class='truncate org-col'>" + organisms + "</td>" +
         "</tr>"
       );
 
@@ -158,38 +167,58 @@ function getInstances(search){
 
 
       // If false, then mineColor are used for the Grid View
-      var usePanels = true;
+      var usePanels = false;
+
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
-      var canvas = document.createElement("canvas");
-      canvas.width = 225;
-      canvas.height = 200;
-      var ctx = canvas.getContext("2d");
-      ctx.fillStyle = mineColor;
-      ctx.fillRect(0, 0, 225, 200);
-      var img = $(document.createElement("img"));
-      img.attr("src", canvas.toDataURL("image/png"));
-      img.attr("class", "grid-image");
       gridTextFill = instance.description.length > 120 ? "..." : "";
-      var imgHTMLtoRender = img.prop('outerHTML');
       if (usePanels){
-        imgHTMLtoRender = '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>';
+        var imgHTMLtoRender = '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>';
+      } else {
+        var canvas = document.createElement("canvas");
+        canvas.width = 225;
+        canvas.height = 200;
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = colorForPanel;
+        R = hexToR(colorForPanel);
+        G = hexToG(colorForPanel);
+        B = hexToB(colorForPanel);
+        ctx.fillRect(0, 0, 225, 200);
+        var img = $(document.createElement("img"));
+        img.attr("src", canvas.toDataURL("image/png"));
+        img.attr("class", "grid-image");
+        var imgHTMLtoRender = img.prop('outerHTML');
+
+        if ((R*0.299 + G*0.587 + B*0.114) > 150){
+          fontColorToUse = '#000000'
+        } else {
+          fontColorToUse = '#FFFFFF'
+        }
+
       }
+
+
 
       // Fill grid view content
       $("#og-grid").append(
         '<li class="grid-box" style="transition: height 350ms ease; height: 200px;">' +
           '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
-            '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
+            '<div class="grid-panel card-1 hvr-float-shadow hvr-bounce-to-bottom">' +
               imgHTMLtoRender +
-              '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
-              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
-              '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
+              '<h2 class="ml-15 mt-5 align-left grid-panel-title" style="color: ' + fontColorToUse + '"> '+ instance.name + ' </h2>' +
+              '<p class="ml-15 align-left grid-panel-description" style="color: ' + fontColorToUse + '">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
+              '<i class="panel-icons fa fa-caret-down" aria-hidden="true" style="display: none; color: ' + fontColorToUse + '"></i>' +
             '</div>' +
           '</a>' +
         '</li>'
       );
     }
+
+    $(".grid-panel").hover(function(){
+      $($(this).children()[3]).css('display', 'inline');
+    }, function(){
+      $($(this).children()[3]).css('display', 'none');
+    });
 
     /**
      * This scripts must be loaded here. After og-grid content has been loaded.
@@ -222,7 +251,7 @@ function getInstances(search){
 
         $("#update-mine-list").attr('href', 'instance/?update=' + instance.id);
         $("#modal-delete-mine-title").text("Delete "+ instance.name);
-        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Intermine Registry?")
+        $("#mine-delete-modal-body").text("Are you sure deleting " + instance.name + " from the Registry?")
         // Delete Instance
         $(".confirmdeleteb").click(function(){
           if (typeof user !== "undefined"){
@@ -297,44 +326,45 @@ function getInstances(search){
           instance.organisms[z] = instance.organisms[z].trim();
         }
         instance.organisms = instance.organisms.sort();
+
         if (instance.organisms.length != 0){
-          var list = "";
+          var organismsString = "";
           for (var j = 0; j < instance.organisms.length; j++){
-              list += "<li>" + instance.organisms[j] + "</li>";
+            if (j === instance.organisms.length-1){
+              organismsString += instance.organisms[j];
+            } else {
+              organismsString += instance.organisms[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
             '<br><br>'+
-            '<div style="display: inline-block;">' +
-            '<div class="col-lg-12">' +
             '<span class="bold"> Organisms: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-organisms"> '+ organismsString + '</span>'
           );
         }
+
+
         if (instance.neighbours.length != 0){
-          var list = "";
+          var neighboursString = "";
           for (var j = 0; j < instance.neighbours.length; j++){
-              list += "<li>" + instance.neighbours[j] + "</li>";
+            if (j === instance.neighbours.length-1){
+              neighboursString += instance.neighbours[j];
+            } else {
+              neighboursString += instance.neighbours[j] + ", ";
+            }
           }
           $("#mine-modal-body").append(
-            '<div style="display: inline-block; vertical-align:top;">' +
-            '<div class="col-lg-12">' +
+            '<br><br>'+
             '<span class="bold"> Neighbours: </span>' +
-            '<ul>'+
-              list +
-            '</ul>' +
-            '</div>' +
-            '</div>'
+            '<span id="list-mine-neighbours"> '+ neighboursString + '</span>'
           );
         }
+
         if (instance.twitter !== ""){
           $("#mine-modal-body").append(
             '<br>' +
             '<div class="align-right">' +
-            '<img src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" style="width:30px; height:30px;">' +
+            '<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
             '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
             '</div>'
           );

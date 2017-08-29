@@ -323,83 +323,101 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             return;
         }
 
-        // Check for present fields and consequently update them.
-        instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
-        instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
-        instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
-        instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
-        instance.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : instance.twitter;
-        if (typeof(req.body.location) !== 'undefined'){
-            instance.location.latitude = typeof(req.body.location.latitude) !== 'undefined' ? req.body.location.latitude : instance.location.latitude;
-            instance.location.longitude = typeof(req.body.location.longitude) !== 'undefined' ? req.body.location.longitude : instance.location.longitude;
-        }
-
-        instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
-        instance.last_time_updated = new Date();
-        instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
-        instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
-        instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
-        if (typeof(req.body.colors) !== 'undefined'){
-            if (typeof(req.body.colors.focus) !== 'undefined'){
-                instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
-                instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;
+        Instance.find().exec(function(err, found){
+            if (err){
+                return res.send(err);
             }
-        }
-        if (typeof(req.body.colors) !== 'undefined'){
-            if (typeof(req.body.colors.main) !== 'undefined'){
-                instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
-                instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;
-            }
-        }
-        if (typeof(req.body.images) !== 'undefined'){
-            instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
-            instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
-        }
+            // Test if name or URL provided is already in the registry
+            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
 
-        // Test URL if present. If not, save updated instance on registry.
-        if (typeof(req.body.url) !== 'undefined'){
-            request.get(req.body.url+"/service/version/", function(err, response, body){
-                if (typeof(response) === 'undefined' || response.statusCode != "200"){
-                    console.log('hola');
-                    res.status(400).json({
-                        statusCode: 400,
-                        message: "Bad Request. Instance URL is not working.",
-                        friendlyMessage: "Provided URL is not working.",
-                        executionTime: new Date().toLocaleString()
-                    });
-                    return;
+            if ((allNames.indexOf(req.body.name.toLowerCase()) >= 0 && found[allNames.indexOf(req.body.name.toLowerCase())].id !== req.params.id)
+            || (allUrls.indexOf(req.body.url.toLowerCase()) >=0 && found[allUrls.indexOf(req.body.url.toLowerCase())].id !== req.params.id)) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Instance is already in the Registry",
+                    friendlyMessage: "Instance name or URL is already in the Registry",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+            // Check for present fields and consequently update them.
+            instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
+            instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
+            instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
+            instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
+            instance.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : instance.twitter;
+            if (typeof(req.body.location) !== 'undefined'){
+                instance.location.latitude = typeof(req.body.location.latitude) !== 'undefined' ? req.body.location.latitude : instance.location.latitude;
+                instance.location.longitude = typeof(req.body.location.longitude) !== 'undefined' ? req.body.location.longitude : instance.location.longitude;
+            }
+
+            instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
+            instance.last_time_updated = new Date();
+            instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
+            instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
+            instance.intermine_version =  typeof(req.body.intermine_version) !== 'undefined' ? req.body.intermine_version : instance.intermine_version;
+            if (typeof(req.body.colors) !== 'undefined'){
+                if (typeof(req.body.colors.focus) !== 'undefined'){
+                    instance.colors.focus.fg =  typeof(req.body.colors.focus.fg) !== 'undefined' ? req.body.colors.focus.fg : instance.colors.focus.fg;
+                    instance.colors.focus.bg =  typeof(req.body.colors.focus.bg) !== 'undefined' ? req.body.colors.focus.bg : instance.colors.focus.bg;
                 }
-                instance.url = req.body.url;
+            }
+            if (typeof(req.body.colors) !== 'undefined'){
+                if (typeof(req.body.colors.main) !== 'undefined'){
+                    instance.colors.main.fg =  typeof(req.body.colors.main.fg) !== 'undefined' ? req.body.colors.main.fg : instance.colors.main.fg;
+                    instance.colors.main.bg =  typeof(req.body.colors.main.bg) !== 'undefined' ? req.body.colors.main.bg : instance.colors.main.bg;
+                }
+            }
+            if (typeof(req.body.images) !== 'undefined'){
+                instance.images.small =  typeof(req.body.images.small) !== 'undefined' ? req.body.images.small : instance.images.small;
+                instance.images.main =  typeof(req.body.images.main) !== 'undefined' ? req.body.images.main : instance.images.main;
+            }
 
-                // Save updated instance
-                instance.save(function(err){
-                    if (err){
-                        return res.send(err);
+            // Test URL if present. If not, save updated instance on registry.
+            if (typeof(req.body.url) !== 'undefined'){
+                request.get(req.body.url+"/service/version/", function(err, response, body){
+                    if (typeof(response) === 'undefined' || response.statusCode != "200"){
+                        res.status(400).json({
+                            statusCode: 400,
+                            message: "Bad Request. Instance URL is not working.",
+                            friendlyMessage: "Provided URL is not working.",
+                            executionTime: new Date().toLocaleString()
+                        });
+                        return;
                     }
-                    res.status(201).json({
-                        updated_instance_id: req.params.id,
-                        statusCode: 201,
-                        message: "Instance Successfully Updated",
-                        friendlyMessage: "Instance Successfully Updated",
-                        executionTime: new Date().toLocaleString()
+                    instance.url = req.body.url;
+
+                    // Save updated instance
+                    instance.save(function(err){
+                        if (err){
+                            return res.send(err);
+                        }
+                        res.status(201).json({
+                            updated_instance_id: req.params.id,
+                            statusCode: 201,
+                            message: "Instance Successfully Updated",
+                            friendlyMessage: "Instance Successfully Updated",
+                            executionTime: new Date().toLocaleString()
+                        });
                     });
                 });
-            });
-        } else {
-          instance.save(function(err){
-              if (err){
-                  return res.send(err);
-              }
-              // Save updated instance
-              res.status(201).json({
-                  updated_instance_id: req.params.id,
-                  statusCode: 201,
-                  message: "Instance Successfully Updated",
-                  friendlyMessage: "Instance Successfully Updated",
-                  executionTime: new Date().toLocaleString()
+            } else {
+              instance.save(function(err){
+                  if (err){
+                      return res.send(err);
+                  }
+                  // Save updated instance
+                  res.status(201).json({
+                      updated_instance_id: req.params.id,
+                      statusCode: 201,
+                      message: "Instance Successfully Updated",
+                      friendlyMessage: "Instance Successfully Updated",
+                      executionTime: new Date().toLocaleString()
+                  });
               });
-          });
-        }
+            }
+        });
     });
 });
 
