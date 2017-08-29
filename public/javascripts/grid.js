@@ -391,46 +391,12 @@ var Grid = (function($) {
 					// Update Button
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
-					// Sync Button
-					$("#grid-sync").click(function(){
-						$.ajax({
-	            url: 'service/synchronize/' + instance.id,
-	            type: 'PUT',
-	            success: function(result){
-								localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
-	              window.location = window.location.pathname;
-	            },
-							beforeSend: function(xhr){
-								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-							}
-	          });
-					});
 					// If user is undefined, none of this buttons appear.
 					if (typeof user !== "undefined"){
 						$("#grid-sync").css("display","inline");
 						$("#grid-update").css("display","inline");
 						$("#grid-delete").css("display","inline");
 					}
-
-
-					$(".deletemineg").click(function(){
-						var r = confirm("Are you sure deleting " + instance.name + " from the Intermine Registry?");
-						if (r === true){
-							if (typeof user !== "undefined"){
-		            $.ajax({
-		              url: 'service/instances/' + instance.id,
-		              type: 'DELETE',
-		              success: function(result){
-		                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
-		                window.location = window.location.pathname;
-		              },
-		              beforeSend: function(xhr){
-		                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-		              }
-		            });
-		          }
-						}
-	        });
 
 
 
