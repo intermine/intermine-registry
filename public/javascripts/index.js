@@ -82,7 +82,7 @@ function getInstances(search){
           imageURL = instance.url + "/" + instance.images.logo;
         }
       } else {
-        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+        imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
       }
 
 
