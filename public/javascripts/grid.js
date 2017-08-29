@@ -529,7 +529,6 @@ var Grid = (function($) {
 					$("#grid-instance-details").empty();
 					$("#grid-details-versions").empty();
 					$("#grid-right-preview").empty();
-					console.log("hola");
 					myPanorama.$title.html( instance.name );
 					myPanorama.$description.html( instance.description);
 					myPanorama.$href = $( '');
@@ -592,7 +591,6 @@ var Grid = (function($) {
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
-					console.log("inside");
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(
 	            '<br><br><span class="bold"> Release Version: </span>' +
