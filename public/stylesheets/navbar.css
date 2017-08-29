@@ -64,6 +64,7 @@
   font-size: 1em;
 }
 
+
 /* Change the color of links on hover */
 .topnav a:hover {
     text-shadow: 2px 2px 8px black;
@@ -80,6 +81,11 @@
     border: none !important;
 }
 
+@media only screen and (max-width: 768px) {
+    #myTopnav{
+      border-bottom: solid 1px grey;
+    }
+}
 
 
 .nav-pills>li.active>a,
