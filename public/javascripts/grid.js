@@ -358,10 +358,11 @@ var Grid = (function($) {
 			var myPanorama = this;
 
 			// Preview Structure adapted to Intermine Registry
-			myPanorama.$description = $( '<p id="data-description"></p><br>' );
+			myPanorama.$description = $( '<p id="data-description" class="pb-10"></p>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
-			myPanorama.$information = $( '<div id="grid-instance-details" class="pb-20"></div>' );
-			myPanorama.$href = $( '<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
+			myPanorama.$information = $( '' );
+			myPanorama.$href = $( '<div id="grid-instance-details" class="pb-20"></div>'+
+															'<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
 															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank"><span class="text">Visit Website</span><span class="icon"><i class="fa fa-external-link" aria-hidden="true"></i></span></a>' +
 															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"><span class="text">Update</span><span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>' +
 															'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"><span class="text">Synchronize</span><span class="icon"><i class="fa fa-refresh" style="fond-size:11px;" aria-hidden="true"></i></span></button>' +
@@ -369,7 +370,7 @@ var Grid = (function($) {
 														);
 			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$information, myPanorama.$href );
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
-			//myPanorama.$fullimage = $( '<div class="og-fullimg mt-20"> </div>' );
+			myPanorama.$fullimage = $( '' );
 			myPanorama.$closePreview = $( '<span class="og-close"></span>' );
 			myPanorama.$previewInner = $( '<div class="og-expander-inner ml-20 mr-50"></div>' ).append( myPanorama.$closePreview, myPanorama.$fullimage, myPanorama.$details );
 			myPanorama.$previewEl = $( '<div class="og-expander"></div>' ).append( myPanorama.$previewInner );
@@ -390,46 +391,12 @@ var Grid = (function($) {
 					// Update Button
 					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
 
-					// Sync Button
-					$("#grid-sync").click(function(){
-						$.ajax({
-	            url: 'service/synchronize/' + instance.id,
-	            type: 'PUT',
-	            success: function(result){
-								localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
-	              window.location = window.location.pathname;
-	            },
-							beforeSend: function(xhr){
-								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-							}
-	          });
-					});
 					// If user is undefined, none of this buttons appear.
 					if (typeof user !== "undefined"){
 						$("#grid-sync").css("display","inline");
 						$("#grid-update").css("display","inline");
 						$("#grid-delete").css("display","inline");
 					}
-
-
-					$(".deletemineg").click(function(){
-						var r = confirm("Are you sure deleting " + instance.name + " from the Intermine Registry?");
-						if (r === true){
-							if (typeof user !== "undefined"){
-		            $.ajax({
-		              url: 'service/instances/' + instance.id,
-		              type: 'DELETE',
-		              success: function(result){
-		                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
-		                window.location = window.location.pathname;
-		              },
-		              beforeSend: function(xhr){
-		                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
-		              }
-		            });
-		          }
-						}
-	        });
 
 
 
@@ -556,17 +523,62 @@ var Grid = (function($) {
 					var instance = response.instance;
 					var name = instance.name;
 
-					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
+
 
 					//$(".og-fullimg").empty();
 					$("#grid-instance-details").empty();
+					$("#grid-details-versions").empty();
 					$("#grid-right-preview").empty();
-
 					myPanorama.$title.html( instance.name );
 					myPanorama.$description.html( instance.description);
-					myPanorama.$href.attr( 'href', instance.url );
+					myPanorama.$href = $( '');
 					$("#grid-instance-url").attr('href', instance.url);
 					var self = myPanorama;
+
+
+					$("#grid-update").attr('href', 'instance/?update=' + instance.id);
+
+
+					// Sync Button
+					$("#grid-sync").click(function(){
+						$.ajax({
+	            url: 'service/synchronize/' + instance.id,
+	            type: 'PUT',
+	            success: function(result){
+								localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
+	              window.location = window.location.pathname;
+	            },
+							beforeSend: function(xhr){
+								xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+							}
+	          });
+					});
+					// If user is undefined, none of this buttons appear.
+					if (typeof user !== "undefined"){
+						$("#grid-sync").css("display","inline");
+						$("#grid-update").css("display","inline");
+						$("#grid-delete").css("display","inline");
+					}
+
+
+					$(".deletemineg").click(function(){
+						var r = confirm("Are you sure deleting " + instance.name + " from the Intermine Registry?");
+						if (r === true){
+							if (typeof user !== "undefined"){
+		            $.ajax({
+		              url: 'service/instances/' + instance.id,
+		              type: 'DELETE',
+		              success: function(result){
+		                localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
+		                window.location = window.location.pathname;
+		              },
+		              beforeSend: function(xhr){
+		                xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+		              }
+		            });
+		          }
+						}
+	        });
 
 					if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
 		        if (instance.images.logo.startsWith("http")){
@@ -578,8 +590,7 @@ var Grid = (function($) {
 		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
-					$("#grid-instance-details").append('<div class="align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
-
+					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(
 	            '<br><br><span class="bold"> Release Version: </span>' +

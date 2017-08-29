@@ -72,7 +72,6 @@ router.get('/', function(req, res, next) {
  * redirect to unauthorized.
  */
 router.get('/instance', function(req, res, next) {
-    console.log(req.user);
     if (typeof req.user === "undefined"){
       res.render('403');
     } else {

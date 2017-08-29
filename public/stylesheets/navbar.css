@@ -9,6 +9,7 @@
     color: white !important;
 }
 
+
 .navbar-toggle
 {
     float:none;
@@ -40,7 +41,7 @@
 }
 
 .topnav, .navbar-collapse, .navbar-header {
-    background-color: white;
+    background-color: 444;
     overflow: hidden;
     color: #fff;
     padding: 5px 0px;
@@ -64,6 +65,7 @@
   font-size: 1em;
 }
 
+
 /* Change the color of links on hover */
 .topnav a:hover {
     text-shadow: 2px 2px 8px black;
@@ -80,6 +82,11 @@
     border: none !important;
 }
 
+@media only screen and (max-width: 768px) {
+    #myTopnav{
+      border-bottom: solid 1px grey;
+    }
+}
 
 
 .nav-pills>li.active>a,

@@ -4,7 +4,6 @@
 // Registry Connection
 var mongoose = require('mongoose');
 
-//var mongoDB = 'mongodb://lkuffo2:sandbox1@ds115712.mlab.com:15712/intermineregistry'
 mongoose.connect(process.env.MONGODB_URL);
 
 var db = mongoose.connection;
