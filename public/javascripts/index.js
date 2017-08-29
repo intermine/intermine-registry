@@ -54,6 +54,11 @@ $(document).ready(function () {
 
 });
 
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+
 /**
  * Get instances from the registry and fill the list and grid view.
  * @search Search query text to search among instances
@@ -104,13 +109,17 @@ function getInstances(search){
       if (typeof instance.colors !== "undefined"){
         if (typeof instance.colors.header !== "undefined"){
             mineColor = instance.colors.header.main;
+            colorForPanel = instance.colors.header.main;
         } else {
             mineColor = instance.colors.focus.bg;
+            colorForPanel = "#999999"
         }
       } else {
+        colorForPanel = "#999999"
         mineColor = "#ffffff";
       }
       mineColor = mineColor.replace(";", "");
+      colorForPanel = colorForPanel.replace(";", "");
 
       // Fill the list view instances list content
       $("#list-table-body").append(
@@ -158,38 +167,58 @@ function getInstances(search){
 
 
       // If false, then mineColor are used for the Grid View
-      var usePanels = true;
+      var usePanels = false;
+
       panelColorNumber = Math.floor((Math.random() * 9) + 1).toString();
       imgSrc = "/images/thumbs/" + panelColorNumber + ".png";
-      var canvas = document.createElement("canvas");
-      canvas.width = 225;
-      canvas.height = 200;
-      var ctx = canvas.getContext("2d");
-      ctx.fillStyle = mineColor;
-      ctx.fillRect(0, 0, 225, 200);
-      var img = $(document.createElement("img"));
-      img.attr("src", canvas.toDataURL("image/png"));
-      img.attr("class", "grid-image");
       gridTextFill = instance.description.length > 120 ? "..." : "";
-      var imgHTMLtoRender = img.prop('outerHTML');
       if (usePanels){
-        imgHTMLtoRender = '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>';
+        var imgHTMLtoRender = '<img class="grid-image" src="'+ imgSrc + '" alt="img02"/>';
+      } else {
+        var canvas = document.createElement("canvas");
+        canvas.width = 225;
+        canvas.height = 200;
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = colorForPanel;
+        R = hexToR(colorForPanel);
+        G = hexToG(colorForPanel);
+        B = hexToB(colorForPanel);
+        ctx.fillRect(0, 0, 225, 200);
+        var img = $(document.createElement("img"));
+        img.attr("src", canvas.toDataURL("image/png"));
+        img.attr("class", "grid-image");
+        var imgHTMLtoRender = img.prop('outerHTML');
+
+        if ((R*0.299 + G*0.587 + B*0.114) > 150){
+          fontColorToUse = '#000000'
+        } else {
+          fontColorToUse = '#FFFFFF'
+        }
+
       }
+
+
 
       // Fill grid view content
       $("#og-grid").append(
         '<li class="grid-box" style="transition: height 350ms ease; height: 200px;">' +
           '<a href="#" data-largesrc="" data-title="Azuki bean" data-description="'+instance.id+'">' +
-            '<div class="grid-panel hvr-float-shadow hvr-bounce-to-bottom">' +
+            '<div class="grid-panel card-1 hvr-float-shadow hvr-bounce-to-bottom">' +
               imgHTMLtoRender +
-              '<h2 class="ml-15 mt-5 align-left grid-panel-title"> '+ instance.name + ' </h2>' +
-              '<p class="ml-15 align-left grid-panel-description">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
-              '<i class="panel-icons glyphicon glyphicon-option-horizontal"> </i>' +
+              '<h2 class="ml-15 mt-5 align-left grid-panel-title" style="color: ' + fontColorToUse + '"> '+ instance.name + ' </h2>' +
+              '<p class="ml-15 align-left grid-panel-description" style="color: ' + fontColorToUse + '">' + instance.description.substring(0, 130) + gridTextFill + '</p>' +
+              '<i class="panel-icons fa fa-caret-down" aria-hidden="true" style="display: none; color: ' + fontColorToUse + '"></i>' +
             '</div>' +
           '</a>' +
         '</li>'
       );
     }
+
+    $(".grid-panel").hover(function(){
+      $($(this).children()[3]).css('display', 'inline');
+    }, function(){
+      $($(this).children()[3]).css('display', 'none');
+    });
 
     /**
      * This scripts must be loaded here. After og-grid content has been loaded.
