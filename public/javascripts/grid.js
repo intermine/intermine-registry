@@ -410,7 +410,7 @@ var Grid = (function($) {
 		          imageURL = instance.url + "/" + instance.images.logo;
 		        }
 		      } else {
-		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+		        imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>");
 					// Versions
@@ -587,7 +587,7 @@ var Grid = (function($) {
 		          imageURL = instance.url + "/" + instance.images.logo;
 		        }
 		      } else {
-		        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+		        imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
