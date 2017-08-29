@@ -1,3 +1,7 @@
+/**
+  * File used to init a raw copy of InterMine Registry on a new DB environment 
+  */
+
 var request = require('request');
 var asyncLoop = require('node-async-loop');
 
@@ -35,7 +39,9 @@ mines = [
     ["CHOmine", "https://chomine.boku.ac.at/chomine"]
 ]
 
-var host = 'http://localhost:8888';
+var host = '';  // Host where InterMine registry is running
+var username = '';
+var password = '';
 
 asyncLoop(mines, function(mine, next){
     var mineName = mine[0];
@@ -47,7 +53,11 @@ asyncLoop(mines, function(mine, next){
     request.post({
         json: true,
         url: host + "/service/instances",
-        body: req
+        body: req,
+        auth: {
+          "user": username,
+          "pass": password
+        },
     }, function(err, res, body){
         console.log(mineName + " Added")
         next();
