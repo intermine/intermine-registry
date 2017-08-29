@@ -15,6 +15,10 @@ html, body {
     font-size:16px;
 }
 
+.grid-panel-description, .grid-panel-title {
+    font-weight: normal !important;
+}
+
 
 #intro{
 

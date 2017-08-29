@@ -82,7 +82,7 @@ function getInstances(search){
           imageURL = instance.url + "/" + instance.images.logo;
         }
       } else {
-        imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+        imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
       }
 
 
@@ -111,12 +111,12 @@ function getInstances(search){
             mineColor = instance.colors.header.main;
             colorForPanel = instance.colors.header.main;
         } else {
-            mineColor = instance.colors.focus.bg;
-            colorForPanel = "#999999"
+            mineColor = "#595455";
+            colorForPanel = "#595455"
         }
       } else {
-        colorForPanel = "#999999"
-        mineColor = "#ffffff";
+        colorForPanel = "#595455"
+        mineColor = "#595455";
       }
       mineColor = mineColor.replace(";", "");
       colorForPanel = colorForPanel.replace(";", "");
@@ -141,7 +141,7 @@ function getInstances(search){
               if (typeof globalInstances[i].colors.header !== "undefined"){
                   mineColor = globalInstances[i].colors.header.main;
               } else {
-                  mineColor = globalInstances[i].colors.focus.bg;
+                  mineColor = "#595455";
               }
 
               break;
@@ -294,7 +294,7 @@ function getInstances(search){
             imageURL = instance.url + "/" + instance.images.logo;
           }
         } else {
-          imageURL = "http://intermine.readthedocs.org/en/latest/_static/img/logo.png"
+          imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
         }
         $("#modal-mine-img").attr("src", imageURL);
 
