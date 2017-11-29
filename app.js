@@ -46,6 +46,13 @@ app.use(express.static(__dirname + '/node_modules/bootstrap-material-design/dist
 app.use('/images', express.static(__dirname + '/node_modules/leaflet-search/images'));
 app.use(express.static(__dirname + '/node_modules/leaflet-search/dist'));
 
+//enable CORS
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //Routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', index);
