@@ -258,3 +258,52 @@ body.modal-open {
     span.text {display:none}
     .close-btn {display: none}
 }
+
+@media print {
+  @page {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2em;
+    margin-bottom: 0;
+    size: A4;
+  }
+
+  img {
+    display: none;
+  }
+
+  tr {
+    font: 8.5pt Georgia, "Times New Roman", Times, serif;
+    border: none;
+  }
+
+  .table > tbody > tr > td {
+    padding: 1pt;
+    border-top: 0px;
+  }
+
+  #sync-instances {
+    display: none;
+  }
+
+  .list-desc {
+    display: none !important;
+  }
+
+  .list-url {
+    display: table-cell !important;
+    width: 0em !important;
+  }
+  .mine-name{
+    width: 0em !important; 
+  }
+  .truncate.org-col{
+    max-width: 100% !important;
+    float: left !important;
+    text-overflow: unset;
+    white-space: initial;
+  }
+  .mt-lg-20 {
+    margin-top: 0px !important;
+  }
+}
