@@ -200,6 +200,8 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             newInstanceObject.twitter = typeof(req.body.twitter) !== 'undefined' ? req.body.twitter : "";
             newInstanceObject.description = typeof(req.body.description) !== 'undefined' ? req.body.description : "";
             newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};
+            newInstanceObject.maintainerOrgName = typeof(req.body.maintainerOrgName) !== 'undefined' ? req.body.maintainerOrgName : "";
+            newInstanceObject.maintainerUrl = typeof(req.body.maintainerUrl) !== 'undefined' ? req.body.maintainerUrl : "";
 
             // Get the instance Versions & Branding information
             var intermine_endpoint = req.body.url + "/service/version/intermine";
@@ -353,6 +355,8 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             }
 
             instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
+            instance.maintainerOrgName = typeof(req.body.maintainerOrgName) !== 'undefined' ? req.body.maintainerOrgName : instance.maintainerOrgName;
+            instance.maintainerUrl = typeof(req.body.maintainerUrl) !== 'undefined' ? req.body.maintainerUrl : instance.maintainerUrl;
             instance.last_time_updated = new Date();
             instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
             instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;

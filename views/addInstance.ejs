@@ -32,11 +32,26 @@
 													    </div>
 
 															<div class="form-group">
-													      <label for="newName" class="col-md-2 control-label">URL</label>
+													      <label for="newUrl" class="col-md-2 control-label">URL</label>
 													      <div class="col-md-10">
 													        <input type="url" class="form-control" id="newUrl" name="newUrl" placeholder="Instance URL" required>
 													      </div>
 													    </div>
+
+															<div class="form-group">
+													      <label for="maintainerOrgName" class="col-md-2 control-label">Maintainer Organisation</label>
+													      <div class="col-md-10">
+													        <input type="text" class="form-control" id="maintainerOrgName" name="maintainerOrgName">
+													      </div>
+													    </div>
+
+															<div class="form-group">
+													      <label for="maintainerUrl" class="col-md-2 control-label">Maintainer URL</label>
+													      <div class="col-md-10">
+													        <input type="url" class="form-control" id="maintainerUrl" name="maintainerUrl">
+													      </div>
+													    </div>
+
 													</div>
 													<div class="col-md-2">
 														<div class="col-md-12 pt-60">
@@ -146,6 +161,8 @@
         $("#newName").val("<%= name %>");
         $("#newUrl").val("<%= url %>");
         $("#newDesc").val("<%= desc %>");
+				$("#maintainerOrgName").val("<%= maintainerOrgName %>");
+				$("#maintainerUrl").val("<%= maintainerUrl %>");
         $("#newTwitter").val("<%= twitter %>");
         $("#newLatitude").val(<%= lat %> );
         $("#newLongitude").val(<%= lon %> );
@@ -221,6 +238,8 @@
         $("#newName").val(instance.name);
         $("#newUrl").val(instance.url);
         $("#newDesc").val(instance.description);
+				$("#maintainerOrgName").val(instance.maintainerOrgName);
+				$("#maintainerUrl").val(instance.maintainerUrl);
         $("#newTwitter").val(instance.twitter);
         $("#newLatitude").val(instance.location.latitude);
         $("#newLongitude").val(instance.location.longitude);

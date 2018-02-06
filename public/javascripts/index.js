@@ -309,6 +309,8 @@ function getInstances(search){
         $("#list-url").attr("href", instance.url);
         $("#mine-modal-body").append('<div class="bold"> Description </div><p id="list-description">'+ instance.description+' </p>');
         $("#mine-modal-body").append('<span class="bold"> URL: </span><a target="_blank" id="list-url" href="'+instance.url+'">'+instance.url+'</a><br>');
+        $("#mine-modal-body").append('<span class="bold"> Maintainer Name: </span><span id="list-maintainerOrgName">'+ instance.maintainerOrgName+' </span><br>');
+        $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');
         $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
         if (instance.release_version !== ""){
           $("#mine-modal-body").append(
