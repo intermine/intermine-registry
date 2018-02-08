@@ -10,6 +10,14 @@ var InstanceSchema = {
             id: "/properties/description",
             type: "string"
         },
+        maintainerOrgName: {
+            id: "/properties/maintainerOrgName",
+            type: "string"
+        },
+        maintainerUrl: {
+            id: "/properties/maintainerUrl",
+            type: "string"
+        },
         location: {
             id: "/properties/location",
             properties: {
@@ -118,6 +126,14 @@ var InstancePutSchema = {
         },
         description: {
             id: "/properties/description",
+            type: "string"
+        },
+        maintainerOrgName: {
+            id: "/properties/maintainerOrgName",
+            type: "string"
+        },
+        maintainerUrl: {
+            id: "/properties/maintainerUrl",
             type: "string"
         },
         images: {
