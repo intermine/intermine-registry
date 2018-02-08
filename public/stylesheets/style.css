@@ -273,8 +273,9 @@ body.modal-open {
   }
 
   tr {
-    font: 8.5pt Georgia, "Times New Roman", Times, serif;
-    border: none;
+    font-size: 8.5pt;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 0.5px solid #ddd;
   }
 
   .table > tbody > tr > td {
@@ -294,15 +295,18 @@ body.modal-open {
     display: table-cell !important;
     width: 0em !important;
   }
+
   .mine-name{
     width: 0em !important; 
   }
+
   .truncate.org-col{
     max-width: 100% !important;
     float: left !important;
     text-overflow: unset;
     white-space: initial;
   }
+  
   .mt-lg-20 {
     margin-top: 0px !important;
   }
