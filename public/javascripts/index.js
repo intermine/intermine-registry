@@ -50,7 +50,7 @@ $(document).ready(function () {
   var globalInstances = [];
 
   // When loaded, all instances are loaded
-  getInstances("");
+  getInstances("all");
 
 });
 
@@ -64,8 +64,14 @@ function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
  * @search Search query text to search among instances
  */
 function getInstances(search){
+  console.log("inside getInstances");
+  if(search=="all")
+    {var query_api = "mines=";}
+  else {
+    var query_api = "q=";
+  }
 
-  $.get("service/instances/?q=" + search, function(response){
+  $.get("http://registry.intermine.org/service/instances?"+ query_api + search, function(response){
     $("#list-table-body").empty();
     $("#og-grid").empty();
     var response = response.instances;
@@ -313,7 +319,7 @@ function getInstances(search){
           $("#mine-modal-body").append('<span class="bold"> Maintainer Name: </span><span id="list-maintainerOrgName">'+ instance.maintainerOrgName+' </span><br>');
         }
         if(instance.maintainerUrl !== undefined){
-          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');          
+          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');
         }
         $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
         if (instance.release_version !== ""){
