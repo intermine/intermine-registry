@@ -76,6 +76,8 @@ function getInstances(search){
     $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
+    var highlightFlag = 0;
+
     for (var i = 0; i < response.length; i++){
       var instance = response[i];
       var imageURL = "";
@@ -127,9 +129,13 @@ function getInstances(search){
       mineColor = mineColor.replace(";", "");
       colorForPanel = colorForPanel.replace(";", "");
 
+      var highlightAddClass = "";
+      highlightFlag = highlightFlag? 0 : 1 ;
+      highlightAddClass = highlightFlag? "highlight" : "" ;
+
       // Fill the list view instances list content
       $("#list-table-body").append(
-        "<tr class='registry-item' id='item-"+ instance.id +"'>" +
+        "<tr class='registry-item " + highlightAddClass + "' id='item-"+ instance.id +"'>" +
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
           // "<td class='truncate'>" + instance.description + "</td>" +
