@@ -112,7 +112,13 @@
             </div> -->
 
     				<!-- List View -->
-            <div class='pt-20'> </div>
+            <div class='pt-20'>
+							<div id="print-header">
+								<img id="print-header-icon" src="https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png" alt="Icon">
+								<h3 style="float: left;"> InterMine Registry </h3>
+								<h3 id="print-header-url" href="http://www.intermine.org" style="float: right;"> </h3>
+							</div>
+						</div>
     				<div class="tab-content mt-lg-20">
     					<div role="tabpanel" class="tab-pane fade in active" id="instances-list">
                 <table style="width:100%" class="table table-hover table-responsive">
@@ -120,7 +126,9 @@
                     <tr>
                       <th class="col-md-1"></th>
                       <th class="col-md-2">Name</th>
-                      <th class="col-md-6">Description</th>
+                      <!-- <th class="col-md-6">Description</th> -->
+											<th class="col-md-6 mine-desc">Description</th>
+											<th class="col-md-6 mine-url" style="display:none;">URL</th>
                       <th class="col-md-3 org-col">Organisms</th>
                     </tr>
                   </thead>
@@ -220,6 +228,15 @@
     			</div>
     		</div>
       </div>
+			<div id="print-button-div">
+				<a id="print-button" href="#" onclick="window.print(); return false;" style="font-size: 25px; vertical-align: middle;">
+					<i class="fa fa-print"></i>
+				</a>
+				<div class="label-container">
+					<div class="label-text">Print</div>
+					<i class="fa fa-play label-arrow"></i>
+				</div>
+			</div>
     </section>
 		<% if (typeof user !== "undefined") { %>
 			<script type="text/javascript">

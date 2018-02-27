@@ -50,7 +50,7 @@ $(document).ready(function () {
   var globalInstances = [];
 
   // When loaded, all instances are loaded
-  getInstances("");
+  getInstances("all");
 
 });
 
@@ -64,12 +64,20 @@ function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
  * @search Search query text to search among instances
  */
 function getInstances(search){
+  console.log("inside getInstances");
+  if(search=="all")
+    {var query_api = "mines=";}
+  else {
+    var query_api = "q=";
+  }
 
-  $.get("service/instances/?q=" + search, function(response){
+  $.get("http://registry.intermine.org/service/instances?"+ query_api + search, function(response){
     $("#list-table-body").empty();
     $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
+    var highlightFlag = 0;
+
     for (var i = 0; i < response.length; i++){
       var instance = response[i];
       var imageURL = "";
@@ -121,12 +129,17 @@ function getInstances(search){
       mineColor = mineColor.replace(";", "");
       colorForPanel = colorForPanel.replace(";", "");
 
+      var highlightAddClass = "";
+      highlightFlag = highlightFlag? 0 : 1 ;
+      highlightAddClass = highlightFlag? "highlight" : "" ;
+
       // Fill the list view instances list content
       $("#list-table-body").append(
-        "<tr class='registry-item' id='item-"+ instance.id +"'>" +
+        "<tr class='registry-item " + highlightAddClass + "' id='item-"+ instance.id +"'>" +
           "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
           "<td class='bold mine-name'>" + instance.name + "</td>" +
-          "<td class='truncate'>" + instance.description + "</td>" +
+          "<td class='truncate mine-desc'>" + instance.description + "</td>" +
+          "<td class='mine-url' style='display:none'>" + instance.url + "</td>" +
           "<td class='truncate org-col'>" + organisms + "</td>" +
         "</tr>"
       );
@@ -313,7 +326,7 @@ function getInstances(search){
           $("#mine-modal-body").append('<span class="bold"> Maintainer Name: </span><span id="list-maintainerOrgName">'+ instance.maintainerOrgName+' </span><br>');
         }
         if(instance.maintainerUrl !== undefined){
-          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');          
+          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');
         }
         $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
         if (instance.release_version !== ""){

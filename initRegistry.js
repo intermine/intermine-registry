@@ -40,9 +40,9 @@ mines = [
     ["CHOmine", "https://chomine.boku.ac.at/chomine"]
 ]
 
-var host = '';  // Host where InterMine registry is running
-var username = '';
-var password = '';
+var host = 'http://localhost:3000';  // Host where InterMine registry is running
+var username = 'manan';
+var password = 'manan123';
 
 asyncLoop(mines, function(mine, next){
     var mineName = mine[0];
