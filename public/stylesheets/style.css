@@ -192,6 +192,56 @@ body.modal-open {
   display: none;
 }
 
+
+#print-button {
+	position:fixed;
+	width:40px;
+	height:40px;
+	bottom:40px;
+	right:40px;
+	background-color:#fff;
+	color:#222;
+	border-radius:40px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.label-container{
+	position:fixed;
+	bottom:40px;
+	right:85px;
+	display:table;
+	visibility: hidden;
+}
+
+.label-text{
+	color:#fff;
+	background:rgba(51,51,51,0.5);
+	display:table-cell;
+	vertical-align:middle;
+	padding:8px;
+	border-radius:3px;
+}
+
+.label-arrow{
+	display:table-cell;
+  padding-top: 10px;
+  vertical-align:middle;
+	color:#333;
+	opacity:0.5;
+}
+
+#print-button + div.label-container {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ease;
+}
+
+#print-button:hover + div.label-container{
+  visibility: visible;
+  opacity: 1;
+}
+
 @media only screen and (max-width: 450px) {
     .org-col{
         display: none !important;
@@ -311,6 +361,10 @@ body.modal-open {
 
    #print-header-url:after {
      content: attr(href);
+   }
+
+   #print-button {
+       display: none;
    }
 
    h3 {
