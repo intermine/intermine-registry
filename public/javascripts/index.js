@@ -132,7 +132,8 @@ function getInstances(search){
         imRow += "<td class='truncate'><a href='" + url + "'>Submit</a></td>";
       }*/
       if (typeof galaxy2im !== "undefined") {
-        imRow += "<td class='truncate'><a href=''>Submit</a></td>";
+        var galaxyIds = parseURLParams();
+        imRow += mineNav(instance, galaxyIds);
       }
       imRow += "</tr>";
 
@@ -333,7 +334,7 @@ function getInstances(search){
           $("#mine-modal-body").append('<span class="bold"> Maintainer Name: </span><span id="list-maintainerOrgName">'+ instance.maintainerOrgName+' </span><br>');
         }
         if(instance.maintainerUrl !== undefined){
-          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');          
+          $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="'+instance.maintainerUrl+'">'+instance.maintainerUrl+'</a><br>');
         }
         $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">'+instance.api_version+'</span>')
         if (instance.release_version !== ""){
@@ -399,5 +400,61 @@ function getInstances(search){
       $('#mine-modals').modal({show:true});
     });
     }
+  });
+
+  //for galaxy, we need to load the ids of the data we're importing
+  //since it is done asynchronously, we'll update the row once the data are returned.
+  if (typeof galaxy2im !== "undefined") {
+    var galaxyIds = parseURLParams().then(function(response){
+      //var navButton = mineNav(instance, galaxyIds);
+      //console.log(navButton);
+      console.log("HIIIII", response);
+    });
+  }
+
+}
+
+
+/**
+  Generate the navigation button for a given InterMine instance
+  Only used in scenarios where the registry is acting as a splash page to
+  Import from Galaxy to InterMine
+**/
+function mineNav(mine, dataToTransfer) {
+  return '<form action="' + mine.url + '/portal.do" name="list" method="post">' +
+    '<input type="hidden" name="externalids" value="' +
+    dataToTransfer.identifiers.join(",") + '" />' +
+    '<input type="hidden" name="class" value="' +
+    dataToTransfer.identifierType + '" />' +
+    '<input type="submit" value="Send to ' + mine.name + '" />' +
+    '</form>'
+}
+
+/**
+  When we're coming from Galaxy with the intent of exporting identifiers to
+  InterMine, we're passed the URL of a file with identifiers in it.
+  We need to GET the file from the server and pass the identifiers to the
+  InterMine portal.do
+**/
+function parseURLParams() {
+  var params = new URL(window.location.href),
+  dataUrl = params.searchParams.get("URL");
+  return $.ajax(dataUrl).then(function(response) {
+    // parse and handle the file we retrieve, to get the list type,
+    // identifier type, and organism if known.
+    // The file format is three columns
+    // identifierType identifier organismIfKnown
+    var rows = response.split("\n"),
+    dataToTransfer = {
+      identifierType : rows[0].split("\t")[0],
+      identifiers : [],
+      organism : rows[0].split("\t")[2]
+    };
+
+    //pull the identifiers out of each row and add to an array.
+    rows.map(function(row) {
+      var identifier = row.split("\t")[1];
+      dataToTransfer.identifiers.push(identifier);
+    });
   });
 }
