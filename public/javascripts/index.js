@@ -292,7 +292,7 @@ function getInstances(search) {
         //window.location = url;
       })
     } else {
-      else if (typeof galaxy2im !== "undefined") {
+      if (typeof galaxy2im !== "undefined") {
         //don't show modal, thanks. we have a post button that is doing the work,
         //down in mineNavButton();
       } else {
