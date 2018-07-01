@@ -253,8 +253,13 @@ function getInstances(search){
     if (typeof im2galaxy !== "undefined") {
         $(".registry-item").click(function(){
         //send to mine
-        url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
-        window.location = url;
+        $.get("service/instances/" + selectedMine, function(response){
+                var instance = response.instance;
+                url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl);
+                window.location = url;
+        })
+        //url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
+        //window.location = url;
         })
     } else {
     $(".registry-item").click(function(){
