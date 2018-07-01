@@ -462,4 +462,8 @@ function parseURLParams() {
 **/
 function updateMineNav(dataToTransfer) {
   console.log(dataToTransfer, globalInstances);
+  globalInstances.map(function(instance){
+    var td = document.getElementById("forwardButton-" + instance.id);
+    td.innerHTML = mineNavButton(instance, dataToTransfer);
+  });
 }
