@@ -461,14 +461,11 @@ function parseURLParams() {
   Import from Galaxy to InterMine
 **/
 function updateMineNav(dataToTransfer) {
-  var instances, updateInstances = function(instancesToUpdate) {
-    instancestoUpdate.map(function(instance){
-      var td = document.getElementById("forwardButton-" + instance.id);
-      td.innerHTML = mineNavButton(instance, dataToTransfer);
-    });
-  }
     $.get("service/instances/").then(function(response){
-      updateInstances(response.instances);
+      response.instances.map(function(instance){
+        var td = document.getElementById("forwardButton-" + instance.id);
+        td.innerHTML = mineNavButton(instance, dataToTransfer);
+      })
     });
 
 }
