@@ -52,6 +52,17 @@ $(document).ready(function () {
   // When loaded, all instances are loaded
   getInstances("");
 
+    // //for galaxy, we need to load the ids of the data we're importing
+    // //since it is done asynchronously, we'll update the row once the data are returned.
+    // if (typeof galaxy2im !== "undefined") {
+    //   var galaxyIds = parseURLParams().then(function(response){
+    //     //var navButton = mineNav(instance, galaxyIds);
+    //     //console.log(navButton);
+    //     console.log("HIIIII", response);
+    //   });
+    // }
+
+
 });
 
 function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
@@ -400,17 +411,6 @@ function getInstances(search){
     });
     }
   });
-
-  //for galaxy, we need to load the ids of the data we're importing
-  //since it is done asynchronously, we'll update the row once the data are returned.
-  if (typeof galaxy2im !== "undefined") {
-    var galaxyIds = parseURLParams().then(function(response){
-      //var navButton = mineNav(instance, galaxyIds);
-      //console.log(navButton);
-      console.log("HIIIII", response);
-    });
-  }
-
 }
 
 
@@ -426,7 +426,7 @@ function mineNav(mine, dataToTransfer) {
     '<input type="hidden" name="class" value="' +
     dataToTransfer.identifierType + '" />' +
     '<input type="submit" value="Send to ' + mine.name + '" />' +
-    '</form>'
+    '</form>';
 }
 
 /**
