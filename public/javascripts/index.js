@@ -55,11 +55,7 @@ $(document).ready(function () {
     //for galaxy, we need to load the ids of the data we're importing
     //since it is done asynchronously, we'll update the row once the data are returned.
     if (typeof galaxy2im !== "undefined") {
-      var galaxyIds = parseURLParams().then(function(response){
-        //var navButton = mineNav(instance, galaxyIds);
-        //console.log(navButton);
-        console.log("HIIIII", response);
-      });
+    parseURLParams();
     }
 
 
@@ -419,7 +415,7 @@ function getInstances(search){
   Only used in scenarios where the registry is acting as a splash page to
   Import from Galaxy to InterMine
 **/
-function mineNav(mine, dataToTransfer) {
+function mineNavButton(mine, dataToTransfer) {
   return '<form action="' + mine.url + '/portal.do" name="list" method="post">' +
     '<input type="hidden" name="externalids" value="' +
     dataToTransfer.identifiers.join(",") + '" />' +
@@ -438,7 +434,7 @@ function mineNav(mine, dataToTransfer) {
 function parseURLParams() {
   var params = new URL(window.location.href),
   dataUrl = params.searchParams.get("URL");
-  return $.ajax(dataUrl).then(function(response) {
+  $.ajax(dataUrl).then(function(response) {
     // parse and handle the file we retrieve, to get the list type,
     // identifier type, and organism if known.
     // The file format is three columns
@@ -456,4 +452,14 @@ function parseURLParams() {
       dataToTransfer.identifiers.push(identifier);
     });
   });
+  updateMineNav(dataToTransfer);
+}
+
+/**
+  Generate the navigation button for a given InterMine instance
+  Only used in scenarios where the registry is acting as a splash page to
+  Import from Galaxy to InterMine
+**/
+function updateMineNav(dataToTransfer) {
+  console.log(dataToTransfer, globalInstances);
 }
