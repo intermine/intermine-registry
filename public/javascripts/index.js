@@ -121,15 +121,23 @@ function getInstances(search){
       mineColor = mineColor.replace(";", "");
       colorForPanel = colorForPanel.replace(";", "");
 
+      imRow = "<tr class='registry-item' id='item-"+ instance.id +"'>" +
+        "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
+        "<td class='bold mine-name'>" + instance.name + "</td>" +
+        "<td class='truncate'>" + instance.description + "</td>" +
+        "<td class='truncate org-col'>" + organisms + "</td>";
+
+/*      if (typeof im2galaxy !== "undefined") {
+        url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
+        imRow += "<td class='truncate'><a href='" + url + "'>Submit</a></td>";
+      }*/
+      if (typeof galaxy2im !== "undefined") {
+        imRow += "<td class='truncate'><a href=''>Submit</a></td>";
+      }
+      imRow += "</tr>";
+
       // Fill the list view instances list content
-      $("#list-table-body").append(
-        "<tr class='registry-item' id='item-"+ instance.id +"'>" +
-          "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
-          "<td class='bold mine-name'>" + instance.name + "</td>" +
-          "<td class='truncate'>" + instance.description + "</td>" +
-          "<td class='truncate org-col'>" + organisms + "</td>" +
-        "</tr>"
-      );
+      $("#list-table-body").append(imRow);
 
       // Mine Hover functionality in list view
       $("#item-" + instance.id).hover(function(){
@@ -242,7 +250,19 @@ function getInstances(search){
       $('#delete-modal').modal({show:true});
     });
 
-
+    if (typeof im2galaxy !== "undefined") {
+        $(".registry-item").click(function(){
+        //redirect to mine
+        var selectedMine = $(this).children("td[class='bold mine-name']").text();
+        $.get("service/instances/" + selectedMine, function(response){
+                var instance = response.instance;
+                url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl);
+                window.location = url;
+        })
+        //url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
+        //window.location = url;
+        })
+    } else {
     $(".registry-item").click(function(){
       var selectedMine = $(this).children("td[class='bold mine-name']").text();
 
@@ -378,5 +398,6 @@ function getInstances(search){
       });
       $('#mine-modals').modal({show:true});
     });
+    }
   });
 }

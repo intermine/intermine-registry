@@ -237,6 +237,7 @@ router.post('/instance', function(req, res, next) {
  * Description: Render home page, sending user as parameter.
  */
 router.get('/im-to-galaxy', function(req, res, next) {
+    galaxy = req.param('GALAXY_URL');
     if (typeof (req.query.success)){
       var operation = req.query.success;
       if (operation == 1){
@@ -245,10 +246,11 @@ router.get('/im-to-galaxy', function(req, res, next) {
         return res.render('index', { user: req.user, message: "Instance Updated Successfuly" });
       }
     }
-    return res.render('index', { user: req.user });
+    return res.render('index', { user: req.user,  im2galaxy: true, galaxyUrl: galaxy});
 });
 
 router.get('/galaxy-to-im', function(req, res, next) {
+    galaxy = req.param('URL')
     if (typeof (req.query.success)){
       var operation = req.query.success;
       if (operation == 1){
@@ -257,7 +259,7 @@ router.get('/galaxy-to-im', function(req, res, next) {
         return res.render('index', { user: req.user, message: "Instance Updated Successfuly" });
       }
     }
-    return res.render('index', { user: req.user });
+    return res.render('index', { user: req.user, galaxy2im: true, galaxyUrl: galaxy});
 });
 
 
