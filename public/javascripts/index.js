@@ -460,7 +460,7 @@ function parseURLParams() {
   Only used in scenarios where the registry is acting as a splash page to
   Import from Galaxy to InterMine
 **/
-function updateMineNav(dataToTransfer,instance) {
+function updateMineNav(dataToTransfer,instances) {
   console.log(dataToTransfer, instances);
   globalInstances.map(function(instance){
     var td = document.getElementById("forwardButton-" + instance.id);
