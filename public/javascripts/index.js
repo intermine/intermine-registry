@@ -132,8 +132,7 @@ function getInstances(search){
         imRow += "<td class='truncate'><a href='" + url + "'>Submit</a></td>";
       }*/
       if (typeof galaxy2im !== "undefined") {
-        var galaxyIds = parseURLParams();
-        imRow += mineNav(instance, galaxyIds);
+        imRow += "<td id='forwardButton-" + instance.id + "'></td>";
       }
       imRow += "</tr>";
 
