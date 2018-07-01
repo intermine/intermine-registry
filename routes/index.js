@@ -231,4 +231,36 @@ router.post('/instance', function(req, res, next) {
     });
 });
 
+/**
+ * Endpoint:  /
+ * Method:    GET
+ * Description: Render home page, sending user as parameter.
+ */
+router.get('/im-to-galaxy', function(req, res, next) {
+    galaxy = req.param('GALAXY_URL');
+    if (typeof (req.query.success)){
+      var operation = req.query.success;
+      if (operation == 1){
+        return res.render('index', { user: req.user, message: "Instance Added Successfully" });
+      } else if (operation == 2) {
+        return res.render('index', { user: req.user, message: "Instance Updated Successfuly" });
+      }
+    }
+    return res.render('index', { user: req.user,  im2galaxy: true, galaxyUrl: galaxy});
+});
+
+router.get('/galaxy-to-im', function(req, res, next) {
+    galaxy = req.param('URL')
+    if (typeof (req.query.success)){
+      var operation = req.query.success;
+      if (operation == 1){
+        return res.render('index', { user: req.user, message: "Instance Added Successfully" });
+      } else if (operation == 2) {
+        return res.render('index', { user: req.user, message: "Instance Updated Successfuly" });
+      }
+    }
+    return res.render('index', { user: req.user, galaxy2im: true, galaxyUrl: galaxy});
+});
+
+
 module.exports = router;
