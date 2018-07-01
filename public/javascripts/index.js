@@ -462,7 +462,7 @@ function parseURLParams(instances) {
 **/
 function updateMineNav(dataToTransfer,instances) {
   console.log(dataToTransfer, instances);
-  unstances.map(function(instance){
+  instances.map(function(instance){
     var td = document.getElementById("forwardButton-" + instance.id);
     td.innerHTML = mineNavButton(instance, dataToTransfer);
   });
