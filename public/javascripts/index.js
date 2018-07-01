@@ -467,11 +467,8 @@ function updateMineNav(dataToTransfer) {
       td.innerHTML = mineNavButton(instance, dataToTransfer);
     });
   }
-  if(globalInstances.length > 0) {
-    updateInstances(globalInstances);
-  } else {
     $.get("service/instances/").then(function(response){
       updateInstances(response.instances);
     });
-  }
+
 }
