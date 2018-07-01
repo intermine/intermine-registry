@@ -451,6 +451,7 @@ function parseURLParams() {
       var identifier = row.split("\t")[1];
       dataToTransfer.identifiers.push(identifier);
     });
+    //add the data to the post buttons
     updateMineNav(dataToTransfer);
   });
 }
@@ -467,5 +468,4 @@ function updateMineNav(dataToTransfer) {
         td.innerHTML = mineNavButton(instance, dataToTransfer);
       })
     });
-
 }
