@@ -431,7 +431,7 @@ function mineNavButton(mine, dataToTransfer) {
   We need to GET the file from the server and pass the identifiers to the
   InterMine portal.do
 **/
-function parseURLParams() {
+function parseURLParams(instances) {
   var params = new URL(window.location.href),
   dataUrl = params.searchParams.get("URL");
   $.ajax(dataUrl).then(function(response) {
@@ -462,7 +462,7 @@ function parseURLParams() {
 **/
 function updateMineNav(dataToTransfer,instances) {
   console.log(dataToTransfer, instances);
-  globalInstances.map(function(instance){
+  unstances.map(function(instance){
     var td = document.getElementById("forwardButton-" + instance.id);
     td.innerHTML = mineNavButton(instance, dataToTransfer);
   });
