@@ -52,15 +52,15 @@ $(document).ready(function () {
   // When loaded, all instances are loaded
   getInstances("");
 
-    // //for galaxy, we need to load the ids of the data we're importing
-    // //since it is done asynchronously, we'll update the row once the data are returned.
-    // if (typeof galaxy2im !== "undefined") {
-    //   var galaxyIds = parseURLParams().then(function(response){
-    //     //var navButton = mineNav(instance, galaxyIds);
-    //     //console.log(navButton);
-    //     console.log("HIIIII", response);
-    //   });
-    // }
+    //for galaxy, we need to load the ids of the data we're importing
+    //since it is done asynchronously, we'll update the row once the data are returned.
+    if (typeof galaxy2im !== "undefined") {
+      var galaxyIds = parseURLParams().then(function(response){
+        //var navButton = mineNav(instance, galaxyIds);
+        //console.log(navButton);
+        console.log("HIIIII", response);
+      });
+    }
 
 
 });
