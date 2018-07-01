@@ -50,12 +50,12 @@ $(document).ready(function () {
   var globalInstances = [];
 
   // When loaded, all instances are loaded
-  var instances = getInstances("");
+  getInstances("");
 
     //for galaxy, we need to load the ids of the data we're importing
     //since it is done asynchronously, we'll update the row once the data are returned.
     if (typeof galaxy2im !== "undefined") {
-    parseURLParams(instances);
+    parseURLParams();
     }
 
 
@@ -431,7 +431,7 @@ function mineNavButton(mine, dataToTransfer) {
   We need to GET the file from the server and pass the identifiers to the
   InterMine portal.do
 **/
-function parseURLParams(instances) {
+function parseURLParams() {
   var params = new URL(window.location.href),
   dataUrl = params.searchParams.get("URL");
   $.ajax(dataUrl).then(function(response) {
@@ -451,7 +451,7 @@ function parseURLParams(instances) {
       var identifier = row.split("\t")[1];
       dataToTransfer.identifiers.push(identifier);
     });
-    updateMineNav(dataToTransfer, instances);
+    updateMineNav(dataToTransfer);
   });
 }
 
@@ -460,10 +460,18 @@ function parseURLParams(instances) {
   Only used in scenarios where the registry is acting as a splash page to
   Import from Galaxy to InterMine
 **/
-function updateMineNav(dataToTransfer,instances) {
-  console.log(dataToTransfer, instances);
-  instances.map(function(instance){
-    var td = document.getElementById("forwardButton-" + instance.id);
-    td.innerHTML = mineNavButton(instance, dataToTransfer);
-  });
+function updateMineNav(dataToTransfer) {
+  var instances, updateInstances = function(instancesToUpdate) {
+    instancestoUpdate.map(function(instance){
+      var td = document.getElementById("forwardButton-" + instance.id);
+      td.innerHTML = mineNavButton(instance, dataToTransfer);
+    });
+  }
+  if(globalInstances.length > 0) {
+    updateInstances(globalInstances);
+  } else {
+    $.get("service/instances/").then(function(response){
+      updateInstances(response.instances);
+    });
+  }
 }
