@@ -252,7 +252,8 @@ function getInstances(search){
 
     if (typeof im2galaxy !== "undefined") {
         $(".registry-item").click(function(){
-        //send to mine
+        //redirect to mine
+        var selectedMine = $(this).children("td[class='bold mine-name']").text();
         $.get("service/instances/" + selectedMine, function(response){
                 var instance = response.instance;
                 url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl);
