@@ -50,12 +50,12 @@ $(document).ready(function () {
   var globalInstances = [];
 
   // When loaded, all instances are loaded
-  getInstances("");
+  var instances = getInstances("");
 
     //for galaxy, we need to load the ids of the data we're importing
     //since it is done asynchronously, we'll update the row once the data are returned.
     if (typeof galaxy2im !== "undefined") {
-    parseURLParams();
+    parseURLParams(instances);
     }
 
 
@@ -451,7 +451,7 @@ function parseURLParams() {
       var identifier = row.split("\t")[1];
       dataToTransfer.identifiers.push(identifier);
     });
-    updateMineNav(dataToTransfer);
+    updateMineNav(dataToTransfer, instances);
   });
 }
 
@@ -460,8 +460,8 @@ function parseURLParams() {
   Only used in scenarios where the registry is acting as a splash page to
   Import from Galaxy to InterMine
 **/
-function updateMineNav(dataToTransfer) {
-  console.log(dataToTransfer, globalInstances);
+function updateMineNav(dataToTransfer,instance) {
+  console.log(dataToTransfer, instances);
   globalInstances.map(function(instance){
     var td = document.getElementById("forwardButton-" + instance.id);
     td.innerHTML = mineNavButton(instance, dataToTransfer);
