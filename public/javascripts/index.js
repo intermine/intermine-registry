@@ -451,8 +451,8 @@ function parseURLParams() {
       var identifier = row.split("\t")[1];
       dataToTransfer.identifiers.push(identifier);
     });
+    updateMineNav(dataToTransfer);
   });
-  updateMineNav(dataToTransfer);
 }
 
 /**
