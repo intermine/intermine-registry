@@ -308,3 +308,56 @@ body.modal-open {
     display: none
   }
 }
+
+@media print {
+  @page {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2em;
+    margin-bottom: 0;
+    size: A4;
+  }
+
+  img {
+    display: none;
+  }
+
+  tr {
+    font-size: 8.5pt;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 0.5px solid #ddd;
+  }
+
+  .table > tbody > tr > td {
+    padding: 1pt;
+    border-top: 0px;
+  }
+
+  #sync-instances {
+    display: none;
+  }
+
+  .list-desc {
+    display: none !important;
+  }
+
+  .list-url {
+    display: table-cell !important;
+    width: 0em !important;
+  }
+
+  .mine-name{
+    width: 0em !important; 
+  }
+
+  .truncate.org-col{
+    max-width: 100% !important;
+    float: left !important;
+    text-overflow: unset;
+    white-space: initial;
+  }
+  
+  .mt-lg-20 {
+    margin-top: 0px !important;
+  }
+}
