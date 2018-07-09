@@ -142,7 +142,8 @@ function getInstances(search) {
       imRow = "<tr class='registry-item' id='item-" + instance.id + "'>" +
         "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
         "<td class='bold mine-name'>" + instance.name + "</td>" +
-        "<td class='truncate'>" + instance.description + "</td>" +
+        "<td class='truncate list-desc'>" + instance.description + "</td>" +
+        "<td class='list-url' style='display:none'>" + instance.url + "</td>" +
         "<td class='truncate org-col'>" + organisms + "</td>";
 
       /*      if (typeof im2galaxy !== "undefined") {
