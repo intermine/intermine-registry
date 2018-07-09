@@ -55,10 +55,6 @@ router.get('/', function(req, res, next) {
         var api_response = {};
         api_response.instances = instances
         api_response.statusCode = 200;
-        // If no instance was found
-        if (instances.length === 0){
-            api_response.statusCode = 404;
-        }
         api_response.executionTime = new Date().toLocaleString();
         res.status(api_response.statusCode).json(api_response);
     });
