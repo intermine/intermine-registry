@@ -20,7 +20,6 @@ function loadMines(){
         var url = mine.url;
         var lat = mine.location.latitude;
         var lon = mine.location.longitude;
-        var logo = mine.images.logo;
         mines[name.toLowerCase()] = {
           name: name,
           location: {
@@ -28,8 +27,7 @@ function loadMines(){
             lon: lon,
             string: ""
           },
-          url: url,
-          logo: logo
+          url: url
         }
       }
     }
