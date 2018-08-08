@@ -479,3 +479,7 @@
 	background: #fff;
 	border: 1px solid #666;
 	}
+
+
+/* Overriding defaults for popups, so that it's compacter with many mines:*/
+.leaflet-popup-content {margin:4px;}
