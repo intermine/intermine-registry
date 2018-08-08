@@ -20,6 +20,7 @@ function loadMines(){
         var url = mine.url;
         var lat = mine.location.latitude;
         var lon = mine.location.longitude;
+        var logo = mine.images.logo;
         mines[name.toLowerCase()] = {
           name: name,
           location: {
@@ -27,7 +28,8 @@ function loadMines(){
             lon: lon,
             string: ""
           },
-          url: url
+          url: url,
+          logo: logo
         }
       }
     }
@@ -45,7 +47,7 @@ var mineMiner = function() {
       id: 'mapbox.streets',
       accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
     }).addTo(map);
-    L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.0-rc.3/dist/images/'
+    L.Icon.Default.imagePath = 'images/leaflet'
     addMines();
   }
 
@@ -63,6 +65,7 @@ var mineMiner = function() {
    */
   function addMines(){
     var mineKeys = Object.keys(mines), mine;
+    var mineNameLayer = [];
     for (var i = 0; i < mineKeys.length; i++) {
       var minesToAdd = [];
       mine = mines[mineKeys[i]];
@@ -73,13 +76,24 @@ var mineMiner = function() {
           minesToAdd.push(mineToCheck);
         }
       }
+
+      //location and popup are re-used by the markers
+      //and by the show all popups "mine labels" layerGroup
+      var location = new L.LatLng(mine.location.lat, mine.location.lon),
+          popUp = new L.Popup().setLatLng(location).setContent( makeMinePopup(minesToAdd));
+
+      //storing the popups in a layer allows us to enable or disable all at once
+      mineNameLayer.push(popUp);
+
       //make marker
-      L.marker([mine.location.lat, mine.location.lon])
+      L.marker(location)
       //push to map
       .addTo(map)
-      //add a popup for it so users can click and learn things
-      .bindPopup(makeMinePopup(minesToAdd));
+      //add the popup for it so users can click and learn things
+      .bindPopup(popUp);
     }
+   var mineLayer = L.layerGroup(mineNameLayer);
+   L.control.layers(null,{"Mine Labels": mineLayer}).addTo(map);
   }
 
   /**
@@ -89,11 +103,8 @@ var mineMiner = function() {
     var mineHtml = "";
     for (var j = 0; j < minesToAdd.length; j++){
       mine = minesToAdd[j];
-      mineHtml += "<b>" + mine.name + "</b>";
-      mineHtml += "<br />" + mine.location.string;
-      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + mine.url + "</a>";
-      mineHtml += "<br />";
-      mineHtml += "<br />";
+      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + "<img src='" + mine.logo + "' /> "+ "</a>";
+      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + mine.name + "</a>";
     }
     return mineHtml;
   }
