@@ -80,7 +80,7 @@ var mineMiner = function() {
       //location and popup are re-used by the markers
       //and by the show all popups "mine labels" layerGroup
       var location = new L.LatLng(mine.location.lat, mine.location.lon),
-          popUp = new L.Popup().setLatLng(location).setContent( makeMinePopup(minesToAdd));
+          popUp = new L.Popup({closeButton:false}).setLatLng(location).setContent( makeMinePopup(minesToAdd));
 
       //storing the popups in a layer allows us to enable or disable all at once
       mineNameLayer.push(popUp);
@@ -103,8 +103,10 @@ var mineMiner = function() {
     var mineHtml = "";
     for (var j = 0; j < minesToAdd.length; j++){
       mine = minesToAdd[j];
-      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + "<img src='" + mine.logo + "' /> "+ "</a>";
-      mineHtml += "<br /><a href='" + mine.url + "' target='_blank'>" + mine.name + "</a>";
+      if(j>0){
+        mineHtml += "<br />";
+      }
+      mineHtml += "<a href='" + mine.url + "' target='_blank'>" + mine.name + "</a>";
     }
     return mineHtml;
   }
