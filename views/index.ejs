@@ -120,8 +120,12 @@
                     <tr>
                       <th class="col-md-1"></th>
                       <th class="col-md-2">Name</th>
-                      <th class="col-md-6">Description</th>
+                      <th class="col-md-6 list-desc">Description</th>
+					  <th class="col-md-6 list-url" style="display:none;">URL</th>
                       <th class="col-md-3 org-col">Organisms</th>
+                      <% if (typeof galaxy2im !== 'undefined') { %>
+                        <th class="col-md-2">From Galaxy</th>
+                      <% } %>
                     </tr>
                   </thead>
                   <tbody id="list-table-body">
@@ -226,6 +230,19 @@
 					var user = <%- JSON.stringify(user) %>;
 			</script>
 		<% } %>
+        <% if ((typeof im2galaxy !== "undefined") && (typeof galaxyUrl !== "undefined")) { %>
+            <script type="text/javascript">
+                    var im2galaxy = true;
+                    var galaxyUrl = "<%=galaxyUrl%>"
+            </script>
+        <% } %>
+
+        <% if ((typeof galaxy2im !== "undefined") && (typeof galaxyUrl !== "undefined")) { %>
+            <script type="text/javascript">
+                    var galaxy2im = true;
+                    var galaxyUrl = "<%=galaxyUrl%>"
+            </script>
+        <% } %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
