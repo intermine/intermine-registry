@@ -25,7 +25,8 @@ You can check the [detailed API documentation](http://registry.intermine.org/api
 
 1. Install [Node.js](https://nodejs.org/en/download/) on your host.
 
-2. Install [MongoDB](https://docs.mongodb.com/getting-started/shell/installation/) on your host.
+2. Install [
+DB](https://docs.mongodb.com/manual/installation/) on your host.
 
 3. Clone this repository on your host:
 ```
