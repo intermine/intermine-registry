@@ -369,6 +369,12 @@ function getInstances(search) {
             if (instance.maintainerUrl !== undefined) {
               $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="' + instance.maintainerUrl + '">' + instance.maintainerUrl + '</a><br>');
             }
+            if (instance.maintainerEmail !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Email: </span><a target="_blank" id="list-maintainerEmail" href="mailto:' + instance.maintainerEmail + '">' + instance.maintainerEmail + '</a><br>');
+            }
+            if (instance.maintainerGithubUrl !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Github URL: </span><a target="_blank" id="list-maintainerGithubUrl" href="' + instance.maintainerGithubUrl + '">' + instance.maintainerGithubUrl + '</a><br>');
+            }
             $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">' + instance.api_version + '</span>')
             if (instance.release_version !== "") {
               $("#mine-modal-body").append(

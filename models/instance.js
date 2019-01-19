@@ -47,11 +47,13 @@ var schema = new Schema({
         main:  String,
         logo: String
     },
-    twitter:            String,
+    twitter: String,
     status: String,
     isProduction: Boolean,
     maintainerOrgName: String,
-    maintainerUrl: String
+    maintainerUrl: String,
+    maintainerEmail: String,
+    maintainerGithubUrl: String
 },
     {
         collection: 'instances'

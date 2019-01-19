@@ -198,6 +198,8 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             newInstanceObject.location = typeof(req.body.location) !== 'undefined' ? req.body.location : {"latitude": "", "longitude": ""};
             newInstanceObject.maintainerOrgName = typeof(req.body.maintainerOrgName) !== 'undefined' ? req.body.maintainerOrgName : "";
             newInstanceObject.maintainerUrl = typeof(req.body.maintainerUrl) !== 'undefined' ? req.body.maintainerUrl : "";
+            newInstanceObject.maintainerEmail = typeof(req.body.maintainerEmail) !== 'undefined' ? req.body.maintainerEmail : "";
+            newInstanceObject.maintainerGithubUrl = typeof(req.body.maintainerGithubUrl) !== 'undefined' ? req.body.maintainerGithubUrl : "";
 
             // Get the instance Versions & Branding information
             var intermine_endpoint = req.body.url + "/service/version/intermine";
@@ -353,6 +355,8 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             instance.description = typeof(req.body.description) !== 'undefined' ? req.body.description : instance.description;
             instance.maintainerOrgName = typeof(req.body.maintainerOrgName) !== 'undefined' ? req.body.maintainerOrgName : instance.maintainerOrgName;
             instance.maintainerUrl = typeof(req.body.maintainerUrl) !== 'undefined' ? req.body.maintainerUrl : instance.maintainerUrl;
+            instance.maintainerEmail = typeof(req.body.maintainerEmail) !== 'undefined' ? req.body.maintainerEmail : instance.maintainerEmail;
+            instance.maintainerGithubUrl = typeof(req.body.maintainerGithubUrl) !== 'undefined' ? req.body.maintainerGithubUrl : instance.maintainerGithubUrl;
             instance.last_time_updated = new Date();
             instance.api_version =  typeof(req.body.api_version) !== 'undefined' ? req.body.api_version : instance.api_version;
             instance.release_version =  typeof(req.body.release_version) !== 'undefined' ? req.body.release_version : instance.release_version;
