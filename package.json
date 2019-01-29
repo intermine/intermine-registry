@@ -31,6 +31,6 @@
     "serve-favicon": "^2.5.0",
     "swagger-express": "~1.0.5",
     "swagger-ui-express": "~2.0.0",
-    "bcrypt": "*"
+    "bcrypt": "3.0.0"
   }
 }
