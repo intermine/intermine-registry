@@ -262,7 +262,7 @@ router.get('/galaxy-to-im', function(req, res, next) {
     return res.render('index', { user: req.user, galaxy2im: true, galaxyUrl: galaxy});
 });
 
-router.get('/:minename', function(req, res) {
+router.get('/mine/:minename', function(req, res) {
     var name = req.params.minename;
     console.log("Mine instance " + name);
     console.log("Attempt to redirect: " + req.protocol + '://' + req.get('host') + "/service/instances/"+name);
