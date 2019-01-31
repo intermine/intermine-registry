@@ -262,5 +262,13 @@ router.get('/galaxy-to-im', function(req, res, next) {
     return res.render('index', { user: req.user, galaxy2im: true, galaxyUrl: galaxy});
 });
 
+router.get('/:minename', function(req, res) {
+    var name = req.params.minename;
+    request.get(req.protocol + '://' + req.get('host') + "/service/instances/"+name, function(response){
+        var url = response.instance.url;
+        res.redirect(url);
+    })
+    
+});
 
 module.exports = router;
