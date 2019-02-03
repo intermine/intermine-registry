@@ -94,6 +94,11 @@ body {
   font-size: 40px;
 }
 
+.mine-name {
+     cursor:pointer;
+} 
+
+
 .header-title{
 	color: white;
 	word-wrap: break-word;

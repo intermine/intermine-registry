@@ -279,6 +279,13 @@ function getInstances(search) {
         show: true
       });
     });
+    
+    var flag = false;
+    $(".mine-name").click(function() {
+	    url = $(this).parent().children("td[class='list-url']").text();
+            flag = true;
+	    window.open(url,'_blank');
+     });
 
     if (typeof im2galaxy !== "undefined") {
       $(".registry-item").click(function() {
@@ -430,9 +437,10 @@ function getInstances(search) {
               );
             }
           });
-          $('#mine-modals').modal({
-            show: true
+	  $('#mine-modals').modal({
+            show:!flag
           });
+	  flag = false;
         });
       }
     }
