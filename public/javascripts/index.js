@@ -100,7 +100,7 @@ function getInstances(search) {
           imageURL = instance.url + "/" + instance.images.logo;
         }
       } else {
-        imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
+        imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
       }
 
 
@@ -348,7 +348,7 @@ function getInstances(search) {
                 imageURL = instance.url + "/" + instance.images.logo;
               }
             } else {
-              imageURL = "https://cdn.rawgit.com/intermine/design-materials/78a13db5/logos/intermine/squareish/45x45.png"
+              imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
             }
             $("#modal-mine-img").attr("src", imageURL);
 
