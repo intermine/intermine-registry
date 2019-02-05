@@ -18,12 +18,12 @@ $(document).ready(function() {
       $.ajax({
         url: 'service/synchronize/',
         type: 'PUT',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+        },
         success: function(result) {
           localStorage.setItem("message", "All instances were updated successfully.");
           window.location = window.location.pathname;
-        },
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
         }
       });
     }
@@ -313,12 +313,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/instances/' + instance.id,
                   type: 'DELETE',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
@@ -330,12 +330,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/synchronize/' + instance.id,
                   type: 'PUT',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
