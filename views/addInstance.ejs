@@ -18,34 +18,41 @@
                   </div>
                 <% } %>
           				<div class="main-login main-center">
-          				<h5>Please, enter the instance information. Name and URL are required. If instance is a development mine, please check the Dev Mine checkbox.</h5>
+          				<h5>Please, enter the instance information. Name, namespace and URL are required and unique. If the instance is not in production, please check the Dev Mine checkbox.</h5>
 
           					<form class="" method="post" action="">
 
 												<div class="row">
 													<div class="col-md-10">
-															<div class="form-group">
+														<div class="form-group">
 													      <label for="newName" class="col-md-2 control-label">Name</label>
 													      <div class="col-md-10">
 													        <input type="text" class="form-control" id="newName" name="newName" placeholder="Instance Name" required>
 													      </div>
 													    </div>
 
-															<div class="form-group">
+														<div class="form-group">
+													      <label for="newNamespace" class="col-md-2 control-label">Namespace</label>
+													      <div class="col-md-10">
+													        <input type="text" class="form-control" id="newNamespace" name="newNamespace" placeholder="Namespace" required>
+													      </div>
+													    </div>
+
+														<div class="form-group">
 													      <label for="newUrl" class="col-md-2 control-label">URL</label>
 													      <div class="col-md-10">
 													        <input type="url" class="form-control" id="newUrl" name="newUrl" placeholder="Instance URL" required>
 													      </div>
 													    </div>
 
-															<div class="form-group">
+														<div class="form-group">
 													      <label for="maintainerOrgName" class="col-md-2 control-label">Maintainer Organisation</label>
 													      <div class="col-md-10">
 													        <input type="text" class="form-control" id="maintainerOrgName" name="maintainerOrgName">
 													      </div>
 													    </div>
 
-															<div class="form-group">
+														<div class="form-group">
 													      <label for="maintainerUrl" class="col-md-2 control-label">Maintainer URL</label>
 													      <div class="col-md-10">
 													        <input type="url" class="form-control" id="maintainerUrl" name="maintainerUrl">
@@ -159,10 +166,11 @@
     <% if (typeof message !== 'undefined') { %>
       <script type="text/javascript">
         $("#newName").val("<%= name %>");
+        $("#newNamespace").val("<%= namespace %>");
         $("#newUrl").val("<%= url %>");
         $("#newDesc").val("<%= desc %>");
-				$("#maintainerOrgName").val("<%= maintainerOrgName %>");
-				$("#maintainerUrl").val("<%= maintainerUrl %>");
+		$("#maintainerOrgName").val("<%= maintainerOrgName %>");
+		$("#maintainerUrl").val("<%= maintainerUrl %>");
         $("#newTwitter").val("<%= twitter %>");
         $("#newLatitude").val(<%= lat %> );
         $("#newLongitude").val(<%= lon %> );
@@ -236,10 +244,14 @@
 
         $("#action-title").text("Update " + instance.name);
         $("#newName").val(instance.name);
+        $("#newNamespace").val(instance.namespace);
+        if(instance.namespace.trim() != "") {
+            $("#newNamespace").prop("readonly", true)
+        }
         $("#newUrl").val(instance.url);
         $("#newDesc").val(instance.description);
-				$("#maintainerOrgName").val(instance.maintainerOrgName);
-				$("#maintainerUrl").val(instance.maintainerUrl);
+		$("#maintainerOrgName").val(instance.maintainerOrgName);
+		$("#maintainerUrl").val(instance.maintainerUrl);
         $("#newTwitter").val(instance.twitter);
         $("#newLatitude").val(instance.location.latitude);
         $("#newLongitude").val(instance.location.longitude);

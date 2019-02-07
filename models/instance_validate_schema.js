@@ -36,6 +36,11 @@ var InstanceSchema = {
             id: "/properties/name",
             type: "string"
         },
+        namespace: {
+            id: "/properties/namespace",
+            type: "string",
+            pattern: "[a-z,\.\-]*"
+        },
         neighbours: {
             id: "/properties/neighbours",
             items: {
@@ -65,7 +70,7 @@ var InstanceSchema = {
             type: "string"
         }
     },
-    required: ['name', 'url']
+    required: ['name', 'namespace', 'url']
 };
 
 // UPDATE SCHEMA 
@@ -174,6 +179,10 @@ var InstancePutSchema = {
         },
         name: {
             id: "/properties/name",
+            type: "string"
+        },
+        namespace: {
+            id: "/properties/namespace",
             type: "string"
         },
         neighbours: {

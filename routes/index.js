@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var passport = require('passport');
+var Instance = require('../models/instance');
 
 /**
  * Endpoint:  /login
@@ -106,6 +107,7 @@ function updateInstance(req, res, next){
   request.put({
     body: {
       "name": req.body.newName.trim(),
+      "namespace": req.body.newNamespace.trim(),
       "url": req.body.newUrl.trim(),
       "description": req.body.newDesc,
       "maintainerOrgName": req.body.maintainerOrgName.trim(),
@@ -131,10 +133,11 @@ function updateInstance(req, res, next){
       body = JSON.parse(body);
     }
 
-    // If not sucessfull, render add Instance view with form filled and error message
+    // If not successful, render add Instance view with form filled and error message
     if (body.statusCode != 201){
       res.render('addInstance', {
           name: req.body.newName,
+          namespace: req.body.newNamespace,
           url: req.body.newUrl,
           desc: req.body.newDesc,
           maintainerOrgName: req.body.maintainerOrgName,
@@ -185,6 +188,7 @@ router.post('/instance', function(req, res, next) {
     request.post({
       body: {
         "name": req.body.newName.trim(),
+        "namespace": req.body.newNamespace.trim(),
         "url": req.body.newUrl.trim(),
         "description": req.body.newDesc.trim(),
         "maintainerOrgName": req.body.maintainerOrgName.trim(),
@@ -214,6 +218,7 @@ router.post('/instance', function(req, res, next) {
       if (body.statusCode != 201){
         res.render('addInstance', {
             name: req.body.newName,
+            namespace: req.body.newNamespace,
             url: req.body.newUrl,
             desc: req.body.newDesc,
             maintainerOrgName: req.body.maintainerOrgName,
@@ -262,5 +267,24 @@ router.get('/galaxy-to-im', function(req, res, next) {
     return res.render('index', { user: req.user, galaxy2im: true, galaxyUrl: galaxy});
 });
 
+router.get('/:namespace', function(req, res) {
+    var namespace = req.params.namespace;
+    if (namespace != "favicon.ico") {
+        console.log("Namespace " + namespace);
+        Instance.findOne({namespace : req.params.namespace}, function(err, instance){
+            // Namespace not found
+            if (instance == null){
+                res.status(404).json({
+                    statusCode: 404,
+                    message: "Namespace Not Found",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+            res.status(303);
+            res.redirect(instance.url);
+            })
+    }
+});
 
 module.exports = router;

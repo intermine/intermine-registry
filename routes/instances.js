@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
 });
 
 /**
- * Endpoint:  /instances/:instanceIdOrName
+ * Endpoint:  /instances/:instanceIdOrNameOrNamespace
  * Method:    GET
  * Description: Get all the information of the specified instance.
  */
@@ -71,7 +71,7 @@ router.get('/:id', function(req, res, next) {
     var regex = new RegExp(["^", toFind, "$"].join(""), "i");
     // Exec query
     Instance.find({
-        $or:[ { id: toFind}, {name: regex } ]  // Case Insensitive
+        $or:[ { id: toFind}, { namespace: regex}, {name: regex } ]  // Case Insensitive
     }, function(err, instances){
         if (err){
             return res.send(err);
@@ -164,8 +164,19 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
               newInstanceId = 1;
             }
 
-            // Test if name or URL provided is already in the registry
+            var regex = new RegExp("[a-z,\.\-]*");
+            if(!regex.test(req.body.namespace)) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Namespace wrong format",
+                    friendlyMessage: "Namespace has wrong format",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+            // Test if name or namespace or URL provided are already in the registry
             var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+            var allNamespaces = found.map(function(inst){  return inst.namespace.toLowerCase()  });
             var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
 
             if (allNames.indexOf(req.body.name.toLowerCase()) >= 0 || allUrls.indexOf(req.body.url.toLowerCase()) >=0) {
@@ -178,10 +189,21 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
                 return;
             }
 
+            if (allNamespaces.indexOf(req.body.namespace.toLowerCase()) >= 0 ) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Instance is already in the Registry",
+                    friendlyMessage: "Namespace is already in the Registry",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+
             // Build the new instance object
             var newInstanceObject = {
                 id:                 newInstanceId.toString(),
                 name:               req.body.name,
+                namespace:          req.body.namespace,
                 neighbours:         req.body.neighbours,
                 organisms:          req.body.organisms,
                 url:                req.body.url,
@@ -325,8 +347,20 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             if (err){
                 return res.send(err);
             }
+
+            var regex = new RegExp("[a-z,\.\-]*");
+            if(!regex.test(req.params.namespace)) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Namespace wrong format",
+                    friendlyMessage: "Namespace has wrong format",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
             // Test if name or URL provided is already in the registry
             var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
+            var allNamespaces = found.map(function(inst){  return inst.namespace.toLowerCase()  });
             var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
 
             if ((allNames.indexOf(req.body.name.toLowerCase()) >= 0 && found[allNames.indexOf(req.body.name.toLowerCase())].id !== req.params.id)
@@ -339,8 +373,18 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
                 });
                 return;
             }
+            if ((allNamespaces.indexOf(req.body.namespace.toLowerCase()) >= 0 && found[allNamespaces.indexOf(req.body.namespace.toLowerCase())].id !== req.params.id)) {
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Instance is already in the Registry",
+                    friendlyMessage: "Namespace is already in the Registry",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
             // Check for present fields and consequently update them.
             instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
+            instance.namespace = typeof(req.body.namespace) !== 'undefined' ? req.body.namespace : instance.namespace;
             instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
             instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
             instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
