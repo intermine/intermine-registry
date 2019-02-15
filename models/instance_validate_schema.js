@@ -10,6 +10,14 @@ var InstanceSchema = {
             id: "/properties/description",
             type: "string"
         },
+        maintainerEmail: {
+            id: "/properties/maintainerEmail",
+            type: "string"
+        },
+        maintainerGithubUrl: {
+            id: "/properties/maintainerGithubUrl",
+            type: "string"
+        },
         maintainerOrgName: {
             id: "/properties/maintainerOrgName",
             type: "string"
@@ -134,6 +142,14 @@ var InstancePutSchema = {
         },
         maintainerUrl: {
             id: "/properties/maintainerUrl",
+            type: "string"
+        },
+        maintainerEmail: {
+            id: "/properties/maintainerEmail",
+            type: "string"
+        },
+        maintainerGithubUrl: {
+            id: "/properties/maintainerGithubUrl",
             type: "string"
         },
         images: {
