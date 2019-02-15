@@ -84,10 +84,14 @@ function cutHex(h) {
 function getInstances(search) {
 
   $.get("service/instances/?q=" + search, function(response) {
+    $(".no-results").text("");
     $("#list-table-body").empty();
     $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
+    if(globalInstances.length===0){
+	$(".no-results").text("No Results Found");
+    }
     for (var i = 0; i < response.length; i++) {
       var instance = response[i];
       var imageURL = "";
@@ -154,10 +158,9 @@ function getInstances(search) {
         imRow += "<td id='forwardButton-" + instance.id + "'>Loading...</td>";
       }
       imRow += "</tr>";
-
       // Fill the list view instances list content
       $("#list-table-body").append(imRow);
-
+            
       // Mine Hover functionality in list view
       $("#item-" + instance.id).hover(function() {
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
