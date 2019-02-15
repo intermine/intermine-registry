@@ -84,11 +84,17 @@ router.get('/instance', function(req, res, next) {
  * the same params that the POST /instance endpoint.
  */
 function updateInstance(req, res, next){
-  var splitCSValues = function(str) {
-    return str.split(',').map(val => val.trim()).filter(val => val != '');
+  var organisms = [];
+  var neighbours = [];
+
+  // Get fields from form
+  if (req.body.newOrganisms.trim() !== "") {
+    organisms = req.body.newOrganisms.split(",") ;
   }
-  var organisms = splitCSValues(req.body.newOrganisms);
-  var neighbours = splitCSValues(req.body.newNeighbours);
+
+  if (req.body.newNeighbours.trim() !== "") {
+    neighbours = req.body.newNeighbours.split(",");
+  }
 
   var isProduction = true;
   if (req.body.newIsDev === "1"){
@@ -141,7 +147,7 @@ function updateInstance(req, res, next){
           message: body.friendlyMessage
       });
     } else {
-      res.redirect('/?success=1');
+      res.redirect('/?success=2');
     }
   });
 
@@ -152,7 +158,78 @@ function updateInstance(req, res, next){
  * Method:    POST
  * Description: Add or update and instance to the registry from front end.
  */
-router.post('/instance', updateInstance);
+router.post('/instance', function(req, res, next) {
+
+    // If method is PUT (update instance), call update function
+    if (req.body._method === "put"){
+      updateInstance(req, res, next);
+      return;
+    }
+
+    // Get fields from form
+    if (req.body.newOrganisms.trim() !== "") {
+      var organisms = req.body.newOrganisms.split(",") ;
+    }
+
+    if (req.body.newNeighbours.trim() !== "") {
+      var neighbours = req.body.newNeighbours.split(",");
+    }
+
+    var isProduction = true;
+    if (req.body.newIsDev === "1"){
+      var isProduction = false;
+    }
+
+    // Do a request to the API POST endpoint, passing body and authentication
+    var reqUrl = req.protocol + '://' + req.get('host') + "/service/instances";
+    request.post({
+      body: {
+        "name": req.body.newName.trim(),
+        "url": req.body.newUrl.trim(),
+        "description": req.body.newDesc.trim(),
+        "maintainerOrgName": req.body.maintainerOrgName.trim(),
+        "maintainerUrl": req.body.maintainerUrl.trim(),
+        "twitter": req.body.newTwitter.trim(),
+        "location": {
+          "latitude": req.body.newLatitude,
+          "longitude": req.body.newLongitude
+        },
+        "organisms": organisms,
+        "neighbours": neighbours,
+        "isProduction": isProduction
+      },
+      auth: {
+        "user": req.user.user,
+        "pass": req.user.password
+      },
+      url: reqUrl,
+      json: true
+    }, function (err, httpResponse, body){
+
+      if (typeof body === "string"){
+        body = JSON.parse(body);
+      }
+
+      // If not sucessfull, render add Instance view with form filled and error message
+      if (body.statusCode != 201){
+        res.render('addInstance', {
+            name: req.body.newName,
+            url: req.body.newUrl,
+            desc: req.body.newDesc,
+            maintainerOrgName: req.body.maintainerOrgName,
+            maintainerUrl: req.body.maintainerUrl,
+            twitter: req.body.newTwitter,
+            lat: req.body.newLatitude,
+            lon: req.body.newLongitude,
+            organisms: req.body.newOrganisms,
+            neighbours: req.body.newNeighbours,
+            message: body.friendlyMessage
+        });
+      } else {
+        res.redirect('/?success=1');
+      }
+    });
+});
 
 /**
  * Endpoint:  /
