@@ -60,7 +60,8 @@ asyncLoop(mines, function(mine, next){
           "pass": password
         },
     }, function(err, res, body){
-        console.log(mineName + " Added")
+        console.log(mineName + " ==> " + body.friendlyMessage);
         next();
     });
 })
+

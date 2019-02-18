@@ -18,12 +18,12 @@ $(document).ready(function() {
       $.ajax({
         url: 'service/synchronize/',
         type: 'PUT',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+        },
         success: function(result) {
           localStorage.setItem("message", "All instances were updated successfully.");
           window.location = window.location.pathname;
-        },
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
         }
       });
     }
@@ -84,10 +84,14 @@ function cutHex(h) {
 function getInstances(search) {
 
   $.get("service/instances/?q=" + search, function(response) {
+    $(".no-results").text("");
     $("#list-table-body").empty();
     $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
+    if(globalInstances.length===0){
+	$(".no-results").text("No Results Found");
+    }
     for (var i = 0; i < response.length; i++) {
       var instance = response[i];
       var imageURL = "";
@@ -151,10 +155,9 @@ function getInstances(search) {
         imRow += "<td id='forwardButton-" + instance.id + "'>Loading...</td>";
       }
       imRow += "</tr>";
-
       // Fill the list view instances list content
       $("#list-table-body").append(imRow);
-
+            
       // Mine Hover functionality in list view
       $("#item-" + instance.id).hover(function() {
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
@@ -308,12 +311,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/instances/' + instance.id,
                   type: 'DELETE',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
@@ -325,12 +328,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/synchronize/' + instance.id,
                   type: 'PUT',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
@@ -364,6 +367,12 @@ function getInstances(search) {
             }
             if (instance.maintainerUrl !== undefined && instance.maintainerUrl !== "") {
               $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="' + instance.maintainerUrl + '">' + instance.maintainerUrl + '</a><br>');
+            }
+            if (instance.maintainerEmail !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Email: </span><a target="_blank" id="list-maintainerEmail" href="mailto:' + instance.maintainerEmail + '">' + instance.maintainerEmail + '</a><br>');
+            }
+            if (instance.maintainerGithubUrl !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Github URL: </span><a target="_blank" id="list-maintainerGithubUrl" href="' + instance.maintainerGithubUrl + '">' + instance.maintainerGithubUrl + '</a><br>');
             }
             $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">' + instance.api_version + '</span>')
             if (instance.release_version !== "") {

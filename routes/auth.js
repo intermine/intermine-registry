@@ -16,19 +16,26 @@ var User = require('../models/user');
  * will be set at `req.user` in route handlers after authentication.
  */
 passport.use(new Strategy(
-  function(username, password, done) {
-    User.findOne({ 'user': username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect Username.' });
-      }
-      if (user.password != password) {
-        return done(null, false, { message: 'Incorrect Password.' });
-      }
-      return done(null, user);
-    });
-  }
+    function(username, password, done){
+        User.getUserByUsername(username, function(err, user){
+            if(err) throw err;
+            else if(!user){
+                return done(null, false, {message: "Incorrect Username"});
+            }
+            else{
+              User.comparePassword(password, user.password, function(err, isMatch){
+                if(err) throw err;
+                if(isMatch){
+                    return done(null, user);
+                } else {
+                    return done(null, false, {message: "Incorrect Password"});
+                }
+              });
+            }
+        });
+    }
 ));
+
 
 /**
  * FRONT END: Sessions Persistence
@@ -55,13 +62,22 @@ passport.use(new BasicStrategy(
   function(username, password, done) {
     User.findOne({ 'user': username }, function(err, user) {
       if (err) { return done(err); }
-      if (!user) {
+      else if (!user) {
         return done(null, false, { message: 'Incorrect Username.' });
       }
-      if (user.password != password) {
-        return done(null, false, { message: 'Incorrect Password.' });
+      else if (user.password != password) {
+        User.comparePassword(password, user.password, function(err, isMatch){
+            if(err) throw err;
+            if(isMatch){
+                return done(null, user);
+            } else {
+                return done(null, false, {message: "Incorrect Password"});
+            }
+        });
       }
-      return done(null, user);
+      else{
+        return done(null, user);
+      }
     });
   }
 ));

@@ -59,6 +59,20 @@
 													      </div>
 													    </div>
 
+													    <div class="form-group">
+													      <label for="maintainerEmail" class="col-md-2 control-label">Maintainer Email</label>
+													      <div class="col-md-10">
+													        <input type="email" class="form-control" id="maintainerEmail" name="maintainerEmail">
+													      </div>
+													    </div>
+
+															<div class="form-group">
+													      <label for="maintainerGithubUrl" class="col-md-2 control-label">Maintainer Github URL</label>
+													      <div class="col-md-10">
+													        <input type="url" class="form-control" id="maintainerGithubUrl" name="maintainerGithubUrl">
+													      </div>
+													    </div>
+
 													</div>
 													<div class="col-md-2">
 														<div class="col-md-12 pt-60">
@@ -169,8 +183,8 @@
         $("#newNamespace").val("<%= namespace %>");
         $("#newUrl").val("<%= url %>");
         $("#newDesc").val("<%= desc %>");
-		$("#maintainerOrgName").val("<%= maintainerOrgName %>");
-		$("#maintainerUrl").val("<%= maintainerUrl %>");
+				$("#maintainerOrgName").val("<%= maintainerOrgName %>");
+				$("#maintainerUrl").val("<%= maintainerUrl %>");
         $("#newTwitter").val("<%= twitter %>");
         $("#newLatitude").val(<%= lat %> );
         $("#newLongitude").val(<%= lon %> );
@@ -250,8 +264,8 @@
         }
         $("#newUrl").val(instance.url);
         $("#newDesc").val(instance.description);
-		$("#maintainerOrgName").val(instance.maintainerOrgName);
-		$("#maintainerUrl").val(instance.maintainerUrl);
+				$("#maintainerOrgName").val(instance.maintainerOrgName);
+				$("#maintainerUrl").val(instance.maintainerUrl);
         $("#newTwitter").val(instance.twitter);
         $("#newLatitude").val(instance.location.latitude);
         $("#newLongitude").val(instance.location.longitude);
