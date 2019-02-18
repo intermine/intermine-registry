@@ -45,9 +45,11 @@ var password = '';
 asyncLoop(mines, function(mine, next){
     var mineName = mine[0];
     var mineURL = mine[1];
+    var mineNamespace = mine[2];
     var req = {
         "name": mineName,
-        "url": mineURL
+        "url": mineURL,
+        "namespace" : namespace
     };
     request.post({
         json: true,
