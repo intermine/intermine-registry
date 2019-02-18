@@ -84,17 +84,11 @@ router.get('/instance', function(req, res, next) {
  * the same params that the POST /instance endpoint.
  */
 function updateInstance(req, res, next){
-  var organisms = [];
-  var neighbours = [];
-
-  // Get fields from form
-  if (req.body.newOrganisms.trim() !== "") {
-    organisms = req.body.newOrganisms.split(",") ;
+  var splitCSValues = function(str) {
+    return str.split(',').map(val => val.trim()).filter(val => val != '');
   }
-
-  if (req.body.newNeighbours.trim() !== "") {
-    neighbours = req.body.newNeighbours.split(",");
-  }
+  var organisms = splitCSValues(req.body.newOrganisms);
+  var neighbours = splitCSValues(req.body.newNeighbours);
 
   var isProduction = true;
   if (req.body.newIsDev === "1"){
