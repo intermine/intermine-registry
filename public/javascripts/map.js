@@ -31,7 +31,9 @@ function loadMines(){
         }
       }
     }
-    mineMiner().init();
+    if (mines.length > 0) {
+      mineMiner().init();
+    }
   });
 }
 
