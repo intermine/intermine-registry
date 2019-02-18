@@ -289,8 +289,7 @@ router.get('/:namespace', function(req, res) {
                 });
                 return;
             }
-            res.status(303);
-            res.redirect(instance.url);
+            res.redirect(303,instance.url);
             })
     }
 });
