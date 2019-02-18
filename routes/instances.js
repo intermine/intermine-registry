@@ -174,29 +174,16 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
                 });
                 return;
             }
+
             // Test if name or namespace or URL provided are already in the registry
-            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
-            var allNamespaces = found.map(function(inst){  return inst.namespace.toLowerCase()  });
-            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
+            var existingFields= getUniqueFields(found);
+            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
 
-            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0 || allUrls.indexOf(req.body.url.toLowerCase()) >=0) {
-                res.status(409).json({
-                    statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Instance name or URL is already in the Registry",
-                    executionTime: new Date().toLocaleString()
-                });
-                return;
-            }
-
-            if (allNamespaces.indexOf(req.body.namespace.toLowerCase()) >= 0 ) {
-                res.status(409).json({
-                    statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Namespace is already in the Registry",
-                    executionTime: new Date().toLocaleString()
-                });
-                return;
+            if(!checkIfUnique.isItUnique) {
+              nonUniqueIdentifierError(checkIfUnique.areIndividualValuesUnique, res);
+              //if things aren't unique don't proceed with the next bit
+              //which would add the mine to the db!
+              return;
             }
 
             // Build the new instance object
@@ -360,30 +347,18 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
                 });
                 return;
             }
-            // Test if name or URL provided is already in the registry
-            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
-            var allNamespaces = found.map(function(inst){  return inst.namespace.toLowerCase()  });
-            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
 
-            if ((allNames.indexOf(req.body.name.toLowerCase()) >= 0 && found[allNames.indexOf(req.body.name.toLowerCase())].id !== req.params.id)
-            || (allUrls.indexOf(req.body.url.toLowerCase()) >=0 && found[allUrls.indexOf(req.body.url.toLowerCase())].id !== req.params.id)) {
-                res.status(409).json({
-                    statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Instance name or URL is already in the Registry",
-                    executionTime: new Date().toLocaleString()
-                });
-                return;
+            // Test if name or namespace or URL provided are already in the registry
+            var existingFields= getUniqueFields(found, req.params.id);
+            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
+            console.log("%ccheckIfUnique","border-bottom:chartreuse solid 3px;",checkIfUnique);
+
+            if(!checkIfUnique.isItUnique) {
+              //TODO IF not isunique, tell which fields are not unique. Also duplicate this to two places please.
+              nonUniqueIdentifierError(checkIfUnique.areIndividualValuesUnique, res);
+              return;
             }
-            if ((allNamespaces.indexOf(req.body.namespace.toLowerCase()) >= 0 && found[allNamespaces.indexOf(req.body.namespace.toLowerCase())].id !== req.params.id)) {
-                res.status(409).json({
-                    statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Namespace is already in the Registry",
-                    executionTime: new Date().toLocaleString()
-                });
-                return;
-            }
+
             // Check for present fields and consequently update them.
             instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
             instance.namespace = typeof(req.body.namespace) !== 'undefined' ? req.body.namespace : instance.namespace;
@@ -468,5 +443,106 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
         });
     });
 });
+
+/**
+Given a list of mines, return a list of mines without the mine id `mineId` present.
+**/
+var removeCurrentMine = function(mines, mineId) {
+  return mines.filter(function(mine) {return (mine.id !== mineId)});
+}
+
+/**
+Returns all values for field types that _must_ be unique in the registry.
+foundMines: (required) list of InterMines as provided by the registry
+mineToUpdate: (optional) if this is an update and not a new mine, tell us which
+              mine is being updated
+**/
+function getUniqueFields(foundMines, mineToUpdate){
+
+  // if we're updating the mine rather than adding it, don't check keep *this*
+  // mine in the list of unique mines to check against or we'd never be able
+  // to save the update mine since it will always match itself
+  if (mineToUpdate) {
+    foundMines = removeCurrentMine(foundMines, mineToUpdate);
+  }
+
+  //fetch a list of all the current values in the unique fields
+  var allNames = foundMines.map(function(inst){  return inst.name.toLowerCase()  });
+  var allNamespaces = foundMines.map(function(inst){
+    // null check required to prevent errors in the UI
+    // as we update the namespaces. This is only necessary because we're
+    // updating the namespaces after the registry was created,
+    // so they're all null values.
+    var namespace;
+    if(inst.namespace){
+      namespace = inst.namespace.toLowerCase();
+    }
+    return namespace;
+  });
+  var allUrls = foundMines.map(function(inst){   return inst.url.toLowerCase() });
+
+  return {
+    urls : allUrls,
+    names : allNames,
+    namespaces : allNamespaces
+  }
+}
+
+/**
+Given a request to add or modify an instance, and the existing
+mine fields, check the new request is unique for the name,
+namespace, and url fields.
+Returns the uniqueness states of each value and of the request as a whole
+req: (required) the http request the server recieved for this addition/update
+existingFields: (required) an object containing all the values for fields that
+                must be unique.
+**/
+function areAllFieldsUnique(req, existingFields) {
+  var newName = req.name.toLowerCase(),
+      newURL = req.url.toLowerCase(),
+      newNamespace = req.namespace.toLowerCase(),
+      individualValues = {
+        namespace : (existingFields.namespaces.indexOf(newNamespace) < 0),
+        name : (existingFields.names.indexOf(newName) < 0),
+        url : (existingFields.urls.indexOf(newURL) < 0 )
+      };
+
+      var areTheyAllUnique = true;
+
+      //check all of the new fields against existing field values
+      //and preserve which (if any) aren't unique, so we can give the
+      //user a detailed error message.
+      Object.keys(individualValues).map(function(key){
+        var isThisValueUnique = individualValues[key];
+         areTheyAllUnique = areTheyAllUnique && isThisValueUnique;
+      });
+
+  return {
+    //is *everything* unique in this mine request?
+    isItUnique : areTheyAllUnique,
+    //which ones comply (or don't comply)
+    areIndividualValuesUnique : individualValues
+  };
+}
+
+/**
+If we've decided a request isn't fully unique, throw an error
+and tell the user *which* fields aren't unique so they know what to fix.
+**/
+function nonUniqueIdentifierError(namesOfFields, res) {
+      var nonUniqueFields = []; Object.keys(namesOfFields).map(function(individualFieldName){
+        if (!namesOfFields[individualFieldName]) {
+        nonUniqueFields.push(individualFieldName);
+      }
+    });
+    nonUniqueFields = nonUniqueFields.join(", ");
+      res.status(409).json({
+          statusCode: 409,
+          message: "Instance is already in the Registry",
+          friendlyMessage: nonUniqueFields + " is already in the Registry",
+          executionTime: new Date().toLocaleString()
+      });
+      return;
+}
 
 module.exports = router;
