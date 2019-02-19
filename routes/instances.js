@@ -337,17 +337,6 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
                 return res.send(err);
             }
 
-            var regex = new RegExp("[a-z,\.\-]*");
-            if(!regex.test(req.params.namespace)) {
-                res.status(409).json({
-                    statusCode: 409,
-                    message: "Namespace wrong format",
-                    friendlyMessage: "Namespace has wrong format",
-                    executionTime: new Date().toLocaleString()
-                });
-                return;
-            }
-
             // Test if name or namespace or URL provided are already in the registry
             var existingFields= getUniqueFields(found, req.params.id);
             var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
