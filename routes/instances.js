@@ -147,6 +147,8 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             return;
         }
 
+
+
         newInstanceId = "";
         // Get new instance ID
         Instance.find().exec(function(err, found){
@@ -337,10 +339,20 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
                 return res.send(err);
             }
 
+            // allow the namespace to be set if it has never been set before,
+            // but do not allow it to be changed.
+            if ((instance.namespace) && (instance.namespace.length > 0)){
+                res.status(409).json({
+                    statusCode: 409,
+                    message: "Namespace can not be modified.",
+                    executionTime: new Date().toLocaleString()
+                });
+                return;
+            }
+
             // Test if name or namespace or URL provided are already in the registry
             var existingFields= getUniqueFields(found, req.params.id);
             var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
-            console.log("%ccheckIfUnique","border-bottom:chartreuse solid 3px;",checkIfUnique);
 
             if(!checkIfUnique.isItUnique) {
               //TODO IF not isunique, tell which fields are not unique. Also duplicate this to two places please.
@@ -350,7 +362,12 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
 
             // Check for present fields and consequently update them.
             instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
-            instance.namespace = typeof(req.body.namespace) !== 'undefined' ? req.body.namespace : instance.namespace;
+            //user must _never_ be allowed to update the namespace, unless it's
+            //from null to some value - i.e. setting it for the first time while
+            //updating the live registry
+            if ((!instance.namespace) || (instance.namespace == "")) {
+            instance.namespace = typeof(req.body.namespace) !== 'undefined' ? req.body.namespace : instance.namespace; 
+            }
             instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
             instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
             instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
@@ -487,9 +504,9 @@ existingFields: (required) an object containing all the values for fields that
                 must be unique.
 **/
 function areAllFieldsUnique(req, existingFields) {
-  var newName = req.name.toLowerCase(),
-      newURL = req.url.toLowerCase(),
-      newNamespace = req.namespace.toLowerCase(),
+  var newName = lowercaseIfExists(req.name),
+      newURL = lowercaseIfExists(req.url),
+      newNamespace = lowercaseIfExists(req.namespace),
       individualValues = {
         namespace : (existingFields.namespaces.indexOf(newNamespace) < 0),
         name : (existingFields.names.indexOf(newName) < 0),
@@ -532,6 +549,17 @@ function nonUniqueIdentifierError(namesOfFields, res) {
           executionTime: new Date().toLocaleString()
       });
       return;
+}
+
+/**
+Don't try to lowercasify a property that doesn't exist, it'll cause the server to exit.
+**/
+function lowercaseIfExists(field) {
+  var response;
+  if (field) {
+    response = field.toLowerCase();
+  }
+  return response;
 }
 
 module.exports = router;
