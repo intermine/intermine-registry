@@ -278,7 +278,6 @@ router.get('/galaxy-to-im', function(req, res, next) {
 router.get('/:namespace', function(req, res) {
     var namespace = req.params.namespace;
     if (namespace != "favicon.ico") {
-        console.log("Namespace " + namespace);
         Instance.findOne({namespace : req.params.namespace}, function(err, instance){
             // Namespace not found
             if (instance == null){
@@ -292,6 +291,31 @@ router.get('/:namespace', function(req, res) {
             res.redirect(303,instance.url);
             })
     }
+});
+
+router.get('/service/namespace', function(req, res) {
+    var urlInput = req.query.url;
+    if (!urlInput) {
+        res.status(400).json({
+                    statusCode: 400,
+                    message: "Missing url parameter",
+                    executionTime: new Date().toLocaleString()
+                });
+        return;
+    }
+    var prefix = new RegExp("(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?")
+    urlInput = urlInput.replace(prefix, "");
+    Instance.findOne({url : {$regex: urlInput, $options: 'i'}}, function(err, instance){
+        if (instance == null){
+            res.status(404).json({
+                statusCode: 404,
+                message: "Url Not Found",
+                executionTime: new Date().toLocaleString()
+            });
+            return;
+        }
+        res.status(200).json({statusCode: 200, namespace: instance.namespace});
+    })
 });
 
 module.exports = router;
