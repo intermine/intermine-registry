@@ -9,11 +9,11 @@
       "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
     }
   },
-  "host": "registry.intermine.org",
+  "host": "localhost:3000",
   "basePath": "/service",
   "tags": [
     {
-      "name": "instance",
+      "name": "instances",
       "description": "Operations regarding the InterMine Registry instances.",
       "externalDocs": {
         "description": "Find out more",
@@ -23,6 +23,22 @@
     {
       "name": "synchronize",
       "description": "Operations regarding the InterMine Registry instances versions & branding updates.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    },
+    {
+      "name": "namespace",
+      "description": "Operation regarding the InterMine Registry namespaces.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    },
+    {
+      "name": "/{namespace}",
+      "description": "Operations regarding the InterMine Registry redirection.",
       "externalDocs": {
         "description": "Find out more",
         "url": "https://github.com/intermine/intermine-registry/"
@@ -39,7 +55,7 @@
           "instances"
         ],
         "summary": "Add an instance to the InterMine Registry.",
-        "description": "Add a new instance to the InterMine Registry. Name and URL are required. Provided URL is subject to test by doing a ping to the mine /version endpoint.",
+        "description": "Add a new instance to the InterMine Registry. Name, Namespace and URL are required. Provided URL is subject to test by doing a ping to the mine /version endpoint.",
         "operationId": "addinstances",
         "consumes": [
           "application/json"
@@ -55,50 +71,62 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["name", "url"],
+              "required": [
+                "name",
+                "namespace",
+                "url"
+              ],
               "properties": {
                 "name": {
-                    "type": "string",
-                    "example": "FlyMine"
+                  "type": "string",
+                  "example": "FlyMine"
+                },
+                "namespace": {
+                  "type": "string",
+                  "example": "flymine"
                 },
                 "neighbours": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": ["MODs"],
-                    "type": "array"
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "MODs"
+                  ],
+                  "type": "array"
                 },
                 "organisms": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": ["Drosophila"],
-                    "type": "array"
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "Drosophila"
+                  ],
+                  "type": "array"
                 },
                 "url": {
-                    "type": "string",
-                    "example": "http://www.flymine.org/query"
+                  "type": "string",
+                  "example": "http://www.flymine.org/query"
                 },
                 "description": {
-                    "type": "string",
-                    "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+                  "type": "string",
+                  "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
                 },
                 "location": {
-                    "properties": {
-                        "latitude": {
-                            "type": "string",
-                            "example": "52.2003399"
-                        },
-                        "longitude": {
-                            "type": "string",
-                            "example": "0.120109"
-                        }
+                  "properties": {
+                    "latitude": {
+                      "type": "string",
+                      "example": "52.2003399"
                     },
-                    "type": "object"
+                    "longitude": {
+                      "type": "string",
+                      "example": "0.120109"
+                    }
+                  },
+                  "type": "object"
                 },
                 "twitter": {
-                    "type": "string",
-                    "example": "@intermineorg"
+                  "type": "string",
+                  "example": "@intermineorg"
                 }
               }
             }
@@ -107,6 +135,9 @@
         "responses": {
           "201": {
             "description": "Instance Successfully Added to the Registry"
+          },
+          "400": {
+            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           },
           "401": {
             "description": "Authentication information is missing or invalid",
@@ -118,11 +149,7 @@
           },
           "406": {
             "description": "Bad Request"
-          },
-          "400": {
-            "description": "Malformed JSON. Invalid or Missing Data. Check for invalid URL."
           }
-
         },
         "security": [
           {
@@ -130,7 +157,6 @@
           }
         ]
       },
-
       "get": {
         "tags": [
           "instances"
@@ -162,7 +188,7 @@
             "description": "Successful Operation",
             "schema": {
               "items": {
-                  "$ref": "#/definitions/instances"
+                "$ref": "#/definitions/instances"
               }
             }
           },
@@ -170,29 +196,25 @@
             "description": "Instances Not Found"
           }
         },
-        "security": [
-
-        ]
+        "security": []
       }
     },
-
-
-    "/instances/{instanceIdOrName}": {
+    "/instances/{instanceIdOrNameOrNamespace}": {
       "get": {
         "tags": [
           "instances"
         ],
-        "summary": "Finds an instance by its ID or Name",
-        "description": "Get all the information of a given InterMine instance (id or Name).",
+        "summary": "Finds an instance by its ID, Name or Namespace",
+        "description": "Get all the information of a given InterMine instance (id, Name or Namespace).",
         "operationId": "findInstanceById",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "instanceIdOrName",
+            "name": "instanceIdOrNameOrNamespace",
             "in": "path",
-            "description": "ID or Name of instance to return",
+            "description": "ID or Name or Namespace of instance to return",
             "required": true,
             "type": "string"
           }
@@ -211,11 +233,9 @@
             "description": "Instance Not Found"
           }
         },
-        "security": [
-        ]
+        "security": []
       }
     },
-
     "/instances/{instancesId}": {
       "put": {
         "tags": [
@@ -248,47 +268,55 @@
               "type": "object",
               "properties": {
                 "name": {
-                    "type": "string",
-                    "example": "FlyMine"
+                  "type": "string",
+                  "example": "FlyMine"
+                },
+                "namespace": {
+                  "type": "string",
+                  "example": "FlyMine"
                 },
                 "neighbours": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": ["MODs"],
-                    "type": "array"
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "MODs"
+                  ],
+                  "type": "array"
                 },
                 "organisms": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "example": ["Drosophila"],
-                    "type": "array"
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "Drosophila"
+                  ],
+                  "type": "array"
                 },
                 "url": {
-                    "type": "string",
-                    "example": "http://www.flymine.org/query"
+                  "type": "string",
+                  "example": "http://www.flymine.org/query"
                 },
                 "description": {
-                    "type": "string",
-                    "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+                  "type": "string",
+                  "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
                 },
                 "location": {
-                    "properties": {
-                        "latitude": {
-                            "type": "string",
-                            "example": "52.2003399"
-                        },
-                        "longitude": {
-                            "type": "string",
-                            "example": "0.120109"
-                        }
+                  "properties": {
+                    "latitude": {
+                      "type": "string",
+                      "example": "52.2003399"
                     },
-                    "type": "object"
+                    "longitude": {
+                      "type": "string",
+                      "example": "0.120109"
+                    }
+                  },
+                  "type": "object"
                 },
                 "twitter": {
-                    "type": "string",
-                    "example": "@intermineorg"
+                  "type": "string",
+                  "example": "@intermineorg"
                 }
               }
             }
@@ -366,234 +394,318 @@
       }
     },
     "/synchronize": {
-        "put": {
-          "tags": [
-            "synchronize"
-          ],
-          "summary": "Update the branding & version information of every instance on the InterMine Registry",
-          "description": "Update the branding & version information of every instance on the InterMine Registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
-          "operationId": "synchronizeInstances",
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "201": {
-              "description": "Instance Version & Branding Successfully Updated on the InterMine Registry"
-            },
-            "401": {
-              "description": "Authentication information is missing or invalid",
-              "headers": {
-                "WWW_Authenticate": {
-                  "type": "string"
-                }
-              }
-            },
-            "406": {
-              "description": "Bad Request"
-            }
+      "put": {
+        "tags": [
+          "synchronize"
+        ],
+        "summary": "Update the branding & version information of every instance on the InterMine Registry",
+        "description": "Update the branding & version information of every instance on the InterMine Registry. For each instance on the registry we do 4 parallel http requests to the branding & version endpoints to verify if they have been updated.",
+        "operationId": "synchronizeInstances",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Instance Version & Branding Successfully Updated on the InterMine Registry"
           },
-          "security": [
-            {
-              "basicAuth": []
-            }
-          ]
-        }
-      },
-      "/synchronize/{instanceIdOrName}": {
-          "put": {
-            "tags": [
-              "synchronize"
-            ],
-            "summary": "Update the branding & version information on the InterMine Registry of the specified instance in the URL",
-            "description": "Update the branding & version information of the instance given in the URL",
-            "operationId": "synchronizeInstance",
-            "consumes": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "instanceIdOrName",
-                "in": "path",
-                "description": "ID or Name of instance to update",
-                "required": true,
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "WWW_Authenticate": {
                 "type": "string"
               }
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
-              "201": {
-                "description": "Instances Versions & Branding Successfully Updated on the Registry"
-              },
-              "401": {
-                "description": "Authentication information is missing or invalid",
-                "headers": {
-                  "WWW_Authenticate": {
-                    "type": "string"
-                  }
-                }
-              },
-              "404": {
-                "description": "Instance Not Found"
-              },
-              "406": {
-                "description": "Bad Request"
-              }
-            },
-            "security": [
-              {
-                "basicAuth": []
-              }
-            ]
+            }
+          },
+          "406": {
+            "description": "Bad Request"
           }
-        }
-  },
-
-  "securityDefinitions": {
-      "basicAuth": {
-        "type": "basic"
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
       }
+    },
+    "/synchronize/{instanceIdOrName}": {
+      "put": {
+        "tags": [
+          "synchronize"
+        ],
+        "summary": "Update the branding & version information on the InterMine Registry of the specified instance in the URL",
+        "description": "Update the branding & version information of the instance given in the URL",
+        "operationId": "synchronizeInstance",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "instanceIdOrName",
+            "in": "path",
+            "description": "ID or Name of instance to update",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Instances Versions & Branding Successfully Updated on the Registry"
+          },
+          "401": {
+            "description": "Authentication information is missing or invalid",
+            "headers": {
+              "WWW_Authenticate": {
+                "type": "string"
+              }
+            }
+          },
+          "404": {
+            "description": "Instance Not Found"
+          },
+          "406": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/namespace": {
+      "get": {
+        "tags": [
+          "namespace"
+        ],
+        "summary": "",
+        "description": "Return the namespace assigned to the instance with URL given in input",
+        "operationId": "redirect",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "The URL of the instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "404": {
+            "description": "Url Not Found"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/{namespace}": {
+      "get": {
+        "tags": [
+          "/{namespace}"
+        ],
+        "summary": "",
+        "description": "Redirect to URL assigned to the namespace",
+        "operationId": "redirect",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "path",
+            "description": "The namespace of the instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "303": {
+            "description": "Redirected to the URL assigned to the namespace"
+          },
+          "404": {
+            "description": "Namespace Not Found"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
   },
-
-
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
   "definitions": {
     "instances": {
       "type": "object",
-      "required": ["name", "url"],
+      "required": [
+        "name",
+        "namespace",
+        "url"
+      ],
       "properties": {
         "name": {
-            "type": "string",
-            "example": "FlyMine"
+          "type": "string",
+          "example": "FlyMine"
+        },
+        "namespace": {
+          "type": "string",
+          "example": "flymine"
         },
         "api_version": {
-            "type": "string",
-            "example": "19"
+          "type": "string",
+          "example": "19"
         },
         "release_version": {
-            "type": "string",
-            "example": "42.1 2016 Jan"
+          "type": "string",
+          "example": "42.1 2016 Jan"
         },
         "intermine_version": {
-            "type": "string",
-            "example": "1.7.1"
+          "type": "string",
+          "example": "1.7.1"
         },
         "neighbours": {
-            "items": {
-                "type": "string"
-            },
-            "example": ["MODs"],
-            "type": "array"
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "MODs"
+          ],
+          "type": "array"
         },
         "organisms": {
-            "items": {
-                "type": "string"
-            },
-            "example": ["Drosophila"],
-            "type": "array"
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Drosophila"
+          ],
+          "type": "array"
         },
         "url": {
-            "type": "string",
-            "example": "http://www.flymine.org/query"
+          "type": "string",
+          "example": "http://www.flymine.org/query"
         },
         "description": {
-            "type": "string",
-            "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
+          "type": "string",
+          "example": "FlyMine is an integrated database of genomic, expression and protein data for Drosophila, Anopheles and C. elegans"
         },
         "location": {
-            "properties": {
-                "latitude": {
-                    "type": "string",
-                    "example": "52.2003399"
-                },
-                "longitude": {
-                    "type": "string",
-                    "example": "0.120109"
-                }
+          "properties": {
+            "latitude": {
+              "type": "string",
+              "example": "52.2003399"
             },
-            "type": "object"
+            "longitude": {
+              "type": "string",
+              "example": "0.120109"
+            }
+          },
+          "type": "object"
         },
         "colors": {
-            "properties": {
-                "focus": {
-                    "properties": {
-                        "bg": {
-                            "type": "string",
-                            "example": "#fff"
-                        },
-                        "fg": {
-                            "type": "string",
-                            "example": "#5c0075"
-                        }
-                    },
-                    "type": "object"
+          "properties": {
+            "focus": {
+              "properties": {
+                "bg": {
+                  "type": "string",
+                  "example": "#fff"
+                },
+                "fg": {
+                  "type": "string",
+                  "example": "#5c0075"
+                }
+              },
+              "type": "object"
+            },
+            "main": {
+              "properties": {
+                "bg": {
+                  "type": "string",
+                  "example": "#535353"
+                },
+                "fg": {
+                  "type": "string",
+                  "example": "#fff"
+                }
+              },
+              "type": "object"
+            },
+            "header": {
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "example": "#535353"
                 },
                 "main": {
-                    "properties": {
-                        "bg": {
-                            "type": "string",
-                            "example": "#535353"
-                        },
-                        "fg": {
-                            "type": "string",
-                            "example": "#fff"
-                        }
-                    },
-                    "type": "object"
-                },
-                "header": {
-                    "properties": {
-                        "text": {
-                            "type": "string",
-                            "example": "#535353"
-                        },
-                        "main": {
-                            "type": "string",
-                            "example": "#fff"
-                        }
-                    },
-                    "type": "object"
+                  "type": "string",
+                  "example": "#fff"
                 }
-            },
-            "type": "object"
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
         },
         "images": {
-            "properties": {
-                "main": {
-                    "type": "string",
-                    "example": "model/images/logo.png"
-                },
-                "small": {
-                    "type": "string",
-                    "example": "model/images/logo.png"
-                },
-                "logo": {
-                    "type": "string",
-                    "example": "model/images/logo.png"
-                }
+          "properties": {
+            "main": {
+              "type": "string",
+              "example": "model/images/logo.png"
             },
-            "type": "object"
+            "small": {
+              "type": "string",
+              "example": "model/images/logo.png"
+            },
+            "logo": {
+              "type": "string",
+              "example": "model/images/logo.png"
+            }
+          },
+          "type": "object"
         },
         "twitter": {
-            "type": "string",
-            "example": "@intermineorg"
+          "type": "string",
+          "example": "@intermineorg"
         },
         "status": {
-            "type": "string",
-            "example": "Running"
+          "type": "string",
+          "example": "Running"
         }
       }
     },
-
     "apiResponse": {
       "type": "object",
       "properties": {
-        "extraData":{
+        "extraData": {
           "items": {
-              "type": "object"
+            "type": "object"
           },
           "type": "array"
         },
@@ -611,7 +723,11 @@
           "example": "6/6/2017, 1:42:19 PM"
         }
       },
-      "required": ["message", "executionTime", "statusCode"]
+      "required": [
+        "message",
+        "executionTime",
+        "statusCode"
+      ]
     }
   },
   "externalDocs": {
