@@ -29,6 +29,14 @@
       }
     },
     {
+      "name": "namespace",
+      "description": "Operation regarding the InterMine Registry namespaces.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/intermine/intermine-registry/"
+      }
+    },
+    {
       "name": "/{namespace}",
       "description": "Operations regarding the InterMine Registry redirection.",
       "externalDocs": {
@@ -462,6 +470,44 @@
           },
           "406": {
             "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/namespace": {
+      "get": {
+        "tags": [
+          "namespace"
+        ],
+        "summary": "",
+        "description": "Return the namespace assigned to the instance with URL given in input",
+        "operationId": "redirect",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "The URL of the instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "404": {
+            "description": "Url Not Found"
           }
         },
         "security": [
