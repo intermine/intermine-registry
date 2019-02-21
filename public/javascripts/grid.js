@@ -590,6 +590,7 @@ var Grid = (function($) {
 						imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
 		      }
 					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
+					$("#grid-instance-details").append('<div class="align-left"><span class="bold"> Namespace: </span>' + instance.namespace +'</div><br/>')
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
 	          $("#grid-details-versions").append(

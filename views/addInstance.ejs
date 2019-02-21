@@ -1,280 +1,299 @@
 <!DOCTYPE html>
 <html>
 <%- include('header.ejs') %>
-<body>
-	<%- include('navbar.ejs') %>
+	<body>
+		<%- include('navbar.ejs') %>
 
-    <section id="addinstance-body" class = 'pt-50'>
-    	<div class="container pt-20  animated fadeInDown">
-    		<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
-    			<div class="col-lg-10 col-lg-offset-1">
-            <div class="row">
-              <div class="container">
-                <h2 class='align-center mb-50' id="action-title"> Add Instance </h2>
-                <% if (typeof message !== 'undefined') { %>
-                  <div class="warningalert">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    <strong>Warning!</strong> <%= message %>
-                  </div>
-                <% } %>
-          				<div class="main-login main-center">
-          				<h5>Please, enter the instance information. Name and URL are required. If instance is a development mine, please check the Dev Mine checkbox.</h5>
+			<section id="addinstance-body" class='pt-50'>
+				<div class="container pt-20  animated fadeInDown">
+					<div class="row mt-xs-20 mt-md-20 mt-lg-20 pb-50">
+						<div class="col-lg-10 col-lg-offset-1">
+							<div class="row">
+								<div class="container">
+									<h2 class='align-center mb-50' id="action-title"> Add Instance </h2>
+									<% if (typeof message !== 'undefined') { %>
+										<div class="warningalert">
+											<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+											<strong>Warning!</strong>
+											<%= message %>
+										</div>
+										<% } %>
+											<div class="main-login main-center">
+												<h5>Please, enter the instance information. Name, namespace and URL are required and unique. If the instance is not in production, please check the Dev Mine checkbox.</h5>
 
-          					<form class="" method="post" action="">
+												<form class="" method="post" action="">
 
-												<div class="row">
-													<div class="col-md-10">
+													<div class="row">
+														<div class="col-md-10">
 															<div class="form-group">
-													      <label for="newName" class="col-md-2 control-label">Name</label>
-													      <div class="col-md-10">
-													        <input type="text" class="form-control" id="newName" name="newName" placeholder="Instance Name" required>
-													      </div>
-													    </div>
-
-															<div class="form-group">
-													      <label for="newUrl" class="col-md-2 control-label">URL</label>
-													      <div class="col-md-10">
-													        <input type="url" class="form-control" id="newUrl" name="newUrl" placeholder="Instance URL" required>
-													      </div>
-													    </div>
+																<label for="newName" class="col-md-2 control-label">Name</label>
+																<div class="col-md-10">
+																	<input type="text" class="form-control" id="newName" name="newName" placeholder="Instance Name" required>
+																</div>
+															</div>
 
 															<div class="form-group">
-													      <label for="maintainerOrgName" class="col-md-2 control-label">Maintainer Organisation</label>
-													      <div class="col-md-10">
-													        <input type="text" class="form-control" id="maintainerOrgName" name="maintainerOrgName">
-													      </div>
-													    </div>
+																<label for="newNamespace" class="col-md-2 control-label">Namespace</label>
+																<div class="col-md-10">
+																	<input type="text" class="form-control" id="newNamespace" name="newNamespace" placeholder="Namespace" required>
+																</div>
+															</div>
 
 															<div class="form-group">
-													      <label for="maintainerUrl" class="col-md-2 control-label">Maintainer URL</label>
-													      <div class="col-md-10">
-													        <input type="url" class="form-control" id="maintainerUrl" name="maintainerUrl">
-													      </div>
-													    </div>
-
-													    <div class="form-group">
-													      <label for="maintainerEmail" class="col-md-2 control-label">Maintainer Email</label>
-													      <div class="col-md-10">
-													        <input type="email" class="form-control" id="maintainerEmail" name="maintainerEmail">
-													      </div>
-													    </div>
+																<label for="newUrl" class="col-md-2 control-label">URL</label>
+																<div class="col-md-10">
+																	<input type="url" class="form-control" id="newUrl" name="newUrl" placeholder="Instance URL" required>
+																</div>
+															</div>
 
 															<div class="form-group">
-													      <label for="maintainerGithubUrl" class="col-md-2 control-label">Maintainer Github URL</label>
-													      <div class="col-md-10">
-													        <input type="url" class="form-control" id="maintainerGithubUrl" name="maintainerGithubUrl">
-													      </div>
-													    </div>
+																<label for="maintainerOrgName" class="col-md-2 control-label">Maintainer Organisation</label>
+																<div class="col-md-10">
+																	<input type="text" class="form-control" id="maintainerOrgName" name="maintainerOrgName">
+																</div>
+															</div>
 
-													</div>
-													<div class="col-md-2">
-														<div class="col-md-12 pt-60">
-															<div class="checkbox">
-																<label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
+															<div class="form-group">
+																<label for="maintainerUrl" class="col-md-2 control-label">Maintainer URL</label>
+																<div class="col-md-10">
+																	<input type="url" class="form-control" id="maintainerUrl" name="maintainerUrl">
+																</div>
+															</div>
+
+															<div class="form-group">
+															  <label for="maintainerEmail" class="col-md-2 control-label">Maintainer Email</label>
+															  <div class="col-md-10">
+															    <input type="email" class="form-control" id="maintainerEmail" name="maintainerEmail">
+															  </div>
+															</div>
+
+															<div class="form-group">
+															  <label for="maintainerGithubUrl" class="col-md-2 control-label">Maintainer Github URL</label>
+															  <div class="col-md-10">
+															    <input type="url" class="form-control" id="maintainerGithubUrl" name="maintainerGithubUrl">
+															  </div>
+															</div>
+
+														</div>
+														<div class="col-md-2">
+															<div class="col-md-12 pt-60">
+																<div class="checkbox">
+																	<label><input type="checkbox" name="newIsDev" id="newIsDev" value="1">Dev Mine</label>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
 
 
-												<div class="form-group" style="z-index: 1000;">
-										      <label for="newDesc" class="col-md-2 control-label">Description</label>
-										      <div class="col-md-10">
-										        <textarea class="form-control" rows="3" id="newDesc" name="newDesc"></textarea>
-										        <span class="help-block">Enter the mine description</span>
-										      </div>
-										    </div>
-
-												<div class="row">
-													<div class="col-md-6">
-
-														<div class="form-group" style="z-index: 1000;">
-												      <label for="newOrganisms" class="col-md-2 control-label" style="z-index: 1001;">Organisms</label>
-												      <div class="col-md-10 mb-20">
-		              							<textarea type="text" rows=3 class="form-control" name="newOrganisms" id="newOrganisms"> </textarea>
-																<span class="help-block">Comma separated list of Organisms</span>
-															</div>
-												    </div>
-
-														<div class="form-group" style="z-index: 1000;">
-												      <label for="newNeighbours" class="col-md-2 control-label" style="z-index: 1001;">Neighbours</label>
-												      <div class="col-md-10 mb-20">
-												        <textarea type="text" rows=3 class="form-control" name="newNeighbours" id="newNeighbours"></textarea>
-																<span class="help-block">Comma separated list of Neighbours</span>
-															</div>
-												    </div>
-
-
-														<div class="form-group" style="z-index: 1000;">
-												      <label for="newTwitter" class="col-md-2 control-label" style="z-index: 1001;">Twitter</label>
-												      <div class="col-md-10 mb-20">
-												        <input type="text" class="form-control" id="newTwitter" name="newTwitter" placeholder="Instance Twitter">
-												      </div>
-												    </div>
-
-														<div class="form-group" style="z-index: 1000;">
-												      <label for="newLatitude" class="col-md-2 control-label" style="z-index: 1001;">Latitude</label>
-												      <div class="col-md-10">
-												        <input type="number" step="0.00000001" class="form-control" name="newLatitude" id="newLatitude"  placeholder="Instance Location Latitude"/>
-												      </div>
-												    </div>
-
-														<div class="form-group" style="z-index: 1000;">
-												      <label for="newLongitude" class="col-md-2 control-label" style="z-index: 1001;">Longitude</label>
-												      <div class="col-md-10">
-												        <input type="number" step="0.00000001" class="form-control" name="newLongitude" id="newLongitude"  placeholder="Instance Location Longitude"/>
-												      </div>
-												    </div>
+													<div class="form-group" style="z-index: 1000;">
+														<label for="newDesc" class="col-md-2 control-label">Description</label>
+														<div class="col-md-10">
+															<textarea class="form-control" rows="3" id="newDesc" name="newDesc"></textarea>
+															<span class="help-block">Enter the mine description</span>
+														</div>
 													</div>
-													<div class="col-md-6">
-														<div class="col-md-12 pt-60">
-															<div id="mapid">
 
+													<div class="row">
+														<div class="col-md-6">
+
+															<div class="form-group" style="z-index: 1000;">
+																<label for="newOrganisms" class="col-md-2 control-label" style="z-index: 1001;">Organisms</label>
+																<div class="col-md-10 mb-20">
+																	<textarea type="text" rows=3 class="form-control" name="newOrganisms" id="newOrganisms"> </textarea>
+																	<span class="help-block">Comma separated list of Organisms</span>
+																</div>
+															</div>
+
+															<div class="form-group" style="z-index: 1000;">
+																<label for="newNeighbours" class="col-md-2 control-label" style="z-index: 1001;">Neighbours</label>
+																<div class="col-md-10 mb-20">
+																	<textarea type="text" rows=3 class="form-control" name="newNeighbours" id="newNeighbours"></textarea>
+																	<span class="help-block">Comma separated list of Neighbours</span>
+																</div>
+															</div>
+
+
+															<div class="form-group" style="z-index: 1000;">
+																<label for="newTwitter" class="col-md-2 control-label" style="z-index: 1001;">Twitter</label>
+																<div class="col-md-10 mb-20">
+																	<input type="text" class="form-control" id="newTwitter" name="newTwitter" placeholder="Instance Twitter">
+																</div>
+															</div>
+
+															<div class="form-group" style="z-index: 1000;">
+																<label for="newLatitude" class="col-md-2 control-label" style="z-index: 1001;">Latitude</label>
+																<div class="col-md-10">
+																	<input type="number" step="0.00000001" class="form-control" name="newLatitude" id="newLatitude" placeholder="Instance Location Latitude" />
+																</div>
+															</div>
+
+															<div class="form-group" style="z-index: 1000;">
+																<label for="newLongitude" class="col-md-2 control-label" style="z-index: 1001;">Longitude</label>
+																<div class="col-md-10">
+																	<input type="number" step="0.00000001" class="form-control" name="newLongitude" id="newLongitude" placeholder="Instance Location Longitude" />
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="col-md-12 pt-60">
+																<div id="mapid">
+
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
+													<div class="form-group" id="submit-form">
+														<input id="form-action-type" type="hidden" name="_method" value="post" />
+														<input id="form-instance-id" type="hidden" name="updateId" value="" />
+														<input type="submit" value="Save" id="submit-button" class="btn btn-primary btn-raised btn-block" />
+													</div>
 
-          						<div class="form-group" id="submit-form">
-                        <input id="form-action-type" type="hidden" name="_method" value="post" />
-                        <input id="form-instance-id" type="hidden" name="updateId" value="" />
-          							<input type="submit" value="Save" id="submit-button" class="btn btn-primary btn-raised btn-block" />
-          						</div>
+												</form>
+											</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</section>
 
-          					</form>
-                    </div>
-          				</div>
-          			</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+			<script type="text/javascript">
+				var jQuery_2_1_3 = $.noConflict(true);
+			</script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript">
-      var jQuery_2_1_3 = $.noConflict(true);
-    </script>
+			<script async defer src="https://buttons.github.io/buttons.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+			<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+			<script language="javascript" src="/js/bootstrap.min.js"></script>
+			<script src="/js/material.js"></script>
+			<script src="/leaflet-search.min.js"></script>
+			<script src="/js/ripples.min.js"></script>
+			<script>
+				$("#principal-nav").addClass("shadow-bar");
+				$.material.init();
+				$('[data-toggle="tooltip"]').tooltip();
+			</script>
+			<% if (typeof message !== 'undefined') { %>
+				<script type="text/javascript">
+					$("#newName").val("<%= name %>");
+					$("#newNamespace").val("<%= namespace %>");
+					$("#newUrl").val("<%= url %>");
+					$("#newDesc").val("<%= desc %>");
+					$("#maintainerOrgName").val("<%= maintainerOrgName %>");
+					$("#maintainerUrl").val("<%= maintainerUrl %>");
+					$("#newTwitter").val("<%= twitter %>");
+					$("#newLatitude").val(<%= lat %>);
+					$("#newLongitude").val(<%= lon %>);
+					$("#newOrganisms").val("<%= organisms %>");
+					$("#newNeighbours").val("<%= neighbours %>");
+				</script>
+				<% } %>
 
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-	    integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-	    crossorigin=""></script>
-    <script language="javascript" src="/js/bootstrap.min.js"></script>
-		<script src="/js/material.js"></script>
-		<script src="/leaflet-search.min.js"></script>
-		<script src="/js/ripples.min.js"></script>
-		<script>
-		  $("#principal-nav").addClass("shadow-bar");
-		  $.material.init();
-			$('[data-toggle="tooltip"]').tooltip();
-		</script>
-    <% if (typeof message !== 'undefined') { %>
-      <script type="text/javascript">
-        $("#newName").val("<%= name %>");
-        $("#newUrl").val("<%= url %>");
-        $("#newDesc").val("<%= desc %>");
-		$("#maintainerOrgName").val("<%= maintainerOrgName %>");
-		$("#maintainerUrl").val("<%= maintainerUrl %>");
-        $("#maintainerEmail").val("<%= maintainerEmail %>");
-		$("#maintainerGithubUrl").val("<%= maintainerGithubUrl %>");
-        $("#newTwitter").val("<%= twitter %>");
-        $("#newLatitude").val(<%= lat %> );
-        $("#newLongitude").val(<%= lon %> );
-        $("#newOrganisms").val("<%= organisms %>");
-        $("#newNeighbours").val("<%= neighbours %>");
-      </script>
-    <% } %>
+					<script type="text/javascript">
+						var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
-    <script type="text/javascript">
+						L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+							attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+							maxZoom: 18,
+							id: 'mapbox.streets',
+							accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
+						}).addTo(mymap);
 
-			var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+						L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.0-rc.3/dist/images/'
 
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			    maxZoom: 18,
-			    id: 'mapbox.streets',
-			    accessToken: 'sk.eyJ1IjoieW9jaGFubmFoIiwiYSI6ImNpazEzdHZscTAyemR4NG01cWE2enZlcDQifQ.khbJ9AQiNTIdrniQRN8gEg'
-			}).addTo(mymap);
+						mymap.addControl(new L.Control.Search({
+							url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
+							jsonpParam: 'json_callback',
+							propertyName: 'display_name',
+							propertyLoc: ['lat', 'lon'],
+							marker: L.circleMarker([0, 0], {
+								radius: 30
+							}),
+							autoCollapse: true,
+							autoType: false,
+							minLength: 2
+						}));
 
-			L.Icon.Default.imagePath = 'https://npmcdn.com/leaflet@1.0.0-rc.3/dist/images/'
+						var popup = L.popup();
 
-			mymap.addControl( new L.Control.Search({
-				url: 'http://nominatim.openstreetmap.org/search?format=json&q={s}',
-				jsonpParam: 'json_callback',
-				propertyName: 'display_name',
-				propertyLoc: ['lat','lon'],
-				marker: L.circleMarker([0,0],{radius:30}),
-				autoCollapse: true,
-				autoType: false,
-				minLength: 2
-			}) );
+						var marker;
 
-			var popup = L.popup();
+						function onMapClick(e) {
 
-			var marker;
-			function onMapClick(e) {
+							$("#newLatitude").val(e.latlng.lat.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
+							$("#newLongitude").val(e.latlng.lng.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
+							if (typeof marker !== "undefined") {
+								mymap.removeLayer(marker);
+							}
+							marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+						}
 
-					$("#newLatitude").val(e.latlng.lat.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
-					$("#newLongitude").val(e.latlng.lng.toString().match(/^-?\d+(?:\.\d{0,4})?/)[0]);
-					if (typeof marker !== "undefined"){
-						mymap.removeLayer(marker);
-					}
-					marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
-			}
+						mymap.on('click', onMapClick);
 
-			mymap.on('click', onMapClick);
+						$.urlParam = function(name) {
+							var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+                            if (results) {
+                                return results[1];
+                            } else {
+                                return 0;
+                            }
+						}
+						var instanceToEdit = $.urlParam('update');
+						$.get("../service/instances/" + instanceToEdit, function(response) {
 
-      $.urlParam = function(name){
-      	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-				if (results) {
-					return results[1];
-				} else {
-					return 0;
-				}
-      }
-      var instanceToEdit = $.urlParam('update');
-      $.get("../service/instances/" + instanceToEdit, function(response){
+							var instance = response.instance;
 
-        var instance = response.instance;
+							var organisms = "";
+							for (var z = 0; z < instance.organisms.length; z++) {
+								instance.organisms[z] = instance.organisms[z].trim();
+							}
+							instance.organisms = instance.organisms.sort();
+							for (var j = 0; j < instance.organisms.length; j++) {
+								if (j === instance.organisms.length - 1) {
+									organisms += instance.organisms[j];
+								} else {
+									organisms += instance.organisms[j] + ", ";
+								}
+							}
 
-				var organisms = "";
-	      for (var z = 0; z < instance.organisms.length; z++){
-	        instance.organisms[z] = instance.organisms[z].trim();
-	      }
-	      instance.organisms = instance.organisms.sort();
-	      for (var j = 0; j < instance.organisms.length; j++){
-	        if (j === instance.organisms.length - 1){
-	          organisms += instance.organisms[j];
-	        } else {
-	          organisms += instance.organisms[j] + ", ";
-	        }
-	      }
-        $("#form-action-type").attr('value', 'put');
-        $("#form-instance-id").attr('value', instance.id)
+							// the rest of the page won't populate if we don't null-check
+							// possible null values.
+							var namespace;
+							if (instance.namespace) {
+								namespace = instance.namespace.trim();
+							}
 
-        $("#action-title").text("Update " + instance.name);
-        $("#newName").val(instance.name);
-        $("#newUrl").val(instance.url);
-        $("#newDesc").val(instance.description);
-		$("#maintainerOrgName").val(instance.maintainerOrgName);
-		$("#maintainerUrl").val(instance.maintainerUrl);
-        $("#maintainerEmail").val(instance.maintainerEmail);
-		$("#maintainerGithubUrl").val(instance.maintainerGithubUrl);
-        $("#newTwitter").val(instance.twitter);
-        $("#newLatitude").val(instance.location.latitude);
-        $("#newLongitude").val(instance.location.longitude);
-        $("#newOrganisms").val(organisms);
-        $("#newNeighbours").val(instance.neighbours.join());
-				if (instance.location.latitude !== "" && instance.location.longitude !== ""){
-					mymap.setView(new L.LatLng(parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)), 13);
-					marker = L.marker([parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)]).addTo(mymap);
-				}
-      });
-    </script>
+							$("#form-action-type").attr('value', 'put');
+							$("#form-instance-id").attr('value', instance.id)
+
+							$("#action-title").text("Update " + instance.name);
+							$("#newName").val(instance.name);
+							$("#newNamespace").val(namespace);
+							//namespaces should never be changed, once set.
+							if (namespace) {
+								$("#newNamespace").prop("readonly", true)
+							}
+							$("#newUrl").val(instance.url);
+							$("#newDesc").val(instance.description);
+							$("#maintainerOrgName").val(instance.maintainerOrgName);
+							$("#maintainerUrl").val(instance.maintainerUrl);
+							$("#newTwitter").val(instance.twitter);
+							$("#newLatitude").val(instance.location.latitude);
+							$("#newLongitude").val(instance.location.longitude);
+							$("#newOrganisms").val(organisms);
+							$("#newNeighbours").val(instance.neighbours.join());
+							if (instance.location.latitude !== "" && instance.location.longitude !== "") {
+								mymap.setView(new L.LatLng(parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)), 13);
+								marker = L.marker([parseFloat(instance.location.latitude), parseFloat(instance.location.longitude)]).addTo(mymap);
+							}
+						});
+					</script>
 
 
 
-  </body>
+	</body>
+
+>>>>>>> add-namespace
 </html>
