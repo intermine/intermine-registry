@@ -341,7 +341,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
 
             // allow the namespace to be set if it has never been set before,
             // but do not allow it to be changed.
-            if ((instance.namespace) && (instance.namespace.length > 0)){
+            if ((instance.namespace) && (instance.namespace.length > 0) && (instance.namespace !== req.body.namespace )){
                 res.status(409).json({
                     statusCode: 409,
                     message: "Namespace can not be modified.",
