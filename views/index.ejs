@@ -119,7 +119,8 @@
                   <thead>
                     <tr>
                       <th class="col-md-1"></th>
-                      <th class="col-md-2">Name</th>
+                      <th class="col-md-1">Name</th>
+                      <th class="col-md-1">Namespace</th>
                       <th class="col-md-6 list-desc">Description</th>
 					  <th class="col-md-6 list-url" style="display:none;">URL</th>
                       <th class="col-md-3 org-col">Organisms</th>
@@ -128,11 +129,10 @@
                       <% } %>
                     </tr>
                   </thead>
-                  <tbody id="list-table-body">
-
+		  <tbody id="list-table-body">
                   </tbody>
                 </table>
-
+		<div class="no-results"></div>
                 <div id="mine-modals" class="modal fade" tabindex="-1" role="dialog">
                   <div class="modal-dialog">
                   	<div class="modal-content">
@@ -208,9 +208,9 @@
 
             			<div class="main">
             				<ul id="og-grid" class="og-grid">
-
+		
             				</ul>
-
+				 	<div class="no-results"></div>			
             			</div>
             		</div><!-- /container -->
   						</div>

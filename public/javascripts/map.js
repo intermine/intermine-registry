@@ -31,7 +31,10 @@ function loadMines(){
         }
       }
     }
-    mineMiner().init();
+    //only show mape if there are some coords
+    if (Object.keys(mines).length > 0) {
+      mineMiner().init();
+    }
   });
 }
 

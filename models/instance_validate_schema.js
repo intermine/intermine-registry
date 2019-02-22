@@ -10,6 +10,14 @@ var InstanceSchema = {
             id: "/properties/description",
             type: "string"
         },
+        maintainerEmail: {
+            id: "/properties/maintainerEmail",
+            type: "string"
+        },
+        maintainerGithubUrl: {
+            id: "/properties/maintainerGithubUrl",
+            type: "string"
+        },
         maintainerOrgName: {
             id: "/properties/maintainerOrgName",
             type: "string"
@@ -35,6 +43,11 @@ var InstanceSchema = {
         name: {
             id: "/properties/name",
             type: "string"
+        },
+        namespace: {
+            id: "/properties/namespace",
+            type: "string",
+            pattern: "[a-z,\.\-]*"
         },
         neighbours: {
             id: "/properties/neighbours",
@@ -65,7 +78,7 @@ var InstanceSchema = {
             type: "string"
         }
     },
-    required: ['name', 'url']
+    required: ['name', 'namespace', 'url']
 };
 
 // UPDATE SCHEMA 
@@ -136,6 +149,14 @@ var InstancePutSchema = {
             id: "/properties/maintainerUrl",
             type: "string"
         },
+        maintainerEmail: {
+            id: "/properties/maintainerEmail",
+            type: "string"
+        },
+        maintainerGithubUrl: {
+            id: "/properties/maintainerGithubUrl",
+            type: "string"
+        },
         images: {
             id: "/properties/images",
             properties: {
@@ -174,6 +195,10 @@ var InstancePutSchema = {
         },
         name: {
             id: "/properties/name",
+            type: "string"
+        },
+        namespace: {
+            id: "/properties/namespace",
             type: "string"
         },
         neighbours: {

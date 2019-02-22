@@ -18,12 +18,12 @@ $(document).ready(function() {
       $.ajax({
         url: 'service/synchronize/',
         type: 'PUT',
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+        },
         success: function(result) {
           localStorage.setItem("message", "All instances were updated successfully.");
           window.location = window.location.pathname;
-        },
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
         }
       });
     }
@@ -84,10 +84,14 @@ function cutHex(h) {
 function getInstances(search) {
 
   $.get("service/instances/?q=" + search, function(response) {
+    $(".no-results").text("");
     $("#list-table-body").empty();
     $("#og-grid").empty();
     var response = response.instances;
     globalInstances = response;
+    if(globalInstances.length===0){
+	$(".no-results").text("No Results Found");
+    }
     for (var i = 0; i < response.length; i++) {
       var instance = response[i];
       var imageURL = "";
@@ -142,22 +146,18 @@ function getInstances(search) {
       imRow = "<tr class='registry-item' id='item-" + instance.id + "'>" +
         "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
         "<td class='bold mine-name'>" + instance.name + "</td>" +
+        "<td class='mine-name'>" + instance.namespace + "</td>" +
         "<td class='truncate list-desc'>" + instance.description + "</td>" +
         "<td class='list-url' style='display:none'>" + instance.url + "</td>" +
         "<td class='truncate org-col'>" + organisms + "</td>";
 
-      /*      if (typeof im2galaxy !== "undefined") {
-              url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
-              imRow += "<td class='truncate'><a href='" + url + "'>Submit</a></td>";
-            }*/
       if (typeof galaxy2im !== "undefined") {
         imRow += "<td id='forwardButton-" + instance.id + "'>Loading...</td>";
       }
       imRow += "</tr>";
-
       // Fill the list view instances list content
       $("#list-table-body").append(imRow);
-
+            
       // Mine Hover functionality in list view
       $("#item-" + instance.id).hover(function() {
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
@@ -289,8 +289,6 @@ function getInstances(search) {
           url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl);
           window.location = url;
         })
-        //url = instance.url + "/begin.do?GALAXY_URL=" + encodeURI(galaxyUrl)
-        //window.location = url;
       })
     } else {
       if (typeof galaxy2im !== "undefined") {
@@ -313,12 +311,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/instances/' + instance.id,
                   type: 'DELETE',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was deleted successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
@@ -330,12 +328,12 @@ function getInstances(search) {
                 $.ajax({
                   url: 'service/synchronize/' + instance.id,
                   type: 'PUT',
+                  beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
+                  },
                   success: function(result) {
                     localStorage.setItem("message", "Instance " + instance.name + " was updated successfully.");
                     window.location = window.location.pathname;
-                  },
-                  beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa(user.user + ":" + user.password));
                   }
                 });
               }
@@ -361,13 +359,20 @@ function getInstances(search) {
             $("#list-api-version").text(instance.api_version);
             $("#list-url").text(instance.url);
             $("#list-url").attr("href", instance.url);
-            $("#mine-modal-body").append('<div class="bold"> Description </div><p id="list-description">' + instance.description + ' </p>');
+            $("#mine-modal-body").append('<p id="list-description">' + instance.description + ' </p>');
+            $("#mine-modal-body").append('<span class="bold"> Namespace: </span><span id="list-namespace">' + instance.namespace + ' </span><br>');
             $("#mine-modal-body").append('<span class="bold"> URL: </span><a target="_blank" id="list-url" href="' + instance.url + '">' + instance.url + '</a><br>');
-            if (instance.maintainerOrgName !== undefined) {
+            if (instance.maintainerOrgName !== undefined && instance.maintainerOrgName !== "") {
               $("#mine-modal-body").append('<span class="bold"> Maintainer Name: </span><span id="list-maintainerOrgName">' + instance.maintainerOrgName + ' </span><br>');
             }
-            if (instance.maintainerUrl !== undefined) {
+            if (instance.maintainerUrl !== undefined && instance.maintainerUrl !== "") {
               $("#mine-modal-body").append('<span class="bold"> Maintainer URL: </span><a target="_blank" id="list-maintainerUrl" href="' + instance.maintainerUrl + '">' + instance.maintainerUrl + '</a><br>');
+            }
+            if (instance.maintainerEmail !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Email: </span><a target="_blank" id="list-maintainerEmail" href="mailto:' + instance.maintainerEmail + '">' + instance.maintainerEmail + '</a><br>');
+            }
+            if (instance.maintainerGithubUrl !== undefined) {
+              $("#mine-modal-body").append('<span class="bold"> Maintainer Github URL: </span><a target="_blank" id="list-maintainerGithubUrl" href="' + instance.maintainerGithubUrl + '">' + instance.maintainerGithubUrl + '</a><br>');
             }
             $("#mine-modal-body").append('<span class="bold"> API Version: </span><span id="list-api-version">' + instance.api_version + '</span>')
             if (instance.release_version !== "") {
