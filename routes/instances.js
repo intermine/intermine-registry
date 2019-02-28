@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
 });
 
 /**
- * Endpoint:  /instances/:instanceIdOrName
+ * Endpoint:  /instances/:instanceIdOrNameOrNamespace
  * Method:    GET
  * Description: Get all the information of the specified instance.
  */
@@ -71,7 +71,7 @@ router.get('/:id', function(req, res, next) {
     var regex = new RegExp(["^", toFind, "$"].join(""), "i");
     // Exec query
     Instance.find({
-        $or:[ { id: toFind}, {name: regex } ]  // Case Insensitive
+        $or:[ { id: toFind}, { namespace: regex}, {name: regex } ]  // Case Insensitive
     }, function(err, instances){
         if (err){
             return res.send(err);
@@ -147,6 +147,8 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             return;
         }
 
+
+
         newInstanceId = "";
         // Get new instance ID
         Instance.find().exec(function(err, found){
@@ -164,24 +166,33 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
               newInstanceId = 1;
             }
 
-            // Test if name or URL provided is already in the registry
-            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
-            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
-
-            if (allNames.indexOf(req.body.name.toLowerCase()) >= 0 || allUrls.indexOf(req.body.url.toLowerCase()) >=0) {
+            var regex = new RegExp("[a-z,\.\-]*");
+            if(!regex.test(req.body.namespace)) {
                 res.status(409).json({
                     statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Instance name or URL is already in the Registry",
+                    message: "Namespace wrong format",
+                    friendlyMessage: "Namespace has wrong format",
                     executionTime: new Date().toLocaleString()
                 });
                 return;
+            }
+
+            // Test if name or namespace or URL provided are already in the registry
+            var existingFields= getUniqueFields(found);
+            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
+
+            if(!checkIfUnique.isItUnique) {
+              nonUniqueIdentifierError(checkIfUnique.areIndividualValuesUnique, res);
+              //if things aren't unique don't proceed with the next bit
+              //which would add the mine to the db!
+              return;
             }
 
             // Build the new instance object
             var newInstanceObject = {
                 id:                 newInstanceId.toString(),
                 name:               req.body.name,
+                namespace:          req.body.namespace,
                 neighbours:         req.body.neighbours,
                 organisms:          req.body.organisms,
                 url:                req.body.url,
@@ -327,22 +338,36 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             if (err){
                 return res.send(err);
             }
-            // Test if name or URL provided is already in the registry
-            var allNames = found.map(function(inst){  return inst.name.toLowerCase()  });
-            var allUrls = found.map(function(inst){   return inst.url.toLowerCase() });
 
-            if ((allNames.indexOf(req.body.name.toLowerCase()) >= 0 && found[allNames.indexOf(req.body.name.toLowerCase())].id !== req.params.id)
-            || (allUrls.indexOf(req.body.url.toLowerCase()) >=0 && found[allUrls.indexOf(req.body.url.toLowerCase())].id !== req.params.id)) {
+            // allow the namespace to be set if it has never been set before,
+            // but do not allow it to be changed.
+            if ((instance.namespace) && (instance.namespace.length > 0) && (instance.namespace !== req.body.namespace )){
                 res.status(409).json({
                     statusCode: 409,
-                    message: "Instance is already in the Registry",
-                    friendlyMessage: "Instance name or URL is already in the Registry",
+                    message: "Namespace can not be modified.",
                     executionTime: new Date().toLocaleString()
                 });
                 return;
             }
+
+            // Test if name or namespace or URL provided are already in the registry
+            var existingFields= getUniqueFields(found, req.params.id);
+            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
+
+            if(!checkIfUnique.isItUnique) {
+              //TODO IF not isunique, tell which fields are not unique. Also duplicate this to two places please.
+              nonUniqueIdentifierError(checkIfUnique.areIndividualValuesUnique, res);
+              return;
+            }
+
             // Check for present fields and consequently update them.
             instance.name = typeof(req.body.name) !== 'undefined' ? req.body.name : instance.name;
+            //user must _never_ be allowed to update the namespace, unless it's
+            //from null to some value - i.e. setting it for the first time while
+            //updating the live registry
+            if ((!instance.namespace) || (instance.namespace == "")) {
+            instance.namespace = typeof(req.body.namespace) !== 'undefined' ? req.body.namespace : instance.namespace; 
+            }
             instance.neighbours = typeof(req.body.neighbours) !== 'undefined' ? req.body.neighbours : instance.neighbours;
             instance.organisms = typeof(req.body.organisms) !== 'undefined' ? req.body.organisms : instance.organisms;
             instance.isProduction = typeof(req.body.isProduction) !== 'undefined' ? req.body.isProduction : instance.isProduction;
@@ -424,5 +449,117 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
         });
     });
 });
+
+/**
+Given a list of mines, return a list of mines without the mine id `mineId` present.
+**/
+var removeCurrentMine = function(mines, mineId) {
+  return mines.filter(function(mine) {return (mine.id !== mineId)});
+}
+
+/**
+Returns all values for field types that _must_ be unique in the registry.
+foundMines: (required) list of InterMines as provided by the registry
+mineToUpdate: (optional) if this is an update and not a new mine, tell us which
+              mine is being updated
+**/
+function getUniqueFields(foundMines, mineToUpdate){
+
+  // if we're updating the mine rather than adding it, don't check keep *this*
+  // mine in the list of unique mines to check against or we'd never be able
+  // to save the update mine since it will always match itself
+  if (mineToUpdate) {
+    foundMines = removeCurrentMine(foundMines, mineToUpdate);
+  }
+
+  //fetch a list of all the current values in the unique fields
+  var allNames = foundMines.map(function(inst){  return inst.name.toLowerCase()  });
+  var allNamespaces = foundMines.map(function(inst){
+    // null check required to prevent errors in the UI
+    // as we update the namespaces. This is only necessary because we're
+    // updating the namespaces after the registry was created,
+    // so they're all null values.
+    var namespace;
+    if(inst.namespace){
+      namespace = inst.namespace.toLowerCase();
+    }
+    return namespace;
+  });
+  var allUrls = foundMines.map(function(inst){   return inst.url.toLowerCase() });
+
+  return {
+    urls : allUrls,
+    names : allNames,
+    namespaces : allNamespaces
+  }
+}
+
+/**
+Given a request to add or modify an instance, and the existing
+mine fields, check the new request is unique for the name,
+namespace, and url fields.
+Returns the uniqueness states of each value and of the request as a whole
+req: (required) the http request the server recieved for this addition/update
+existingFields: (required) an object containing all the values for fields that
+                must be unique.
+**/
+function areAllFieldsUnique(req, existingFields) {
+  var newName = lowercaseIfExists(req.name),
+      newURL = lowercaseIfExists(req.url),
+      newNamespace = lowercaseIfExists(req.namespace),
+      individualValues = {
+        namespace : (existingFields.namespaces.indexOf(newNamespace) < 0),
+        name : (existingFields.names.indexOf(newName) < 0),
+        url : (existingFields.urls.indexOf(newURL) < 0 )
+      };
+
+      var areTheyAllUnique = true;
+
+      //check all of the new fields against existing field values
+      //and preserve which (if any) aren't unique, so we can give the
+      //user a detailed error message.
+      Object.keys(individualValues).map(function(key){
+        var isThisValueUnique = individualValues[key];
+         areTheyAllUnique = areTheyAllUnique && isThisValueUnique;
+      });
+
+  return {
+    //is *everything* unique in this mine request?
+    isItUnique : areTheyAllUnique,
+    //which ones comply (or don't comply)
+    areIndividualValuesUnique : individualValues
+  };
+}
+
+/**
+If we've decided a request isn't fully unique, throw an error
+and tell the user *which* fields aren't unique so they know what to fix.
+**/
+function nonUniqueIdentifierError(namesOfFields, res) {
+      var nonUniqueFields = []; Object.keys(namesOfFields).map(function(individualFieldName){
+        if (!namesOfFields[individualFieldName]) {
+        nonUniqueFields.push(individualFieldName);
+      }
+    });
+    nonUniqueFields = nonUniqueFields.join(", ");
+      res.status(409).json({
+          statusCode: 409,
+          message: "Instance is already in the Registry",
+          friendlyMessage: nonUniqueFields + " is already in the Registry",
+          executionTime: new Date().toLocaleString()
+      });
+      return;
+}
+
+/**
+Don't try to lowercasify a property that doesn't exist, it'll cause the server to exit.
+**/
+function lowercaseIfExists(field) {
+  var response;
+  if (field) {
+    response = field.toLowerCase();
+  }
+  return response;
+}
 
 module.exports = router;
