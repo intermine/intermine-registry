@@ -3,8 +3,8 @@
   *
   */
 
-var request = require('request');
-var asyncLoop = require('node-async-loop');
+const request = require('request');
+const asyncLoop = require('node-async-loop');
 
 mines = [
     ["FlyMine", 'http://www.flymine.org/query', "flymine"],
@@ -38,18 +38,18 @@ mines = [
     ["CHOmine", "https://chomine.boku.ac.at/chomine","chomine",]
 ]
 
-var host = '';  // Host where InterMine registry is running
-var username = '';
-var password = '';
+const host = '';  // Host where InterMine registry is running
+const username = '';
+const password = '';
 
 asyncLoop(mines, function(mine, next){
-    var mineName = mine[0];
-    var mineURL = mine[1];
-    var mineNamespace = mine[2];
-    var req = {
+    const mineName = mine[0];
+    const mineURL = mine[1];
+    const mineNamespace = mine[2];
+    const req = {
         "name": mineName,
         "url": mineURL,
-        "namespace" : namespace
+        "namespace" : mineNamespace
     };
     request.post({
         json: true,
@@ -60,7 +60,7 @@ asyncLoop(mines, function(mine, next){
           "pass": password
         },
     }, function(err, res, body){
-        console.log(mineName + " ==> " + body.friendlyMessage);
+      console.log(mineName + " ==> " + body.friendlyMessage);
         next();
     });
 })
