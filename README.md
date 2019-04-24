@@ -16,42 +16,14 @@ The core of the InterMine Registry App is the restFUL API. It contains endpoints
 - `GET`     /instances/{instanceIdOrName}    Get an instance by its ID or Name.
 - `PUT`     /instances/{instanceId}    Update an instance.
 - `DELETE`  /instances/{instanceId}   Deletes an instance.
-- `PUT`     /syncrhonize   Update the branding & version information of every instance.
-- `PUT`     /syncrhonize/{instanceIdOrName}    Update the branding & version information of the specified instance.
+- `PUT`     /synchronize   Update the branding & version information of every instance.
+- `PUT`     /synchronize/{instanceIdOrName}    Update the branding & version information of the specified instance.
 
 You can check the [detailed API documentation](http://registry.intermine.org/api-docs/) for more information and testing.
 
 ## Installation ##
 
-1. Install [Node.js](https://nodejs.org/en/download/) on your host.
-
-2. Install [
-DB](https://docs.mongodb.com/manual/installation/) on your host.
-
-3. Clone this repository on your host:
-```
-git clone https://github.com/intermine/intermine-registry.git
-```
-4. From your terminal or CMD access to the *registryapp* directory an execute the following command:
-```
-npm install
-```
-5. Add `MONGODB_URL` to the system environment variables. Eg. For *Linux*,
-```
-export MONGODB_URL="<URL TO THE DATABASE>"
-```
-6. To run the application, being on the same directory:
-```
-npm start
-```
-
-In addition to running the application, this will also configure the MongoDB environment (database, collection & indexes). If you wish to populate the registry you may do (on another CMD or terminal) `node initRegistry.js`, which will initialize all the registry instances with basic information.
-This script is not part of the application, it must be run independently, and before you run it, the application must be running, because it makes use of the API endpoints.
-Since the script is independent of the application, you must define three variables before running it:
-a) Your application host
-b) Username in the DB
-c) Password of the entered username.
-(If the username and password are not present in the database (under the *users* collection), both should be added to the database before running this script.)
+Please visit [getting started](getting-started)
 
 ### Configure the API Docs ###
 
