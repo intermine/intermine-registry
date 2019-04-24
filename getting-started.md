@@ -7,6 +7,12 @@ If you're setting up the registry locally, perhaps to fix a bug or contribute a 
 - A recent version of [node and npm](https://www.npmjs.com/), ideally installed via [nvm](https://github.com/creationix/nvm)
 - [MongoDB](https://www.mongodb.com/download-center/community)
 
+## Clone this repository to your host
+```
+git clone https://github.com/intermine/intermine-registry.git
+cd intermine-registry
+```
+
 ## Setting your environment variables
 
 Once you have node and mongo installed, you'll need to provide the registry with information about where to find the mongo database. One way to do this is to type the following into a terminal:
