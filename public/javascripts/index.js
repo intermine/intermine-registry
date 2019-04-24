@@ -145,7 +145,7 @@ function getInstances(search) {
 
       imRow = "<tr class='registry-item' id='item-" + instance.id + "'>" +
         "<td> <img style='width: 25px; height: 21px;' src='" + imageURL + "' alt='Icon'></td>" +
-        "<td class='bold mine-name'>" + instance.name + "</td>" +
+        "<td class='bold mine-name'><span class='link-to'>" + instance.name + "</span></td>" +
         "<td class='mine-name'>" + instance.namespace + "</td>" +
         "<td class='truncate list-desc'>" + instance.description + "</td>" +
         "<td class='list-url' style='display:none'>" + instance.url + "</td>" +
@@ -279,6 +279,13 @@ function getInstances(search) {
         show: true
       });
     });
+   
+    var flag = false;
+    $(".link-to").click(function() {
+	    url = $(this).parent().parent().children("td[class='list-url']").text();
+            flag = true;
+	    window.open(url,'_blank');
+     });
 
     if (typeof im2galaxy !== "undefined") {
       $(".registry-item").click(function() {
@@ -436,8 +443,9 @@ function getInstances(search) {
             }
           });
           $('#mine-modals').modal({
-            show: true
+            show: !flag
           });
+          flag = false;
         });
       }
     }
