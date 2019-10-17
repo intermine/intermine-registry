@@ -360,19 +360,21 @@ var Grid = (function($) {
 			// Preview Structure adapted to Intermine Registry
 			myPanorama.$description = $( '<p id="data-description" class="pb-10"></p>' );
 			myPanorama.$title = $( '<h2 id="grid-instance-title"></h2>' );
+			myPanorama.$instanceTitleContainer = $('<div id="grid-instance-title-container" class="grid-instance-title-container"></div').append(myPanorama.$title)
 			myPanorama.$information = $( '' );
 			myPanorama.$href = $( '<div id="grid-instance-details" class="pb-20"></div>'+
-															'<div id="grid-preview-buttons-div" class="align-right mr-30 mb-10" style="position:absolute; bottom:0; right:0;">' +
-															'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank"><span class="text">Visit Website</span><span class="icon"><i class="fa fa-external-link" aria-hidden="true"></i></span></a>' +
-															'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"><span class="text">Update</span><span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>' +
-															'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"><span class="text">Synchronize</span><span class="icon"><i class="fa fa-refresh" style="fond-size:11px;" aria-hidden="true"></i></span></button>' +
-															'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"><span class="text">Delete</span><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span></button></div>'
-														);
-			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$title, myPanorama.$description, myPanorama.$information, myPanorama.$href );
+				'<div id="grid-preview-buttons-div" class="align-right" style="position:absolute; bottom:0; right:15px;">' +
+				'<a id="grid-instance-url" class="btn btn-default btn-raised" href="#" target="_blank"><span class="text">Visit Website</span><span class="icon"><i class="fa fa-external-link" aria-hidden="true"></i></span></a>' +
+				'<a id="grid-update" href="#" style="display: none;" class="btn btn-raised btn-info ml-10"><span class="text">Update</span><span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>' +
+				'<button class="btn btn-raised sync syncmineb ml-10" style="display: none;" id="grid-sync"><span class="text">Synchronize</span><span class="icon"><i class="fa fa-refresh" style="fond-size:11px;" aria-hidden="true"></i></span></button>' +
+				'<button class="btn btn-raised btn-danger ml-10 deletemineg" style="display: none;" id="grid-delete"><span class="text">Delete</span><span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span></button></div>'
+			);
+			myPanorama.$detailsWrapper = $('<div class="grid-instance-details-container"></div>').append(myPanorama.$description, myPanorama.$information, myPanorama.$href)
+			myPanorama.$details = $( '<div class="row"> <div id="grid-right-preview"> </div> </div>' ).append( myPanorama.$instanceTitleContainer,  myPanorama.$detailsWrapper);
 			myPanorama.$loading = $( '<div class="og-loading"></div>' );
 			myPanorama.$fullimage = $( '' );
 			myPanorama.$closePreview = $( '<span class="og-close"></span>' );
-			myPanorama.$previewInner = $( '<div class="og-expander-inner ml-20 mr-50"></div>' ).append( myPanorama.$closePreview, myPanorama.$fullimage, myPanorama.$details );
+			myPanorama.$previewInner = $( '<div class="og-expander-inner"></div>' ).append( myPanorama.$closePreview, myPanorama.$fullimage, myPanorama.$details );
 			myPanorama.$previewEl = $( '<div class="og-expander"></div>' ).append( myPanorama.$previewInner );
 			// append preview element to the item
 			myPanorama.$item.append( myPanorama.getEl() );
@@ -412,7 +414,7 @@ var Grid = (function($) {
 		      } else {
 						imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
 		      }
-					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>");
+					$("#grid-instance-title-container").append("<img class='ml-20 grid-instance-icon' src='" + imageURL + "' alt='Icon'>");
 					// Versions
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
@@ -472,14 +474,12 @@ var Grid = (function($) {
 					// Twitter
 					if (instance.twitter !== ""){
 	          $("#grid-instance-details").append(
-	            '<div class="align-left mb-30 ml-30" style="position:absolute; bottom:0; left:0;">' +
+	            '<div class="align-left" style="position:absolute; bottom:0; left:15px;">' +
             	'<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
 	            '</div>'
 	          );
 	        }
-					// Title
-					$("#grid-instance-title").text(name);
 					// Description
 					$("#data-description").text(instance.description);
 					// Url
@@ -589,7 +589,6 @@ var Grid = (function($) {
 		      } else {
 						imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
 		      }
-					$("#grid-instance-title").append("<img class='ml-20' src='" + imageURL + "' alt='Icon'>")
 					$("#grid-instance-details").append('<div class="align-left"><span class="bold"> Namespace: </span>' + instance.namespace +'</div><br/>')
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
