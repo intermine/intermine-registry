@@ -23,7 +23,7 @@ You can check the [detailed API documentation](http://registry.intermine.org/api
 
 ## Installation ##
 
-Please visit [getting started](getting-started)
+Please visit [getting started](getting-started.md)
 
 ### Configure the API Docs ###
 
