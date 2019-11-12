@@ -19,6 +19,16 @@ html, body {
   font-weight: normal !important;
 }
 
+
+/*
+  Automatically row have margin left and right of -15px;
+  Margin is set due to grid-framework.less.
+ */
+.row{
+  margin: 0 !important;
+}
+
+
 #intro {
   padding-bottom: 150px;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
