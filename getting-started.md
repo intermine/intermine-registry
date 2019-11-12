@@ -28,7 +28,8 @@ This assumes you have a Mongo server up and running on port 27017 (this is the d
 In a console, run this from the registry root folder:
 
 ```bash
-npm start
+npm install # this installs the dependencies for the registry
+npm start # this starts the server
 ```
 
 ## Create an admin user for the Registry
