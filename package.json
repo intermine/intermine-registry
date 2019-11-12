@@ -9,7 +9,7 @@
     "async": "^2.6.2",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
-    "bootstrap": "~3.3.7",
+    "bootstrap": "~3.4.1",
     "bootstrap-material-design": "^0.5.10",
     "connect-slashes": "^1.4.0",
     "cookie-parser": "^1.4.4",
