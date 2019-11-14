@@ -136,3 +136,7 @@ body {
 .clearfix {
     *zoom: 1;
 }
+
+.link-to {
+     cursor:pointer;
+} 

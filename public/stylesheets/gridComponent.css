@@ -141,6 +141,30 @@
   box-shadow: 0px 4px 30px -4px rgba(0,0,0,0.75);
 }
 
+.grid-instance-title-container{
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	padding-right: 30px;
+}
+
+.grid-instance-icon{
+	min-width: 45px;
+}
+
+.grid-instance-title-container h2{
+	margin: 0 !important;
+	-ms-word-break: break-all;
+	word-break: break-all;
+	/* Non standard for WebKit */
+	word-break: break-word;
+}
+
+.grid-instance-details-container{
+	height: 280px;
+	overflow: auto;
+}
+
 @media only screen and (max-width: 450px) {
     .og-expander{
         width: 100%;
@@ -158,10 +182,10 @@
 
 .og-close {
 	position: absolute;
-	width: 40px;
-	height: 40px;
-	top: 20px;
-	right: 20px;
+	width: 30px;
+	height: 30px;
+	top: 25px;
+	right: 15px;
 	cursor: pointer;
 }
 
