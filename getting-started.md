@@ -46,7 +46,7 @@ node createUser.js
 
 Inside initRegistry.js change the username and password to your own
 
-```bash
+```javascript
 const username = 'your username';
 const password = 'your password';
 ```
