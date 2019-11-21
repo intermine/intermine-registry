@@ -42,6 +42,17 @@ node createUser.js
 
  This will prompt you to set a username and password, and then create the entries in the mongo database. The password is hashed.
 
+## Edit the initRegistry.js file
+
+Inside initRegistry.js change the username and password to your own
+
+```javascript
+const username = 'your username';
+const password = 'your password';
+```
+
+If you do not edit the username and password to your own, you will end up with an authentication error.
+
 ## Finally, populate the database with some InterMines!
 
 Great job- nearly there now! In order to have some InterMines present in the registry, rather than just a blank page, we'll need to run the `initRegistry.js` script.
