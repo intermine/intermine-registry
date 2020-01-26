@@ -2,11 +2,11 @@
  * Scheduled cron for the InterMine Registry automatic Update taks.
  * This script is excecuted every 24 hours at 00:00:00 server time.
  */
-var cron = require('node-cron');
-var async = require('async');
-var asyncLoop = require('node-async-loop');
-var request = require('request');
-var Instance = require('../models/instance');
+const cron = require('node-cron');
+const async = require('async');
+const asyncLoop = require('node-async-loop');
+const request = require('request');
+let Instance = require('../models/instance');
 
 // Every 24 hours: 0 0 * * *
 cron.schedule('0 0 * * *', function(){
