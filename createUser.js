@@ -1,7 +1,11 @@
 const User = require('./models/user');
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -9,8 +13,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 const readline = require('readline');
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout
 });
 
 const print_error = '\x1b[31m%s\x1b[0m'; // prints string injected in red
