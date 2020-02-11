@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var instances = require('./routes/instances');
 var synchronize = require('./routes/synchronize');
 const swaggerUi = require('swagger-ui-express');
+require('./db/mongoose');
 // Swagger.json file is used to generate the API-DOCS
 const swaggerDocument = require('./swagger.json');
 const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
