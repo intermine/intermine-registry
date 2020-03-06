@@ -511,9 +511,7 @@
           }
         },
         "security": [
-          {
-            "basicAuth": []
-          }
+          
         ]
       }
     },
@@ -549,9 +547,7 @@
           }
         },
         "security": [
-          {
-            "basicAuth": []
-          }
+          
         ]
       }
     }
