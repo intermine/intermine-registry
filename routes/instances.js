@@ -104,7 +104,7 @@ router.delete('/:id', passport.authenticate('basic', {session: false}), function
         // Build the API Response
         var api_response = {};
         api_response.statusCode = 200;
-        n_removed = info['result']['n'];
+        n_removed = info['n'];
         api_response.message = 'Instance Successfully Deleted';
         if (n_removed === 0){
             api_response.statusCode = 404;
