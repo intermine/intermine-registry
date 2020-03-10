@@ -1,15 +1,15 @@
 /**
  * Router for the InterMine Registry API Instances operations
  */
-var express = require('express');
-var request = require('request');
-var async = require('async');
-var passport = require('passport');
-var router = express.Router();
-var Instance = require('../models/instance');
-var validate = require('express-jsonschema').validate;
-var InstanceSchema = require('../models/instance_validate_schema').InstanceSchema;
-var InstancePutSchema = require('../models/instance_validate_schema').InstancePutSchema;
+const express = require('express');
+const request = require('request');
+const async = require('async');
+const passport = require('passport');
+const router = express.Router();
+const Instance = require('../models/instance');
+const validate = require('express-jsonschema').validate;
+const InstanceSchema = require('../models/instance_validate_schema').InstanceSchema;
+const InstancePutSchema = require('../models/instance_validate_schema').InstancePutSchema;
 
 /**
  * Endpoint:  /instances/
@@ -20,9 +20,9 @@ var InstancePutSchema = require('../models/instance_validate_schema').InstancePu
  *  mines: Query to get the dev/production or all instances.
  */
 router.get('/', function(req, res, next) {
-    var db_query = {};
+    let db_query = {};
     if (req.query.q){
-        var query = req.query.q;
+        let query = req.query.q;
         db_query = {
             $or: [
                 {organisms: { $in: [query] }},
@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
     }
 
     if (req.query.mines){
-        var productionParam = req.query.mines;
+        let productionParam = req.query.mines;
         if (productionParam === "dev"){
             db_query.isProduction = false;
         } else if (productionParam === "prod") {
@@ -52,7 +52,7 @@ router.get('/', function(req, res, next) {
             return res.send(err);
         }
         // Build the API response
-        var api_response = {};
+        let api_response = {};
         api_response.instances = instances
         api_response.statusCode = 200;
         api_response.executionTime = new Date().toLocaleString();
@@ -66,9 +66,9 @@ router.get('/', function(req, res, next) {
  * Description: Get all the information of the specified instance.
  */
 router.get('/:id', function(req, res, next) {
-    var toFind = req.params.id;
+    const toFind = req.params.id;
 
-    var regex = new RegExp(["^", toFind, "$"].join(""), "i");
+    const regex = new RegExp(["^", toFind, "$"].join(""), "i");
     // Exec query
     Instance.find({
         $or:[ { id: toFind}, { namespace: regex}, {name: regex } ]  // Case Insensitive
@@ -77,7 +77,7 @@ router.get('/:id', function(req, res, next) {
             return res.send(err);
         }
         // Build the API Response
-        var api_response = {};
+        let api_response = {};
         api_response.instance = instances[0];
         api_response.statusCode = 200;
         if (typeof instances[0] === 'undefined'){
@@ -102,7 +102,7 @@ router.delete('/:id', passport.authenticate('basic', {session: false}), function
             return res.send(err);
         }
         // Build the API Response
-        var api_response = {};
+        let api_response = {};
         api_response.statusCode = 200;
         n_removed = info['result']['n'];
         api_response.message = 'Instance Successfully Deleted';
@@ -156,7 +156,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
                 return res.send(err);
             }
 
-            var allIds = found.map(function(inst){ return parseInt(inst.id) });
+            let allIds = found.map(function(inst){ return parseInt(inst.id) });
             allIds.sort(function(a,b){
               return a-b;
             })
@@ -166,7 +166,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
               newInstanceId = 1;
             }
 
-            var regex = new RegExp("[a-z,\.\-]*");
+            const regex = new RegExp("[a-z,\.\-]*");
             if(!regex.test(req.body.namespace)) {
                 res.status(409).json({
                     statusCode: 409,
@@ -178,8 +178,8 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             }
 
             // Test if name or namespace or URL provided are already in the registry
-            var existingFields= getUniqueFields(found);
-            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
+            let existingFields= getUniqueFields(found);
+            let checkIfUnique = areAllFieldsUnique(req.body, existingFields);
 
             if(!checkIfUnique.isItUnique) {
               nonUniqueIdentifierError(checkIfUnique.areIndividualValuesUnique, res);
@@ -189,7 +189,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             }
 
             // Build the new instance object
-            var newInstanceObject = {
+            let newInstanceObject = {
                 id:                 newInstanceId.toString(),
                 name:               req.body.name,
                 namespace:          req.body.namespace,
@@ -213,10 +213,10 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
             newInstanceObject.maintainerGithubUrl = typeof(req.body.maintainerGithubUrl) !== 'undefined' ? req.body.maintainerGithubUrl : "";
 
             // Get the instance Versions & Branding information
-            var intermine_endpoint = req.body.url + "/service/version/intermine";
-            var release_endpoint = req.body.url + "/service/version/release";
-            var api_endpoint = req.body.url + "/service/version";
-            var branding_endpoint = req.body.url + "/service/branding";
+            const intermine_endpoint = req.body.url + "/service/version/intermine";
+            const release_endpoint = req.body.url + "/service/version/release";
+            const api_endpoint = req.body.url + "/service/version";
+            const branding_endpoint = req.body.url + "/service/branding";
 
             // We do 4 async parallel calls for fetching information
             async.parallel([
@@ -258,7 +258,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
                         } else {
                           if (response.statusCode == 200 ){
                               try{
-                                  var JSONbody = JSON.parse(body);
+                                  const JSONbody = JSON.parse(body);
                                   newInstanceObject.colors = JSONbody.properties.colors;
                                   newInstanceObject.images = JSONbody.properties.images;
                               }
@@ -283,7 +283,7 @@ router.post('/', passport.authenticate('basic', {session: false}), validate({bod
                 newInstanceObject.intermine_version = newInstanceObject.api_version === newInstanceObject.intermine_version ? "" : newInstanceObject.intermine_version;
 
                 // Create Instance
-                var newInstance = new Instance(newInstanceObject);
+                let newInstance = new Instance(newInstanceObject);
 
                 // Save instance on the Registry
                 newInstance.save(function(err){
@@ -351,8 +351,8 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
             }
 
             // Test if name or namespace or URL provided are already in the registry
-            var existingFields= getUniqueFields(found, req.params.id);
-            var checkIfUnique = areAllFieldsUnique(req.body, existingFields);
+            let existingFields= getUniqueFields(found, req.params.id);
+            let checkIfUnique = areAllFieldsUnique(req.body, existingFields);
 
             if(!checkIfUnique.isItUnique) {
               //TODO IF not isunique, tell which fields are not unique. Also duplicate this to two places please.
@@ -453,7 +453,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), validate({b
 /**
 Given a list of mines, return a list of mines without the mine id `mineId` present.
 **/
-var removeCurrentMine = function(mines, mineId) {
+const removeCurrentMine = function(mines, mineId) {
   return mines.filter(function(mine) {return (mine.id !== mineId)});
 }
 
@@ -473,19 +473,19 @@ function getUniqueFields(foundMines, mineToUpdate){
   }
 
   //fetch a list of all the current values in the unique fields
-  var allNames = foundMines.map(function(inst){  return inst.name.toLowerCase()  });
-  var allNamespaces = foundMines.map(function(inst){
+  const allNames = foundMines.map(function(inst){  return inst.name.toLowerCase()  });
+  const allNamespaces = foundMines.map(function(inst){
     // null check required to prevent errors in the UI
     // as we update the namespaces. This is only necessary because we're
     // updating the namespaces after the registry was created,
     // so they're all null values.
-    var namespace;
+    let namespace;
     if(inst.namespace){
       namespace = inst.namespace.toLowerCase();
     }
     return namespace;
   });
-  var allUrls = foundMines.map(function(inst){   return inst.url.toLowerCase() });
+  const allUrls = foundMines.map(function(inst){   return inst.url.toLowerCase() });
 
   return {
     urls : allUrls,
@@ -504,7 +504,7 @@ existingFields: (required) an object containing all the values for fields that
                 must be unique.
 **/
 function areAllFieldsUnique(req, existingFields) {
-  var newName = lowercaseIfExists(req.name),
+  let newName = lowercaseIfExists(req.name),
       newURL = lowercaseIfExists(req.url),
       newNamespace = lowercaseIfExists(req.namespace),
       individualValues = {
@@ -513,13 +513,13 @@ function areAllFieldsUnique(req, existingFields) {
         url : (existingFields.urls.indexOf(newURL) < 0 )
       };
 
-      var areTheyAllUnique = true;
+      let areTheyAllUnique = true;
 
       //check all of the new fields against existing field values
       //and preserve which (if any) aren't unique, so we can give the
       //user a detailed error message.
       Object.keys(individualValues).map(function(key){
-        var isThisValueUnique = individualValues[key];
+        let isThisValueUnique = individualValues[key];
          areTheyAllUnique = areTheyAllUnique && isThisValueUnique;
       });
 
@@ -536,7 +536,7 @@ If we've decided a request isn't fully unique, throw an error
 and tell the user *which* fields aren't unique so they know what to fix.
 **/
 function nonUniqueIdentifierError(namesOfFields, res) {
-      var nonUniqueFields = []; Object.keys(namesOfFields).map(function(individualFieldName){
+      let nonUniqueFields = []; Object.keys(namesOfFields).map(function(individualFieldName){
         if (!namesOfFields[individualFieldName]) {
         nonUniqueFields.push(individualFieldName);
       }
@@ -555,7 +555,7 @@ function nonUniqueIdentifierError(namesOfFields, res) {
 Don't try to lowercasify a property that doesn't exist, it'll cause the server to exit.
 **/
 function lowercaseIfExists(field) {
-  var response;
+  let response;
   if (field) {
     response = field.toLowerCase();
   }

@@ -1,22 +1,22 @@
 /**
  * InterMine Registry
  */
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var passport = require("passport");
-var index = require('./routes/index');
-var instances = require('./routes/instances');
-var synchronize = require('./routes/synchronize');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const passport = require("passport");
+const index = require('./routes/index');
+const instances = require('./routes/instances');
+const synchronize = require('./routes/synchronize');
 const swaggerUi = require('swagger-ui-express');
 // Swagger.json file is used to generate the API-DOCS
 const swaggerDocument = require('./swagger.json');
 const scheduledAutomaticUpdate = require('./scheduled/automaticUpdate');
-var auth = require('./routes/auth');
-var app = express();
+const auth = require('./routes/auth');
+const app = express();
 
 // Views Engine Setup: EJS
 app.set('views', path.join(__dirname, 'views'));
@@ -61,7 +61,7 @@ app.use('/service/synchronize', synchronize);
 
 // 404 catcher
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
 
   if (req.accepts('html')) {

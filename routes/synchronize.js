@@ -1,13 +1,13 @@
 /**
  * Router for the InterMine Registry API Synchronize operations.
  */
-var express = require('express');
-var request = require('request');
-var passport = require('passport');
-var async = require('async');
-var asyncLoop = require('node-async-loop');
-var router = express.Router();
-var Instance = require('../models/instance');
+const express = require('express');
+const request = require('request');
+const passport = require('passport');
+const async = require('async');
+const asyncLoop = require('node-async-loop');
+const router = express.Router();
+const Instance = require('../models/instance');
 
 /**
  * Endpoint:  /synchronize/:id
@@ -16,9 +16,9 @@ var Instance = require('../models/instance');
  * in the URL.
  */
 router.put('/:id', passport.authenticate('basic', {session: false}), function(req, res, next){
-    var toFind = req.params.id;
+    const toFind = req.params.id;
     // Find the instance to update
-    var regex = new RegExp(["^", toFind, "$"].join(""), "i");
+    const regex = new RegExp(["^", toFind, "$"].join(""), "i");
     Instance.findOne({
         $or:[ { id: toFind}, {name: regex} ]
     }, function(err, instance){
@@ -33,10 +33,10 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
           return;
       }
 
-      var intermine_endpoint = instance.url + "/service/version/intermine";
-      var release_endpoint = instance.url + "/service/version/release";
-      var api_endpoint = instance.url + "/service/version";
-      var branding_endpoint = instance.url + "/service/branding";
+      let intermine_endpoint = instance.url + "/service/version/intermine";
+      let release_endpoint = instance.url + "/service/version/release";
+      let api_endpoint = instance.url + "/service/version";
+      let branding_endpoint = instance.url + "/service/branding";
 
       // We do 4 async parallel calls for fetching information
       async.parallel([
@@ -83,7 +83,7 @@ router.put('/:id', passport.authenticate('basic', {session: false}), function(re
                   } else {
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           try{
-                              var JSONbody = JSON.parse(body);
+                              const JSONbody = JSON.parse(body);
                               instance.colors = JSONbody.properties.colors;
                               instance.images = JSONbody.properties.images;
                           }
@@ -133,10 +133,10 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
     Instance.find({}, function(err, instances){
       // For every instance on the registry, we do the synchronize procedure.
       asyncLoop(instances, function(instance, next){
-        var intermine_endpoint = instance.url + "/service/version/intermine";
-        var release_endpoint = instance.url + "/service/version/release";
-        var api_endpoint = instance.url + "/service/version";
-        var branding_endpoint = instance.url + "/service/branding";
+        let intermine_endpoint = instance.url + "/service/version/intermine";
+        let release_endpoint = instance.url + "/service/version/release";
+        let api_endpoint = instance.url + "/service/version";
+        let branding_endpoint = instance.url + "/service/branding";
         async.parallel([
           function(callback){
               request.get(intermine_endpoint, {timeout: 5000}, function(err, response, body){
@@ -176,7 +176,7 @@ router.put('/', passport.authenticate('basic', {session: false}), function(req, 
                   } else {
                       if (typeof(response) != "undefined" && response.statusCode == 200){
                           try{
-                              var JSONbody = JSON.parse(body);
+                              const JSONbody = JSON.parse(body);
                               instance.colors = JSONbody.properties.colors;
                               instance.images = JSONbody.properties.images;
                           }
