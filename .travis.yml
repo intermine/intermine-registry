@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - 'lts/*'
+
+services: mongodb
+
+before_install:
+  # Set up environment variables
+  # Tests are ran on a separate database named 'regsitry-test'
+  - export MONGODB_URL=mongodb://127.0.0.1:27017/registry-test
+
+install:
+  # Install all the project dependencies
+  - npm install
+
+script:
+  # Run test script
+  - npm run test

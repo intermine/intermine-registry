@@ -1,11 +1,5 @@
 const User = require('./models/user');
-const mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGODB_URL);
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
+require('./db/mongoose');
 const readline = require('readline');
 
 const rl = readline.createInterface({
