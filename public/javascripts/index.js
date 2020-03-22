@@ -512,3 +512,13 @@ function updateMineNav(dataToTransfer) {
     })
   });
 }
+
+
+$(window).scroll(function(){
+  if ($(window).scrollTop() >= 80) {
+      $('.navbar-fixed').addClass('fixed-header');
+  }
+  else {
+      $('.navbar-fixed').removeClass('fixed-header');
+  }
+});
