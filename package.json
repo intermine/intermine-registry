@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "async": "^2.6.2",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "bootstrap": "~3.4.1",
     "bootstrap-material-design": "^0.5.10",
