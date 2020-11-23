@@ -476,7 +476,7 @@ var Grid = (function($) {
 					// Twitter
 					if (instance.twitter !== ""){
 	          $("#grid-instance-details").append(
-	            '<div class="align-left" style="position:absolute; bottom:0; left:15px;">' +
+	            '<div class="align-left">' +
             	'<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
 	            '</div>'
@@ -652,7 +652,7 @@ var Grid = (function($) {
 
 					if (instance.twitter !== ""){
 	          $("#grid-instance-details").append(
-	            '<div class="align-left mb-30 ml-30" style="position:absolute; bottom:0; left:0">' +
+	            '<div class="align-left mb-30">' +
             	'<i class="fa fa-twitter" aria-hidden="true" style="font-size: 30px;"></i>' +
 	            '<a id="list-release-version" target="_blank" href="https://twitter.com/'+instance.twitter+'"> '+ instance.twitter + '</a>' +
 	            '</div>'
