@@ -97,7 +97,7 @@ function getInstances(search) {
       var imageURL = "";
 
       // Get Instance Image
-      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
+    /*  if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
         if (instance.images.logo.startsWith("http")) {
           imageURL = instance.images.logo;
         } else {
@@ -106,8 +106,8 @@ function getInstances(search) {
       } else {
         imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
       }
-
-
+*/
+      imageURL = instance.url + "/" + "model/images/logo.png";
 
       /*
        * ============= List View Content ===============
@@ -157,7 +157,7 @@ function getInstances(search) {
       imRow += "</tr>";
       // Fill the list view instances list content
       $("#list-table-body").append(imRow);
-            
+
       // Mine Hover functionality in list view
       $("#item-" + instance.id).hover(function() {
         hoveredMineName = $(this).children("td[class='bold mine-name']").text();
@@ -279,7 +279,7 @@ function getInstances(search) {
         show: true
       });
     });
-   
+
     var flag = false;
     $(".link-to").click(function() {
 	    url = $(this).parent().parent().children("td[class='list-url']").text();
@@ -346,15 +346,10 @@ function getInstances(search) {
               }
             });
 
-            if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
-              if (instance.images.logo.startsWith("http")) {
-                imageURL = instance.images.logo;
-              } else {
-                imageURL = instance.url + "/" + instance.images.logo;
-              }
-            } else {
-              imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
-            }
+
+            imageURL = instance.url + "/" +"model/images/logo.png";
+
+
             $("#modal-mine-img").attr("src", imageURL);
 
             // Fill out modal body with fields of the instance
