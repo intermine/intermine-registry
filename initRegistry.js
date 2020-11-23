@@ -39,8 +39,8 @@ mines = [
 ]
 
 const host = 'http://localhost:3000'; // Host where InterMine registry is running
-const username = 'yy';
-const password = 'yy';
+const username = '';
+const password = '';
 
 //check host is set correctly & error if not.
 
