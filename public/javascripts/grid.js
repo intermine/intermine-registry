@@ -405,15 +405,17 @@ var Grid = (function($) {
 					// Fill Preview Box Content
 
 					// Image
-		      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
-						if (instance.images.logo.startsWith("http")){
-		          imageURL = instance.images.logo;
-		        } else {
-		          imageURL = instance.url + "/" + instance.images.logo;
-		        }
-		      } else {
-						imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
-		      }
+			    if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
+				if (instance.images.logo.startsWith("http") || instance.images.logo.startsWith("https")) {
+				  imageURL = instance.images.logo;
+				} else {
+				  imageURL = instance.url + "/" + instance.images.logo;
+				}
+			      } else {
+				imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
+			      }
+		      //imageURL = instance.url + "/" +"model/images/logo.png";
+
 					$("#grid-instance-title-container").append("<img class='ml-20 grid-instance-icon' src='" + imageURL + "' alt='Icon'>");
 					// Versions
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
@@ -580,8 +582,8 @@ var Grid = (function($) {
 						}
 	        });
 
-					if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
-		        if (instance.images.logo.startsWith("http")){
+	      if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined"){
+		        if (instance.images.logo.startsWith("http") || instance.images.logo.startsWith("https")){
 		          imageURL = instance.images.logo;
 		        } else {
 		          imageURL = instance.url + "/" + instance.images.logo;
@@ -589,6 +591,8 @@ var Grid = (function($) {
 		      } else {
 						imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
 		      }
+              //imageURL = instance.url + "/" + "model/images/logo.png";
+
 					$("#grid-instance-details").append('<div class="align-left"><span class="bold"> Namespace: </span>' + instance.namespace +'</div><br/>')
 					$("#grid-instance-details").append('<div class="mt-5 align-left" id="grid-details-versions"><span class="bold"> API Version: </span><span id="grid-api-version">'+instance.api_version+'</span></div>')
 					if (instance.release_version !== ""){
