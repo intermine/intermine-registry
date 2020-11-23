@@ -97,8 +97,8 @@ function getInstances(search) {
       var imageURL = "";
 
       // Get Instance Image
-    /*  if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
-        if (instance.images.logo.startsWith("http")) {
+    if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
+        if (instance.images.logo.startsWith("http") || instance.images.logo.startsWith("https")) {
           imageURL = instance.images.logo;
         } else {
           imageURL = instance.url + "/" + instance.images.logo;
@@ -106,8 +106,13 @@ function getInstances(search) {
       } else {
         imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
       }
-*/
-      imageURL = instance.url + "/" + "model/images/logo.png";
+
+    //temp workaround the image url retrieved from the branding can not be loaded 
+    if (instance.namespace=="bovinemine" || instance.namespace=="hymenopteramine") {
+        imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
+    }
+
+      //imageURL = instance.url + "/" + "model/images/logo.png";
 
       /*
        * ============= List View Content ===============
@@ -346,8 +351,16 @@ function getInstances(search) {
               }
             });
 
-
-            imageURL = instance.url + "/" +"model/images/logo.png";
+            if (typeof instance.images !== "undefined" && typeof instance.images.logo !== "undefined") {
+              if (instance.images.logo.startsWith("http") || instance.images.logo.startsWith("https")) {
+                imageURL = instance.images.logo;
+              } else {
+                imageURL = instance.url + "/" + instance.images.logo;
+              }
+	    } else {
+	      imageURL = "https://raw.githubusercontent.com/intermine/design-materials/master/logos/intermine/squareish/45x45.png"
+	    }
+            //imageURL = instance.url + "/" +"model/images/logo.png";
 
 
             $("#modal-mine-img").attr("src", imageURL);
