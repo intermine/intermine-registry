@@ -1,12 +1,12 @@
 /**
  * Authentication strategies for the InterMine Registry API & Front End using passport.js
  */
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var Strategy = require('passport-local').Strategy;
-var BasicStrategy = require('passport-http').BasicStrategy;
-var User = require('../models/user');
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+const BasicStrategy = require('passport-http').BasicStrategy;
+const User = require('../models/user');
 
 /**
  * FRONT END: Local Strategy

@@ -103,3 +103,14 @@
 .nav-pills>li>a:hover{
 	border-color: #e6e6e6 #e6e6e6 #ddd;
 }
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+}
+
+.navbar-fixed{
+    z-index: 3;
+}

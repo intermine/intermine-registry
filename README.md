@@ -25,6 +25,8 @@ You can check the [detailed API documentation](http://registry.intermine.org/api
 
 Please visit [getting started](getting-started.md)
 
+**Troubleshooting tips** - The installation might fail because of the `bcrypt` dependency if you're not running on a stable version of node. `Bcrypt` doesn't support unstable version of node, so switch to the current stable version of the [node](https://nodejs.org/) , you can use [nvm](http://nvm.sh) to manage your node version.
+
 ### Configure the API Docs ###
 
 The API-DOCS are generated based on the `swagger.json` file in the repository. In order for the API-DOCS to work correctly, on this file you have to specify the "HOST" and the "SCHEME" of the app (http or https).
