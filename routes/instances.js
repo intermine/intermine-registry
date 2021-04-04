@@ -21,6 +21,7 @@ const InstancePutSchema = require('../models/instance_validate_schema').Instance
  */
 router.get('/', function(req, res, next) {
     let db_query = {};
+
     if (req.query.q){
         let query = req.query.q;
         db_query = {
@@ -29,7 +30,7 @@ router.get('/', function(req, res, next) {
                 {$text: {$search: query}},
                 {name: {$regex: query, $options: "i"}}
             ]
-        }
+        };
     }
 
     if (req.query.mines){
@@ -51,11 +52,22 @@ router.get('/', function(req, res, next) {
         if (err){
             return res.send(err);
         }
+
+        if (req.query.version_api) {
+            instances = instances.filter(doc => filterBySemanticVersions(req.query.version_api, doc.api_version));
+        }
+
+        if (req.query.version_intermine) {
+            instances = instances.filter(doc => filterBySemanticVersions(req.query.version_intermine, doc.intermine_version));
+        }
+
         // Build the API response
-        let api_response = {};
-        api_response.instances = instances
-        api_response.statusCode = 200;
-        api_response.executionTime = new Date().toLocaleString();
+        let api_response = {
+            instances,
+            statusCode: 200,
+            executionTime: new Date().toLocaleString()
+        };
+
         res.status(api_response.statusCode).json(api_response);
     });
 });
@@ -76,12 +88,21 @@ router.get('/:id', function(req, res, next) {
         if (err){
             return res.send(err);
         }
+        
+        if (req.query.version_api) {
+            instances = instances.filter(doc => filterBySemanticVersions(req.query.version_api, doc.api_version));
+        }
+
+        if (req.query.version_intermine) {
+            instances = instances.filter(doc => filterBySemanticVersions(req.query.version_intermine, doc.intermine_version));
+        }
+
         // Build the API Response
         let api_response = {};
         api_response.instance = instances[0];
         api_response.statusCode = 200;
         if (typeof instances[0] === 'undefined'){
-            api_response.errorMsg = "Not Found"
+            api_response.errorMsg = "Not Found";
             api_response.statusCode = 404;
         }
         api_response.executionTime = new Date().toLocaleString();
@@ -491,7 +512,7 @@ function getUniqueFields(foundMines, mineToUpdate){
     urls : allUrls,
     names : allNames,
     namespaces : allNamespaces
-  }
+  };
 }
 
 /**
@@ -560,6 +581,40 @@ function lowercaseIfExists(field) {
     response = field.toLowerCase();
   }
   return response;
+}
+
+/**
+ * Check whether or not given semantic version fulfills a condition
+ * @param {*} condition One of gt-x, gte-x, lt-x, lte-x, eq-x
+ * @param {*} givenVersion To check against this version
+ * @returns Whether or not `givenVersion` fulfills `condition`
+ */
+function filterBySemanticVersions(condition, givenVersion) {
+    let op = stringOpToFunction(condition.substr(0, condition.indexOf('-')));
+    let reqVersion = condition.substr(condition.indexOf('-') + 1);
+
+    for (const [i, pc] of reqVersion.split('.').entries()) {
+        const pg = givenVersion.split('.')[i];
+        
+        if (!op(parseInt(pg, 10), parseInt(pc, 10)))
+            return false;
+        else
+            continue;
+    }
+    return true;
+}
+
+function stringOpToFunction(op) {
+    switch (op) {
+        case 'gt': return (a, b) => a > b;
+        case 'gte': return (a, b) => a >= b;
+        case 'lt': return (a, b) => a < b;
+        case 'lte': return (a, b) => a <= b;
+        case 'eq': return (a, b) => a === b;
+
+        // Default behaviour: Greater Than
+        default: return (a, b) => a > b;
+    }
 }
 
 module.exports = router;
