@@ -596,10 +596,15 @@ function filterBySemanticVersions(condition, givenVersion) {
     for (const [i, pc] of reqVersion.split('.').entries()) {
         const pg = givenVersion.split('.')[i];
         
-        if (!op(parseInt(pg, 10), parseInt(pc, 10)))
+        try {
+            if (!op(parseInt(pg, 10), parseInt(pc, 10)))
+                return false;
+            else
+                continue;
+        } catch (error) {
+            console.error('Invalid semantic verison', error);
             return false;
-        else
-            continue;
+        }
     }
     return true;
 }
