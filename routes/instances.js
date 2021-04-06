@@ -597,16 +597,17 @@ function filterBySemanticVersions(condition, givenVersion) {
         const pg = givenVersion.split('.')[i];
         
         try {
-            if (!op(parseInt(pg, 10), parseInt(pc, 10)))
-                return false;
-            else
-                continue;
+            if (op(parseInt(pg, 10), parseInt(pc, 10)))
+                return true;
+            else if (parseInt(pg, 10) == parseInt(pc, 10))
+                continue;                
         } catch (error) {
             console.error('Invalid semantic verison', error);
-            return false;
+            break;
         }
     }
-    return true;
+    // By default, return false or if exception
+    return false;
 }
 
 function stringOpToFunction(op) {
