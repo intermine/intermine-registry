@@ -595,12 +595,17 @@ function filterBySemanticVersions(condition, givenVersion) {
 
     for (const [i, pc] of reqVersion.split('.').entries()) {
         const pg = givenVersion.split('.')[i];
+
+        // If condition version has token 'x' (for any), skip this token
+        if (pc === 'x') continue;
         
         try {
-            if (op(parseInt(pg, 10), parseInt(pc, 10)))
+            if (parseInt(pg, 10) == parseInt(pc, 10))
+                continue;
+            else if (op(parseInt(pg, 10), parseInt(pc, 10)))
                 return true;
-            else if (parseInt(pg, 10) == parseInt(pc, 10))
-                continue;                
+            else
+                break;
         } catch (error) {
             console.error('Invalid semantic verison', error);
             break;
